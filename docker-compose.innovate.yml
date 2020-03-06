@@ -4,3 +4,7 @@ services:
     networks:
       - proxy
       - default
+
+networks:
+  proxy:
+    name: nginx_proxy_default
