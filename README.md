@@ -1,6 +1,8 @@
-# SnoqualmieEN
+# SnoqualmieEN - Snoqualmie Exchange Network Grant
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.5.
+
+Development site located at http://snoqualmie.itgis.innovateteam.com/
 
 ## Development server
 
