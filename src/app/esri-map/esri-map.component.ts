@@ -72,8 +72,11 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     try {
       // Load the modules for the ArcGIS API for JavaScript
       const [EsriMap, EsriMapView] = await loadModules([
+      //const [EsriMap, EsriMapView, EsriHome] = await loadModules([  //adding Home button
         'esri/Map',
-        'esri/views/MapView'
+        'esri/views/MapView',
+        //'esri/widgets/Home' //START HERE AND ADD BUTTON BELOW - https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=widgets-home
+        // https://github.com/Esri/angular-esri-map/blob/master/test/home-button.html
       ]);
 
       // Configure the Map
@@ -106,8 +109,21 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       console.log('mapView ready: ', this._view.ready);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
+      //this.updateMapHome();  // home button test
     });
   }
+
+  //updateMapHome() { // https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=widgets-home
+    //TEST - Add Home button to map
+    //console.error('test');
+    /*
+    var homeBtn = new Home({
+      view: view
+    });
+
+    view.ui.add(homeBtn, "top-left");  // Add the home button to the top left corner of the view
+ */
+  //}
 
   ngOnDestroy() {
     if (this._view) {
