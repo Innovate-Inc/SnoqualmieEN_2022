@@ -8,8 +8,9 @@ import {
   EventEmitter,
   OnDestroy
 } from '@angular/core';
-import { loadModules } from 'esri-loader';  // Need to ... npm install --save esri-loader
-import esri = __esri; // Esri TypeScript Types  // Need to ... npm install --save @types/arcgis-js-api
+
+import Map from 'arcgis-js-api/Map';
+import MapView from 'arcgis-js-api/views/MapView';
 
 @Component({
   selector: 'app-esri-map',
@@ -33,7 +34,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   private _center: Array<number> = [-121.841574, 47.518784]; //
   private _basemap = 'topo';
   private _loaded = false;
-  private _view: esri.MapView = null;
+  private _view: MapView = null;
 
   get mapLoaded(): boolean {
     return this._loaded;
@@ -70,31 +71,24 @@ export class EsriMapComponent implements OnInit, OnDestroy {
 
   async initializeMap() {
     try {
-      // Load the modules for the ArcGIS API for JavaScript
-      const [EsriMap, EsriMapView] = await loadModules([
-      //const [EsriMap, EsriMapView, EsriHome] = await loadModules([  //adding Home button
-        'esri/Map',
-        'esri/views/MapView',
-        //'esri/widgets/Home' //START HERE AND ADD BUTTON BELOW - https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=widgets-home
-        // https://github.com/Esri/angular-esri-map/blob/master/test/home-button.html
-      ]);
+
 
       // Configure the Map
-      const mapProperties: esri.MapProperties = {
+      const mapProperties = {
         basemap: this._basemap
       };
 
-      const map: esri.Map = new EsriMap(mapProperties);
+      const map: Map = new Map(mapProperties);
 
       // Initialize the MapView
-      const mapViewProperties: esri.MapViewProperties = {
+      const mapViewProperties = {
         container: this.mapViewEl.nativeElement,
         center: this._center,
         zoom: this._zoom,
         map: map
       };
 
-      this._view = new EsriMapView(mapViewProperties);
+      this._view = new MapView(mapViewProperties);
       await this._view.when();
       return this._view;
     } catch (error) {
