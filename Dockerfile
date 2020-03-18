@@ -8,7 +8,10 @@ WORKDIR /code
 COPY /package.json /code/
 
 RUN npm install
-RUN npm audit fix
+
+# npm not appreciating our package file and will not run audit
+# TODO: fix package files so audit works
+# RUN npm audit fix
 
 COPY / /code/
 
