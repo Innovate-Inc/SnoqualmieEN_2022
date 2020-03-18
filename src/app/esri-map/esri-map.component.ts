@@ -11,6 +11,10 @@ import {
 
 import Map from 'arcgis-js-api/Map';
 import MapView from 'arcgis-js-api/views/MapView';
+//import Map from "esri/Map"; // see original Esri file
+//import MapView from "esri/views/MapView"; // see original Esri file
+
+import Home from "arcgis-js-api/widgets/Home"; //Home button
 
 @Component({
   selector: 'app-esri-map',
@@ -89,6 +93,8 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       };
 
       this._view = new MapView(mapViewProperties);
+
+      // wait for the map to load
       await this._view.when();
       return this._view;
     } catch (error) {
@@ -103,21 +109,16 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       console.log('mapView ready: ', this._view.ready);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
-      //this.updateMapHome();  // home button test
+      this.updateMapHome();  // Add Home button to map
     });
   }
 
-  //updateMapHome() { // https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=widgets-home
-    //TEST - Add Home button to map
-    //console.error('test');
-    /*
-    var homeBtn = new Home({
-      view: view
+  updateMapHome() { // https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=widgets-home
+    const homeBtn = new Home({  //Construct a home button
+      view: this._view
     });
-
-    view.ui.add(homeBtn, "top-left");  // Add the home button to the top left corner of the view
- */
-  //}
+    this._view.ui.add(homeBtn, "top-left");  // Add the home button to the top left corner of the view
+  }
 
   ngOnDestroy() {
     if (this._view) {
