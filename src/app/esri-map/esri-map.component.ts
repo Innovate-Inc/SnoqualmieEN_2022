@@ -10,9 +10,11 @@ import {
 } from '@angular/core';
 
 // Load modules from the Esri ArcGIS API for JavaScript
-import Map from "esri/Map"; // Map instance
-import MapView from "esri/views/MapView"; // 2D view of a Map instance
-import Home from "esri/widgets/Home"; // Home button
+import Map from 'esri/Map'; // Map instance
+import MapView from 'esri/views/MapView'; // 2D view of a Map instance
+import Home from 'esri/widgets/Home'; // Home button
+import BasemapGallery from 'esri/widgets/BasemapGallery'; //Basemap Gallery
+import Expand from 'esri/widgets/Expand'; // clickable button for opening a widget
 
 @Component({
   selector: 'app-esri-map',
@@ -74,7 +76,6 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   async initializeMap() {
     try {
 
-
       // Configure the Map
       const mapProperties = {
         basemap: this._basemap
@@ -103,19 +104,33 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Initialize MapView and return an instance of MapView
     this.initializeMap().then(mapView => {
-      // The map has been initialized
       console.log('mapView ready: ', this._view.ready);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
-      this.updateMapHome();  // Add Home button to map
+      this.addHome();  // Home button
+      this.addBasemapGallery();  // Basemap Gallery
+      // Add parcels
     });
   }
 
-  updateMapHome() {
+  addHome() {
     const homeBtn = new Home({  // Home button
       view: this._view
     });
     this._view.ui.add(homeBtn, "top-left");  // Add to top left corner of view
+  }
+
+  addBasemapGallery() {
+    const basemapGalleryWidget = new BasemapGallery({
+      view: this._view
+    });
+    const baseMapExpand = new Expand({
+     expandIconClass: 'esri-icon-basemap',
+     view: this._view,
+     expandTooltip: 'Basemap Gallery',
+     content: basemapGalleryWidget
+    });
+    this._view.ui.add(baseMapExpand, 'top-left');
   }
 
   ngOnDestroy() {
