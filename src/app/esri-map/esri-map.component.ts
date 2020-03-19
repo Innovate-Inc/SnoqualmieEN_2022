@@ -9,12 +9,10 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import Map from 'arcgis-js-api/Map';
-import MapView from 'arcgis-js-api/views/MapView';
-//import Map from "esri/Map"; // see original Esri file
-//import MapView from "esri/views/MapView"; // see original Esri file
-
-import Home from "arcgis-js-api/widgets/Home"; //Home button
+// Load modules from the Esri ArcGIS API for JavaScript
+import Map from "esri/Map"; // Map instance
+import MapView from "esri/views/MapView"; // 2D view of a Map instance
+import Home from "esri/widgets/Home"; // Home button
 
 @Component({
   selector: 'app-esri-map',
@@ -113,17 +111,16 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateMapHome() { // https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=widgets-home
-    const homeBtn = new Home({  //Construct a home button
+  updateMapHome() {
+    const homeBtn = new Home({  // Home button
       view: this._view
     });
-    this._view.ui.add(homeBtn, "top-left");  // Add the home button to the top left corner of the view
+    this._view.ui.add(homeBtn, "top-left");  // Add to top left corner of view
   }
 
   ngOnDestroy() {
     if (this._view) {
-      // destroy the map view
-      this._view.container = null;
+       this._view.container = null;  // destroy the map view
     }
   }
 }
