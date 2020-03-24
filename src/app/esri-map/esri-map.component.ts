@@ -93,6 +93,20 @@ export class EsriMapComponent implements OnInit, OnDestroy {
 
       this._view = new MapView(mapViewProperties);
 
+      // BaseMap Gallery
+      /*
+      const basemapGalleryWidget = new BasemapGallery({
+        view: this._view
+      });
+      const baseMapExpand = new Expand({
+       expandIconClass: 'esri-icon-basemap',
+       view: this._view,
+       expandTooltip: 'Basemap Gallery',
+       content: basemapGalleryWidget
+      });
+      this._view.ui.add(baseMapExpand, 'top-left');
+      */
+
       // wait for the map to load
       await this._view.when();
       return this._view;
