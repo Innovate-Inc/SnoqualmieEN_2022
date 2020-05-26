@@ -152,7 +152,7 @@ export abstract class ArcBaseService {
     });
   }
 
-  // todo: update to just highlight queries features
+  // todo: move to wherever the mapview is maintained
   // selectFeature(globalId, objectId, outFields = ['*']) {
   //   const vm = this;
   //   return new Observable<any>(obs => {
