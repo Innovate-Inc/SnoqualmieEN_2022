@@ -1,9 +1,9 @@
 import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {environment} from '../../environments/environment';
-import FeatureLayer from 'arcgis-js-api/layers/FeatureLayer';
-import Query from 'arcgis-js-api/tasks/support/Query';
-import StatisticDefinition from 'arcgis-js-api/tasks/support/StatisticDefinition';
-import projection from 'arcgis-js-api/geometry/projection';
+import FeatureLayer from 'esri/layers/FeatureLayer';
+import Query from 'esri/tasks/support/Query';
+import StatisticDefinition from 'esri/tasks/support/StatisticDefinition';
+import projection from 'esri/geometry/projection';
 import {finalize, map} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DataSource} from '@angular/cdk/collections';
@@ -16,7 +16,7 @@ export abstract class ArcBaseService {
   listenerActive: boolean;
   listener;
   meta;
-  filter: Query;
+  filter: any;
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   currentPage = 0;
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -26,9 +26,9 @@ export abstract class ArcBaseService {
   constructor(url: string, public snackBar: MatSnackBar) {
     this.datasource = new BaseDataSource(this);
     this.filter = {num: 25, start: 0};
-    this.layer = new FeatureLayer(`${environment.rest_setting.url}${url}`, {
+    this.layer = new FeatureLayer({
+      url: `${environment.rest_setting.url}${url}`,
       outFields: ['*'],
-      mode: FeatureLayer.MODE_SNAPSHOT
     });
     this.layer.when(() => {
       this.meta = this.prep_fields_meta(this.layer.fields);
@@ -37,7 +37,7 @@ export abstract class ArcBaseService {
     });
   }
 
-  private save(feature, type, quiet = false) {
+  private save(feature: __esri.Graphic, type: string, quiet = false) {
     return new Observable(obs => {
       if (feature.geometry !== null && feature.geometry !== undefined && feature.geometry.type === 'polygon' && feature.geometry.isSelfIntersecting()) {
         obs.error('Polygons cannot be self intersecting.');
@@ -50,8 +50,8 @@ export abstract class ArcBaseService {
           // get geometry to null if its empty so the server does not reject it
           const features = this.prepForServer([feature.clone()]);
           if (type === 'add') {
-            this.layer.applyEdits(features, null, null).then(results => {
-              obs.next(results);
+            this.layer.applyEdits({addFeatures: features}).then(results => {
+              obs.next(results.addFeatureResults);
               if (!quiet) {
                 this.openSnackBar('Added!', '');
               }
@@ -61,8 +61,8 @@ export abstract class ArcBaseService {
               obs.error(e);
             });
           } else if (type === 'update') {
-            this.layer.applyEdits(null, features, null).then(([addResults, updateResults]) => {
-              obs.next(updateResults);
+            this.layer.applyEdits({updateFeatures: features}).then(results => {
+              obs.next(results.updateFeatureResults);
               if (!quiet) {
                 this.openSnackBar('Updated!', '');
               }
@@ -105,7 +105,7 @@ export abstract class ArcBaseService {
           // featureSet.features.fields = this.prep_fields_meta();
           featureSet.features = this.convertFromEpoch(featureSet.features);
           observer.next(featureSet.features);
-          this.layer.queryCount(this.filter).then(count => {
+          this.layer.queryFeatureCount(this.filter).then(count => {
             this.count.next(count);
           });
           observer.complete();
@@ -121,7 +121,7 @@ export abstract class ArcBaseService {
     const vm = this;
     return new Observable<any>(observer => {
       this.layerIsLoaded.subscribe(() => {
-        const q: Query = {};
+        const q = {} as __esri.Query;
         const statDef = new StatisticDefinition();
         this.loading = true;
         statDef.statisticType = 'max';
@@ -142,12 +142,11 @@ export abstract class ArcBaseService {
     });
   }
 
-  projectPoint(point, outSR = {wkid: 4326}) {
+  projectPoint(point: __esri.Geometry, outSR = {wkid: 4326}) {
     return new Observable<any>(observer => {
       projection.load().then(() => {
-        projection.project(point, outSR).then(projectedPoint => {
-          observer.next(projectedPoint);
-        });
+        const projectedPoint = projection.project(point, outSR);
+        observer.next(projectedPoint);
       });
     });
   }
@@ -183,12 +182,11 @@ export abstract class ArcBaseService {
   //   });
   // }
 
-  convertFromEpoch(features) {
-    const vm = this;
+  convertFromEpoch(features: __esri.Graphic[]) {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
-        if (vm.meta[key].type === 'esriFieldTypeDate' && feature.attributes[key] !== null) {
+        if (this.meta[key].type === 'esriFieldTypeDate' && feature.attributes[key] !== null) {
           if (feature.attributes[key] === -2209132800000) {
             feature.attributes[key] = null;
           } else {
@@ -200,12 +198,11 @@ export abstract class ArcBaseService {
     return features;
   }
 
-  prepForServer(features) {
-    const vm = this;
+  prepForServer(features: __esri.Graphic[]) {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
-        if (vm.meta[key].type === 'esriFieldTypeDate' && feature.attributes[key] instanceof Date) {
+        if (this.meta[key].type === 'esriFieldTypeDate' && feature.attributes[key] instanceof Date) {
           feature.attributes[key] = feature.attributes[key].getTime();
         }
       }
@@ -214,18 +211,18 @@ export abstract class ArcBaseService {
     return features;
   }
 
-  addFeature(feature, quiet = false) {
+  addFeature(feature: __esri.Graphic, quiet = false) {
     return this.save(feature, 'add', quiet);
   }
 
-  updateFeature(feature) {
+  updateFeature(feature: __esri.Graphic) {
     return this.save(feature, 'update');
   }
 
-  delete(feature) {
+  delete(feature: __esri.Graphic) {
     return new Observable(obs => {
-      this.layer.applyEdits(null, null, [feature]).then(([a, b, results]) => {
-        obs.next(results);
+      this.layer.applyEdits({deleteFeatures: [feature]}).then(result => {
+        obs.next(result.deleteFeaturesResult);
       }).catch(e => {
         this.openSnackBar(e.toString() + ' ' + e.details[0], '');
         obs.error(e);
@@ -283,7 +280,7 @@ export abstract class ArcBaseService {
   uploadAttachments(graphic: __esri.Graphic, data) {
     return new Observable(obs => {
       this.layer.addAttachment(graphic, data).then(result => {
-        obs.next(result.attachmentId);
+        obs.next(result.objectId);
         this.openSnackBar('Attachment Added!', '');
       }).catch(e => {
         this.openSnackBar(e.toString() + ' ' + e.details[0], '');
