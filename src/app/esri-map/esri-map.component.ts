@@ -9,12 +9,12 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import Map from 'arcgis-js-api/Map';
-import MapView from 'arcgis-js-api/views/MapView';
-//import Map from "esri/Map"; // see original Esri file
-//import MapView from "esri/views/MapView"; // see original Esri file
-
-import Home from "arcgis-js-api/widgets/Home"; //Home button
+// Load modules from the Esri ArcGIS API for JavaScript
+import Map from 'esri/Map'; // Map instance
+import MapView from 'esri/views/MapView'; // 2D view of a Map instance
+import Home from 'esri/widgets/Home'; // Home button
+import BasemapGallery from 'esri/widgets/BasemapGallery'; //Basemap Gallery
+import Expand from 'esri/widgets/Expand'; // clickable button for opening a widget
 
 @Component({
   selector: 'app-esri-map',
@@ -76,7 +76,6 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   async initializeMap() {
     try {
 
-
       // Configure the Map
       const mapProperties = {
         basemap: this._basemap
@@ -94,6 +93,20 @@ export class EsriMapComponent implements OnInit, OnDestroy {
 
       this._view = new MapView(mapViewProperties);
 
+      // BaseMap Gallery
+      /*
+      const basemapGalleryWidget = new BasemapGallery({
+        view: this._view
+      });
+      const baseMapExpand = new Expand({
+       expandIconClass: 'esri-icon-basemap',
+       view: this._view,
+       expandTooltip: 'Basemap Gallery',
+       content: basemapGalleryWidget
+      });
+      this._view.ui.add(baseMapExpand, 'top-left');
+      */
+
       // wait for the map to load
       await this._view.when();
       return this._view;
@@ -105,25 +118,38 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Initialize MapView and return an instance of MapView
     this.initializeMap().then(mapView => {
-      // The map has been initialized
       console.log('mapView ready: ', this._view.ready);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
-      this.updateMapHome();  // Add Home button to map
+      this.addHome();  // Home button
+      this.addBasemapGallery();  // Basemap Gallery
+      // Add parcels
     });
   }
 
-  updateMapHome() { // https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=widgets-home
-    const homeBtn = new Home({  //Construct a home button
+  addHome() {
+    const homeBtn = new Home({  // Home button
       view: this._view
     });
-    this._view.ui.add(homeBtn, "top-left");  // Add the home button to the top left corner of the view
+    this._view.ui.add(homeBtn, "top-left");  // Add to top left corner of view
+  }
+
+  addBasemapGallery() {
+    const basemapGalleryWidget = new BasemapGallery({
+      view: this._view
+    });
+    const baseMapExpand = new Expand({
+     expandIconClass: 'esri-icon-basemap',
+     view: this._view,
+     expandTooltip: 'Basemap Gallery',
+     content: basemapGalleryWidget
+    });
+    this._view.ui.add(baseMapExpand, 'top-left');
   }
 
   ngOnDestroy() {
     if (this._view) {
-      // destroy the map view
-      this._view.container = null;
+       this._view.container = null;  // destroy the map view
     }
   }
 }

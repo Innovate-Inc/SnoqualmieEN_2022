@@ -10,7 +10,7 @@ export class AppComponent {
 
   // Set our map properties
   mapCenter = [-121.841574, 47.518784];
-  basemapType = 'satellite';
+  basemapType = 'streets-relief-vector';
   mapZoomLevel = 15;
 
   // See app.component.html
