@@ -3,4 +3,5 @@
 
 .esri-view {
   height: calc(100vh - 40px);  /*subtract tool bar */
+  width: 50%;
 }

@@ -4,15 +4,16 @@
 
 export const environment = {
   production: false,
-  jsapi_config: null,
-  rest_setting: {url: 'some string'}
+  jsapi_config: {url: 'https://js.arcgis.com/3.23/'},
+  maxAttachments: 4,
+  name: 'Innovate!',
+  portal_setting : {
+    url: 'https://portal.innovateteam.com/arcgis',
+    appId: '5d2rgNDIEPIHgjwj'
+  },
+  rest_setting : {
+    url: 'https://arcserver.innovateteam.com/arcgis/rest/services/TCRIS/TCRIS/FeatureServer/',
+    report: 'https://arcserver.innovateteam.com/arcgis/rest/services/TCRIS/'
+  }
 };
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
