@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {loadModules} from 'esri-loader';
-import {Observable} from 'rxjs/Observable';
-import {ConfigService} from './config.service';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+//import {loadModules} from 'esri-loader';
+import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class IdentityManagementService {
@@ -13,16 +12,16 @@ export class IdentityManagementService {
   user_name: string;
   authenticated = false;
 
-  constructor(private config: ConfigService) {
+  constructor() {
     this.identityManagerObs = new ReplaySubject();
-    loadModules(['esri/IdentityManager', 'esri/arcgis/OAuthInfo', 'esri/arcgis/Portal'], this.config.jsapi_config)
+    loadModules(['esri/IdentityManager', 'esri/arcgis/OAuthInfo', 'esri/arcgis/Portal'], environment.jsapi_config)
       .then(([IdentityManager, OAuthInfo, Portal]) => {
         const info = new OAuthInfo({
-          appId: this.config.portal_setting.appId,
+          appId: environment.portal_setting.appId,
           popup: false,
           authNamespace: 'CRIS',
           expiration: 1440,
-          portalUrl: this.config.portal_setting.url
+          portalUrl: environment.portal_setting.url
         });
         const stored_creds = localStorage.getItem('arcgis_creds');
         if (stored_creds !== null) {
@@ -31,7 +30,7 @@ export class IdentityManagementService {
           IdentityManager.registerOAuthInfos([info]);
         }
         this.identityManager = IdentityManager;
-        this.portal = new Portal.Portal(this.config.portal_setting.url);
+        this.portal = new Portal.Portal(environment.portal_setting.url);
         this.identityManagerObs.complete();
       });
   }
@@ -43,14 +42,14 @@ export class IdentityManagementService {
         if (token !== undefined && username !== undefined) {
           this.identityManager.registerToken({
             expires: expires,
-            server: `${this.config.portal_setting.url}/sharing`,
+            server: `${environment.portal_setting.url}/sharing`,
             ssl: true,
             token: token,
             userId: username
           });
         }
         const vm = this;
-        this.identityManager.checkSignInStatus(`${this.config.portal_setting.url}/sharing`).then(function () {
+        this.identityManager.checkSignInStatus(`${environment.portal_setting.url}/sharing`).then(function () {
           vm.portal.signIn().then(function (portalUser) {
             vm.full_name = portalUser.fullName;
             vm.user_name = portalUser.username;
@@ -61,7 +60,7 @@ export class IdentityManagementService {
             obs.error();
           });
         }).otherwise(function () {
-          vm.identityManager.getCredential(`${vm.config.portal_setting.url}/sharing`);
+          vm.identityManager.getCredential(`${environment.portal_setting.url}/sharing`);
         });
       });
     }).subscribe();
