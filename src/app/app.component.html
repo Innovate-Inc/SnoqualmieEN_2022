@@ -1,16 +1,19 @@
 <div class="container">
-  <div class="box box-1">
-      Welcome to the Snoqualmie Exchange Network Grant
+  <div class="box header">
+    Welcome to the Snoqualmie Exchange Network Grant
   </div>
-  <div class="box box-2">
-    <app-esri-map
-      [center]="mapCenter"
-      [basemap]="basemapType"
-      [zoom]="mapZoomLevel"
-      (mapLoadedEvent)="mapLoadedEvent($event)"
-    >
-    </app-esri-map>
-    <div>Data will go here</div>
+  <div class="box content">
+    <div class="box box-map">
+      <app-esri-map
+        [center]="mapCenter"
+        [basemap]="basemapType"
+        [zoom]="mapZoomLevel"
+        (mapLoadedEvent)="mapLoadedEvent($event)"
+      >
+      </app-esri-map>
+    </div>
+    <div class="box box-data">Data will go here</div>
+
   </div>
 </div>
 
