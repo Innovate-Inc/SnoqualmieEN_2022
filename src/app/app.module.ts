@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EsriMapComponent } from './esri-map/esri-map.component';
-
+import {IdentityManagementService} from './services/identity-management.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,7 +14,7 @@ import { EsriMapComponent } from './esri-map/esri-map.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ IdentityManagementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -15,6 +15,7 @@ import MapView from 'esri/views/MapView'; // 2D view of a Map instance
 import Home from 'esri/widgets/Home'; // Home button
 import BasemapGallery from 'esri/widgets/BasemapGallery'; //Basemap Gallery
 import Expand from 'esri/widgets/Expand'; // clickable button for opening a widget
+import {IdentityManagementService} from '../services/identity-management.service';
 
 @Component({
   selector: 'app-esri-map',
@@ -71,7 +72,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     return this._basemap;
   }
 
-  constructor() { }
+  constructor(private identityManager: IdentityManagementService) { }
 
   async initializeMap() {
     try {
