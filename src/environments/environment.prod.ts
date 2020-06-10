@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  jsapi_config: {url: 'https://js.arcgis.com/3.23/'},
+  jsapi_config: {url: 'https://js.arcgis.com/4.14/'},
   maxAttachments: 4,
   name: 'Innovate!',
   portal_setting : {

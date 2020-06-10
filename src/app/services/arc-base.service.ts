@@ -39,7 +39,8 @@ export abstract class ArcBaseService {
 
   private save(feature: __esri.Graphic, type: string, quiet = false) {
     return new Observable(obs => {
-      if (feature.geometry !== null && feature.geometry !== undefined && feature.geometry.type === 'polygon' && feature.geometry.isSelfIntersecting()) {
+      // @ts-ignore
+      if (feature.geometry !== null && feature.geometry !== undefined && feature.geometry.type === 'polygon' && feature.geometry.isSelfIntersecting) {
         obs.error('Polygons cannot be self intersecting.');
       } else {
         this.layerIsLoaded.subscribe(() => {
@@ -277,7 +278,7 @@ export abstract class ArcBaseService {
     });
   }
 
-  uploadAttachments(graphic: __esri.Graphic, data) {
+  uploadAttachments(graphic: __esri.Graphic, data: any) {
     return new Observable(obs => {
       this.layer.addAttachment(graphic, data).then(result => {
         obs.next(result.objectId);
