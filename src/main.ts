@@ -5,7 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import esriConfig from 'esri/config';
 
-const DEFAULT_WORKER_URL = 'https://js.arcgis.com/4.14/';
+const DEFAULT_WORKER_URL = 'nada';
 const DEFAULT_LOADER_URL = `${DEFAULT_WORKER_URL}dojo/dojo-lite.js`;
 
 (esriConfig.workers as any).loaderUrl = DEFAULT_LOADER_URL;
