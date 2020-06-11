@@ -1,4 +1,5 @@
 node {
+  properties([disableConcurrentBuilds()])
     try {
             docker.withRegistry('https://docker.itgis.innovateteam.com', 'innovate-docker-jenkins') {
                 checkout scm
