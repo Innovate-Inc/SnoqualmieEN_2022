@@ -14,8 +14,8 @@ export abstract class ArcBaseService {
   layer: FeatureLayer;
   layerIsLoaded: ReplaySubject<boolean> = new ReplaySubject<boolean>();
   listenerActive: boolean;
-  listener;
-  meta;
+  listener: any;
+  meta: any;
   filter: any;
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   currentPage = 0;
@@ -84,8 +84,8 @@ export abstract class ArcBaseService {
     });
   }
 
-  private prep_fields_meta(fields) {
-    const fieldsMeta = {};
+  private prep_fields_meta(fields: any) {
+    const fieldsMeta: { [index: string]: any } = {};
     this.layer.fields.forEach(field => {
       fieldsMeta[field.name] = field;
     });
@@ -231,7 +231,7 @@ export abstract class ArcBaseService {
     });
   }
 
-  addClickListener(callback) {
+  addClickListener(callback: any) {
     this.listener = this.layer.on('click', callback);
     this.listenerActive = true;
   }
@@ -254,7 +254,7 @@ export abstract class ArcBaseService {
     );
   }
 
-  getPage(event) {
+  getPage(event: any) {
     // this.loadingService.setLoading(true);
     this.filter.start = event.pageIndex * event.pageSize;
     this.filter.num = event.pageSize;
