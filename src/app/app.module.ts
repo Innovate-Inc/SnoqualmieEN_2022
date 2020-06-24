@@ -16,7 +16,7 @@ import { ListViewComponent } from './list-view/list-view.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {LoadingService} from './services/loading.service';
 import {DataService} from './services/data.service';
-import {ProjectService} from './services/project.service';
+// import {ProjectService} from './services/project.service';
 
 
 @NgModule({
@@ -35,7 +35,7 @@ import {ProjectService} from './services/project.service';
     MatTooltipModule,
     MatPaginatorModule
   ],
-  providers: [IdentityManagementService, LoadingService, DataService, ProjectService],
+  providers: [IdentityManagementService, LoadingService, DataService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
