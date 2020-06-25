@@ -26,42 +26,44 @@ export class IdentityManagementService implements CanActivate {
       expiration: 1440,
       portalUrl: environment.portal_setting.url
     });
-    // const storedCreds = localStorage.getItem('arcgis_creds');
-    // if (storedCreds !== null) {
-    //   IdentityManager.initialize(JSON.stringify(storedCreds));
-    // } else {
     IdentityManager.registerOAuthInfos([info]);
-    // }
-    // });
+    IdentityManager.setOAuthRedirectionHandler(function(i) {
+      if (window.location.pathname === ('/welcome')) {
+        // alert(i.authorizeParams.redirect_uri);
+        console.log(i);
+        i.authorizeParams.redirect_uri = window.location.protocol + '//' + window.location.host + '/app/projects';
+      }
+      window.location.href = i.authorizeUrl + '?' + Object.keys(i.authorizeParams).map(key => key + '=' + i.authorizeParams[key]).join('&');
+    });
   }
 
   authenticate(token?: string, username?: string, expires?: string): Observable<boolean> {
     console.log('start');
     return new Observable(obs => {
-        if (token !== undefined && username !== undefined) {
-          IdentityManager.registerToken({
-            expires: parseInt(expires, 10),
-            server: `${environment.portal_setting.url}/sharing`,
-            ssl: true,
-            token,
-            userId: username
-          });
-        }
-        // const vm = this;
-        IdentityManager.checkSignInStatus(`${environment.portal_setting.url}/sharing`).then(() => {
-          this.portal.load().then(portal => {
-            this.full_name = portal.user.fullName;
-            this.user_name = portal.user.username;
-            this.authenticated = true;
-            // localStorage.setItem('arcgis_creds', IdentityManager.toJSON());
-            obs.next(true);
-            obs.complete();
-          }).catch(() => {
-            obs.error(false);
-          });
-        }).catch(() => {
-          IdentityManager.getCredential(`${environment.portal_setting.url}/sharing`);
+      if (token !== undefined && username !== undefined) {
+        IdentityManager.registerToken({
+          expires: parseInt(expires, 10),
+          server: `${environment.portal_setting.url}/sharing`,
+          ssl: true,
+          token,
+          userId: username
         });
+      }
+      // const vm = this;
+      IdentityManager.checkSignInStatus(`${environment.portal_setting.url}/sharing`).then(() => {
+        this.portal.load().then(portal => {
+          this.full_name = portal.user.fullName;
+          this.user_name = portal.user.username;
+          this.authenticated = true;
+          // localStorage.setItem('arcgis_creds', IdentityManager.toJSON());
+          obs.next(true);
+          obs.complete();
+        }).catch(() => {
+          obs.error(false);
+        });
+      }).catch(() => {
+        IdentityManager.getCredential(`${environment.portal_setting.url}/sharing`);
+      });
     });
   }
 

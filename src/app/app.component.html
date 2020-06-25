@@ -1,7 +1,7 @@
 <mat-toolbar><img height="100%" src="assets/images/tribe-logo.png"><span class="top_item" routerLink="" >Snoqualmie Indian Tribe Spatial Manager</span>
   <span class="fill-remaining-space"></span>
-  <span class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/export']" matTooltip="Export Sites to Spreadsheet">Export Sites to Spreadsheet</button></span>
-  <span class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/filter']" matTooltip="Toggle Filter">Toggle Filter</button></span>
+  <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/export']" matTooltip="Export Sites to Spreadsheet">Export Sites to Spreadsheet</button></span>
+  <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/filter']" matTooltip="Toggle Filter">Toggle Filter</button></span>
 </mat-toolbar>
   <div class="main-content">
 <router-outlet></router-outlet>

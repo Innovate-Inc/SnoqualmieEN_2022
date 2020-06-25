@@ -19,13 +19,16 @@ import { DataService } from './services/data.service';
 // import { ProjectService } from './services/project.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     EsriMapComponent,
     MapViewComponent,
-    ListViewComponent
+    ListViewComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     MatTooltipModule,
     MatPaginatorModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [IdentityManagementService,
     LoadingService,
