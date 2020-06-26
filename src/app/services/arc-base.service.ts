@@ -27,7 +27,7 @@ export abstract class ArcBaseService {
     this.datasource = new BaseDataSource(this);
     this.filter = {num: 25, start: 0};
     this.layer = new FeatureLayer({
-      url: `${environment.rest_setting.url}${url}`,
+      url: `${environment.restSetting.url}${url}`,
       outFields: ['*'],
     });
     this.layer.when(() => {

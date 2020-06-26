@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {IdentityManagementService} from './services/identity-management.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,8 @@ export class AppComponent {
   title = 'SnoqualmieEN';
 
 
- constructor( private identityManager: IdentityManagementService) {
+   //constructor(private activatedRoute: ActivatedRoute, private identityManager: IdentityManagementService) {
+    constructor(public router: Router, private identityManager: IdentityManagementService) {
 
   }
   // See app.component.html

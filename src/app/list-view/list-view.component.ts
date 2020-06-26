@@ -41,5 +41,4 @@ export class ListViewComponent implements OnInit {
   //   this.paginator.pageIndex = 0;
   //   this.projectService.getItems().subscribe();
   // }
-
 }
