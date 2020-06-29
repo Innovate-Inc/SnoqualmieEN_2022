@@ -9,7 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-
 import { IdentityManagementService } from './services/identity-management.service';
 import { MapViewComponent } from './map-view/map-view.component';
 import { ListViewComponent } from './list-view/list-view.component';
