@@ -1,14 +1,18 @@
 export const environment = {
-  production: true,
-  jsapi_config: {url: 'https://js.arcgis.com/4.14/'},
+  production: false,
+  jsapiConfig: {url: 'https://js.arcgis.com/4.15/'},
   maxAttachments: 4,
   name: 'Innovate!',
-  portal_setting : {
+  portalSetting : {
     url: 'https://portal.innovateteam.com/arcgis',
-    appId: '5d2rgNDIEPIHgjwj'
+    appId: '5d2rgNDIEPIHgjwj',
+    mapId_1: '839f096da1a94ebb8ec5323a2d166193',
+    mapId_2: 'c838538b432943508f2a7fd568b0a161',
+    mapId: '63b1c93bfe8e42dca58459f47db6ebe0'
   },
-  rest_setting : {
+  restSetting : {
     url: 'https://arcserver.innovateteam.com/arcgis/rest/services/TCRIS/TCRIS/FeatureServer/',
     report: 'https://arcserver.innovateteam.com/arcgis/rest/services/TCRIS/'
   }
 };
+

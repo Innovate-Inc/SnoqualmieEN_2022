@@ -68,7 +68,7 @@ export class ProjectService extends ArcBaseService {
     // const config = new ConfigService();
     return new Observable<Project>(obs => {
       this.layerIsLoaded.subscribe(() => {
-        // loadModules(['esri/graphic', 'esri/geometry/Polygon', 'esri/SpatialReference'], environment.jsapi_config).then(([Graphic, Polygon, SpatialReference]) => {
+        // loadModules(['esri/graphic', 'esri/geometry/Polygon', 'esri/SpatialReference'], environment.jsapiConfig).then(([Graphic, Polygon, SpatialReference]) => {
         const project = new Graphic(this.layer.templates[0].toJSON());
         project.setSymbol(this.layer.renderer.getSymbol());
         project.setGeometry(new Polygon(new SpatialReference(3857)));

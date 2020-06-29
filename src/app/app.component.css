@@ -6,6 +6,10 @@ body {
 mat-toolbar {
   min-height: 64px;
 }
+
+.mat-mini-fab {
+  margin: 5px;
+}
 /*.main-content {*/
 /*  display: flex;*/
 /*  flex: 1;*/
