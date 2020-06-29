@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 import { MapViewComponent } from './map-view/map-view.component';
@@ -52,6 +53,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
+    MatMenuModule,
     BrowserAnimationsModule
   ],
   providers: [IdentityManagementService,
