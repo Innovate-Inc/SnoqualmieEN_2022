@@ -12,10 +12,14 @@ export class AppComponent {
   title = 'SnoqualmieEN';
 
 
-   //constructor(private activatedRoute: ActivatedRoute, private identityManager: IdentityManagementService) {
+   // constructor(private activatedRoute: ActivatedRoute, private identityManager: IdentityManagementService) {
     constructor(public router: Router, private identityManager: IdentityManagementService) {
 
   }
   // See app.component.html
+  logMeOut() {
+    this.identityManager.logout();
+    this.router.navigate(['welcome']);
+  }
 
 }

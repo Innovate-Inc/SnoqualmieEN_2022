@@ -73,7 +73,7 @@ export class IdentityManagementService implements CanActivate {
     this.authenticated = false;
     IdentityManager.destroyCredentials();
     // localStorage.clearAll();
-    location.reload();
+    // location.reload();
   }
 
 }
