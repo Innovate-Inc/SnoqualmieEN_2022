@@ -34,8 +34,6 @@ import {InvoiceComponent} from './invoice/invoice.component';
 
 
 const routes: Routes = [
-  {
-    path: 'SnoqualmieEN', children: [
       {
         path: 'app', component: MapViewComponent, canActivate: [IdentityManagementService], children: [
           {path: 'projects', component: ListViewComponent},
@@ -45,8 +43,6 @@ const routes: Routes = [
       {path: 'welcome', component: WelcomeComponent},
       {path: 'invoice', component: InvoiceComponent, pathMatch: 'full'},
       {path: '', redirectTo: 'welcome', pathMatch: 'full'}
-    ]
-  }
 
 ];
 
