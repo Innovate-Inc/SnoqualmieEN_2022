@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   jsapiConfig: {url: 'https://js.arcgis.com/4.15/'},
   maxAttachments: 4,
   name: 'Innovate!',

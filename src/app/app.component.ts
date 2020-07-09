@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'SnoqualmieEN';
+  title = 'k’u’lnshiln';
 
 
    //constructor(private activatedRoute: ActivatedRoute, private identityManager: IdentityManagementService) {
