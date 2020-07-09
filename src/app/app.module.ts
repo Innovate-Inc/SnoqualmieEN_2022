@@ -13,6 +13,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatTableModule} from '@angular/material/table';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 
 
 import { MapViewComponent } from './map-view/map-view.component';
@@ -29,6 +34,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { WildCardComponent } from './wild-card/wild-card.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { NonExemptComponent } from './non-exempt/non-exempt.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +46,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
     ListViewComponent,
     InvoiceComponent,
     WildCardComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    NonExemptComponent,
+    LandingPageComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +65,13 @@ import { WelcomeComponent } from './welcome/welcome.component';
     MatInputModule,
     MatTabsModule,
     MatMenuModule,
+    MatTableModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule, 
+    MatRippleModule,
+
     BrowserAnimationsModule
   ],
   providers: [IdentityManagementService,

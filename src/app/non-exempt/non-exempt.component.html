@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="row">
+    <mat-card style="margin-top: 20px;">
+      <form style="min-width: 150px; max-width: 500px; width: 90%;display: flex; flex-direction: column;">
+        <!-- <form style="min-width: 150px; max-width: 500px; width: 90%; display: flex; align-items: center;" [formGroup]="dropdowns"> -->
+        <div style="display: flex; align-items: center;">
+            <mat-checkbox>Select all nonexempt encroachments</mat-checkbox>
+        </div>
+
+        <div style="display: flex; align-items: center; flex-direction: column;">
+          <div style="margin-top:15px; display: flex; flex-direction: row;">
+            <span class="">
+              <div>Total records selected: </div>
+            </span>
+            <span class="tb-mat-button">
+              <button mat-raised-button matTooltip="Execute">Execute</button>
+            </span>
+            <span class="tb-mat-button">
+              <button mat-raised-button matTooltip="Next">Next</button>
+            </span>
+            <span class="tb-mat-button">
+              <button mat-raised-button matTooltip="Cancel">Cancel</button>
+            </span>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

@@ -31,6 +31,7 @@ import { IdentityManagementService } from './services/identity-management.servic
 import { ListViewComponent } from './list-view/list-view.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 
@@ -43,6 +44,7 @@ const routes: Routes = [
   },
   { path: 'welcome', component: WelcomeComponent },
   { path: 'invoice', component: InvoiceComponent, pathMatch: 'full' },
+  { path: 'payment', component: PaymentComponent, pathMatch: 'full' },
   { path: '', redirectTo: 'welcome', pathMatch: 'full' }
 ];
 

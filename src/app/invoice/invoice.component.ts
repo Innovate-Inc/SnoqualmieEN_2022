@@ -20,4 +20,8 @@ export class InvoiceComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  addOperator(selection: string){
+    console.log(selection);
+  }
+
 }

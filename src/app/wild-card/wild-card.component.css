@@ -1,0 +1,16 @@
+mat-card {
+  flex: 1;
+  margin:15px;
+  margin: 10px;
+}
+
+.tb-mat-button {
+  margin: 15px;
+}
+
+mat-tab-group {
+  margin-right: 30px;
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+}

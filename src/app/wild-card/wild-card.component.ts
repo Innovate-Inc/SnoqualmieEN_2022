@@ -12,4 +12,7 @@ export class WildCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  addOperator(selection: string){
+    console.log(selection);
+  }
 }

@@ -19,6 +19,7 @@ import BasemapGallery from 'esri/widgets/BasemapGallery'; // Basemap Gallery
 import Expand from 'esri/widgets/Expand'; // clickable button for opening a widget
 import LayerList from 'esri/widgets/LayerList';
 import FeatureTable from 'esri/widgets/FeatureTable';
+import Search from 'esri/widgets/Search';
 import esriConfig from 'esri/config';
 // import {IdentityManagementService} from '../services/identity-management.service';
 

@@ -1,1 +1,93 @@
-<mat-card></mat-card>
+<div class="row">
+  <div style="justify-content: center;">
+    <mat-card style="min-width: 150px; margin-top: -15px;height:calc(100vh-64px);">
+      <div class="example-header">
+        <mat-form-field>
+          <input #searchInput matInput placeholder="Search">
+          <button matSuffix mat-icon-button>
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+
+      <mat-tab-group>
+        <mat-tab label="Encroachment">
+        </mat-tab>
+        <mat-tab label="Financial">
+        </mat-tab>
+        <mat-tab label="Comm. Log">
+        </mat-tab>
+        <mat-tab label="Assign Task">
+        </mat-tab>
+        <mat-tab label="Comp. Actions">
+        </mat-tab>
+        <mat-tab label="Fieldwork">
+        </mat-tab>
+        <mat-tab label="Photos">
+        </mat-tab>
+      </mat-tab-group>
+
+
+      <!-- <mat-table #table style="max-height: 100%; flex:1 1; overflow:auto;">
+        <ng-container matColumnDef="ProjectNumber">
+          <mat-header-cell *matHeaderCellDef>Project Number</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{prefixname}}-{{element.attributes.ProjectNumber}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.Project_Name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef>Date Received</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.Date_Received | date:short }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+        <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayColumns"
+          ></mat-row>
+      </mat-table> -->
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: flex-end;">
+        <mat-paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+        <!-- <button mat-mini-fab>
+          <mat-icon>add</mat-icon>
+        </button> -->
+      </div>
+    </mat-card>
+    <!-- <mat-card style="min-width: 150px; margin-top: 0px;height:calc(100vh-64px);">
+      <div class="example-header">
+        <mat-form-field>
+          <input #searchInput matInput (keyup.enter)="search($event.target.value)" placeholder="Search">
+          <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="search('%');searchInput.value=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <mat-table #table [dataSource]="projectService.datasource" style="max-height: 100%; flex:1 1; overflow:auto;">
+        <ng-container matColumnDef="ProjectNumber">
+          <mat-header-cell *matHeaderCellDef>Project Number</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{prefixname}}-{{element.attributes.ProjectNumber}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.Project_Name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef>Date Received</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.Date_Received | date:short }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+        <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayColumns"
+          [routerLink]="['/edit', row.attributes.GlobalID]"></mat-row>
+      </mat-table>
+      <div style="display: flex; flex-direction: row; justify-content: flex-end; align-items: flex-end;">
+        <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
+          (page)="projectService.getPage($event)"></mat-paginator>
+        <button mat-mini-fab [routerLink]="['/edit', 'new']">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </mat-card> -->
+  </div>
+</div>

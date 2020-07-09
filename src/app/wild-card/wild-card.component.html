@@ -1,42 +1,78 @@
-<div class="row">
   <div class="row">
-    <mat-card>
-      <form style="min-width: 150px; max-width: 500px; width: 100%;">
-        <mat-form-field>
-          <mat-label>Fields</mat-label>
-          <select matNativeControl>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
-          </select>
-        </mat-form-field>
-        <mat-form-field style="margin:20px;">
-          <mat-label>Operators</mat-label>
-          <select matNativeControl>
-            <option value="AND">and</option>
-            <option value="OR">or</option>
-            <option value="NULL">null</option>
-            <option value="NOT NULL">not null</option>
-            <option value="=">equals</option>
-            <option value="<>">not equal</option>
-            <option value=">">greater than</option>
-            <option value="<">less than</option>
-            <option value=">=">greater than or equal</option>
-            <option value="<=">less than or equal</option>
-          </select>
-        </mat-form-field>
+    <mat-card style="margin-top: 20px;">
+      <form style="min-width: 150px; max-width: 500px; width: 90%;display: flex; flex-direction: column;">
+        <!-- <form style="min-width: 150px; max-width: 500px; width: 90%; display: flex; align-items: center;" [formGroup]="dropdowns"> -->
+        <div style="display: flex; align-items: center;">
+          <mat-form-field style="margin:20px;" appearance="fill">
+            <mat-label>Fields</mat-label>
+            <mat-select matNativeControl formControlName="fieldSelect">
+              <mat-option value="">--</mat-option>
+              <mat-option value="INV_PermitID">PermitID</mat-option>
+              <mat-option value="INV_EncID">EncID</mat-option>
+              <mat-option value="INV_InvoiceDate">InvoiceDate</mat-option>
+              <mat-option value="INV_PrintedDate">PrintedDate</mat-option>
+              <mat-option value="INV_DueDate">DueDate</mat-option>
+              <mat-option value="INV_ReceivedDate">ReceivedDate</mat-option>
+              <mat-option value="INV_RetItemDate">RetItemDate</mat-option>
+              <mat-option value="INV_VoidedDate">VoidedDate</mat-option>
+              <mat-option value="INV_InvoiceAmount">InvoiceAmount</mat-option>
+              <mat-option value="INV_ReceivedAmount">ReceivedAmount</mat-option>
+              <mat-option value="INV_InvoiceNotes">Notes</mat-option>
+              <mat-option value="INV_FeeType">FeeType</mat-option>
+              <mat-option value="INV_CheckNumber">CheckNumber</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field style="margin:20px;">
+            <mat-label>Operators</mat-label>
+            <mat-select matNativeControl formControlName="operatorSelect" (change)="addOperator($event)">
+              <mat-option value="">--</mat-option>
+              <mat-option value="AND">and</mat-option>
+              <mat-option value="OR">or</mat-option>
+              <mat-option value="NULL">null</mat-option>
+              <mat-option value="NOT NULL">not null</mat-option>
+              <mat-option value="=">equals</mat-option>
+              <mat-option value="<>">not equal</mat-option>
+              <mat-option value=">">greater than</mat-option>
+              <mat-option value="<">less than</mat-option>
+              <mat-option value=">=">greater than or equal</mat-option>
+              <mat-option value="<=">less than or equal</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div style="display: flex; align-items: center; flex-direction: column;">
+            <mat-form-field>
+              <mat-label>Enter a query</mat-label>
+              <textarea matInput></textarea>
+            </mat-form-field>
+
+
+          <div style="display: flex; flex-direction: column;">
+            <div>
+              <span class="tb-mat-button">
+                <button mat-raised-button matTooltip="Clear Selected">Clear Selected</button>
+              </span>
+              <span class="tb-mat-button">
+                <button mat-raised-button matTooltip="Help">Help</button>
+              </span>
+            </div>
+
+            <div style="margin-top:15px; display: flex; flex-direction: row;">
+              <span class="">
+                <div>Total records selected: </div>
+              </span>
+              <span class="tb-mat-button">
+                <button mat-raised-button matTooltip="Execute">Execute</button>
+              </span>
+              <span class="tb-mat-button">
+                <button mat-raised-button matTooltip="Next">Next</button>
+              </span>
+              <span class="tb-mat-button">
+                <button mat-raised-button matTooltip="Cancel">Cancel</button>
+              </span>
+            </div>
+          </div>
+        </div>
       </form>
     </mat-card>
   </div>
-
-  <mat-card>
-    <form style="min-width: 150px; max-width: 500px; width: 100%;">
-      <mat-form-field>
-        <mat-label>Enter a query</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
-    </form>
-  </mat-card>
-
-</div>
