@@ -17,5 +17,9 @@ export class AppComponent {
 
   }
   // See app.component.html
+  logMeOut() {
+    this.identityManager.logout();
+    this.router.navigate(['welcome']);
+  }
 
 }
