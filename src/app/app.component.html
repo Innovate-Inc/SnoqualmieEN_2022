@@ -17,7 +17,7 @@
 
   <mat-menu #menu="matMenu">
     <!-- <span *ngIf="(router.url == '/welcome' )"> -->
-      <button mat-mini-fab [routerLink]="['/welcome']" matTooltip="Logout">
+      <button mat-mini-fab (click)="logMeOut();" matTooltip="Logout">
         <mat-icon>person_outline</mat-icon>
       </button>
     <!-- </span> -->

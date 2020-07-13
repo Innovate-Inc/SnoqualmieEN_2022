@@ -120,3 +120,6 @@ mat-row.active {
   margin-left: 1px;
 }
 
+.flexit {
+    display: flex;
+}
