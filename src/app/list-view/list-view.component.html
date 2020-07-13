@@ -27,28 +27,6 @@
         <mat-tab label="Photos">
         </mat-tab>
       </mat-tab-group>
-
-      OBJECTID ( type: esriFieldTypeOID, alias: OBJECTID )
-      GlobalID ( type: esriFieldTypeGlobalID, alias: GlobalID, length: 38 )
-      ParentGlobalID ( type: esriFieldTypeGUID, alias: ParentGlobalID, length: 38 )
-      INV_PermitID ( type: esriFieldTypeInteger, alias: PermitID )
-      INV_EncID ( type: esriFieldTypeString, alias: EncID, length: 50 )
-      INV_InvoiceDate ( type: esriFieldTypeDate, alias: InvoiceDate, length: 8 )
-      INV_PrintedDate ( type: esriFieldTypeDate, alias: PrintedDate, length: 8 )
-      INV_DueDate ( type: esriFieldTypeDate, alias: DueDate, length: 8 )
-      INV_ReceivedDate ( type: esriFieldTypeDate, alias: ReceivedDate, length: 8 )
-      INV_RetItemDate ( type: esriFieldTypeDate, alias: RetItemDate, length: 8 )
-      INV_VoidedDate ( type: esriFieldTypeDate, alias: VoidedDate, length: 8 )
-      INV_InvoiceAmount ( type: esriFieldTypeDouble, alias: InvoiceAmount )
-      INV_ReceivedAmount ( type: esriFieldTypeDouble, alias: ReceivedAmount )
-      INV_InvoiceNotes ( type: esriFieldTypeString, alias: Notes, length: 1073741822 )
-      INV_FeeType ( type: esriFieldTypeString, alias: FeeType, length: 50 )
-      INV_CheckNumber ( type: esriFieldTypeInteger, alias: CheckNumber )
-      created_user ( type: esriFieldTypeString, alias: created_user, length: 255 )
-      created_date ( type: esriFieldTypeDate, alias: created_date, length: 8 )
-      last_edited_user ( type: esriFieldTypeString, alias: last_edited_user, length: 255 )
-      last_edited_date ( type: esriFieldTypeDate, alias: last_edited_date, length: 8 )
-      INV_NoticePhase ( type: esriFieldTypeString, alias: NoticePhase, length: 50 )
       <mat-table #table style="max-height: 100%; flex:1 1; overflow:auto;" [dataSource]="projectService.datasource">
         <ng-container matColumnDef="ProjectNumber">
           <mat-header-cell *matHeaderCellDef>Project Number</mat-header-cell>
