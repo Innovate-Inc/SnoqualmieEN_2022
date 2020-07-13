@@ -11,13 +11,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatTableModule} from '@angular/material/table';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { MapViewComponent } from './map-view/map-view.component';
@@ -38,6 +39,7 @@ import { NonExemptComponent } from './non-exempt/non-exempt.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { PaymentComponent } from './payment/payment.component';
 import { HomeComponent } from './home/home.component';
+import { PreviewRecordsComponent } from './preview-records/preview-records.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { HomeComponent } from './home/home.component';
     NonExemptComponent,
     LandingPageComponent,
     PaymentComponent,
-    HomeComponent
+    HomeComponent,
+    PreviewRecordsComponent
   ],
   imports: [
     BrowserModule,
@@ -71,8 +74,9 @@ import { HomeComponent } from './home/home.component';
     MatSelectModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatNativeDateModule, 
+    MatNativeDateModule,
     MatRippleModule,
+    MatSnackBarModule,
 
     BrowserAnimationsModule
   ],

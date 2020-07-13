@@ -1,5 +1,9 @@
 import { WildCardComponent } from './../wild-card/wild-card.component';
 import { Component, OnInit } from '@angular/core';
+import { ArcBaseService } from '../services/arc-base.service';
+import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-invoice',
@@ -7,17 +11,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent implements OnInit {
+  invoiceService: ArcBaseService;
+  constructor(snackBar: MatSnackBar) {
+    this.invoiceService = new ArcBaseService(environment.layers.invoices, snackBar);
+    
 
-  constructor() { 
-    // let foods = [];
-    // this.foods = [
-    //   {value: 'steak-0', viewValue: 'Steak'},
-    //   {value: 'pizza-1', viewValue: 'Pizza'},
-    //   {value: 'tacos-2', viewValue: 'Tacos'}
-    // ];
   }
 
   ngOnInit(): void {
+    // this.invoiceService.filter()
+    this.invoiceService.getItems().subscribe();
   }
 
   addOperator(selection: string){

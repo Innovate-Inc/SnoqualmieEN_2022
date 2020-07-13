@@ -11,7 +11,7 @@
       </div>
 
 
-      <mat-tab-group>
+      <!-- <mat-tab-group>
         <mat-tab label="Encroachment">
         </mat-tab>
         <mat-tab label="Financial">
@@ -26,49 +26,51 @@
         </mat-tab>
         <mat-tab label="Photos">
         </mat-tab>
-      </mat-tab-group>
-
-      OBJECTID ( type: esriFieldTypeOID, alias: OBJECTID )
-      GlobalID ( type: esriFieldTypeGlobalID, alias: GlobalID, length: 38 )
-      ParentGlobalID ( type: esriFieldTypeGUID, alias: ParentGlobalID, length: 38 )
-      INV_PermitID ( type: esriFieldTypeInteger, alias: PermitID )
-      INV_EncID ( type: esriFieldTypeString, alias: EncID, length: 50 )
-      INV_InvoiceDate ( type: esriFieldTypeDate, alias: InvoiceDate, length: 8 )
-      INV_PrintedDate ( type: esriFieldTypeDate, alias: PrintedDate, length: 8 )
-      INV_DueDate ( type: esriFieldTypeDate, alias: DueDate, length: 8 )
-      INV_ReceivedDate ( type: esriFieldTypeDate, alias: ReceivedDate, length: 8 )
-      INV_RetItemDate ( type: esriFieldTypeDate, alias: RetItemDate, length: 8 )
-      INV_VoidedDate ( type: esriFieldTypeDate, alias: VoidedDate, length: 8 )
-      INV_InvoiceAmount ( type: esriFieldTypeDouble, alias: InvoiceAmount )
-      INV_ReceivedAmount ( type: esriFieldTypeDouble, alias: ReceivedAmount )
-      INV_InvoiceNotes ( type: esriFieldTypeString, alias: Notes, length: 1073741822 )
-      INV_FeeType ( type: esriFieldTypeString, alias: FeeType, length: 50 )
-      INV_CheckNumber ( type: esriFieldTypeInteger, alias: CheckNumber )
-      created_user ( type: esriFieldTypeString, alias: created_user, length: 255 )
-      created_date ( type: esriFieldTypeDate, alias: created_date, length: 8 )
-      last_edited_user ( type: esriFieldTypeString, alias: last_edited_user, length: 255 )
-      last_edited_date ( type: esriFieldTypeDate, alias: last_edited_date, length: 8 )
-      INV_NoticePhase ( type: esriFieldTypeString, alias: NoticePhase, length: 50 )
+      </mat-tab-group> -->
       <mat-table #table style="max-height: 100%; flex:1 1; overflow:auto;" [dataSource]="projectService.datasource">
-        <ng-container matColumnDef="ProjectNumber">
-          <mat-header-cell *matHeaderCellDef>Project Number</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{prefixname}}-{{element.attributes.ProjectNumber}}</mat-cell>
+        <ng-container matColumnDef="INV_EncID">
+          <mat-header-cell *matHeaderCellDef>Encroachment Number </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.INV_EncID }}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.attributes.Project_Name}}</mat-cell>
+        <!-- <ng-container matColumnDef="EN_TYPE">
+          <mat-header-cell *matHeaderCellDef>Encroachment Type (inspection)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.EN_TYPE }}</mat-cell>
+        </ng-container> -->
+        <!-- <ng-container matColumnDef="PARCELID">
+          <mat-header-cell *matHeaderCellDef>Parcel Number (inspection)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.PARCELID }}</mat-cell>
+        </ng-container> -->
+        <!-- <ng-container matColumnDef="INP_FullName">
+          <mat-header-cell *matHeaderCellDef>Full Name (print)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.INP_FullName }}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef>Date Received</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.attributes.Date_Received | date:short }}</mat-cell>
+        <ng-container matColumnDef="INP_CompanyName">
+          <mat-header-cell *matHeaderCellDef>Company Name (print)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.INP_CompanyName }}</mat-cell>
         </ng-container>
-
+        <ng-container matColumnDef="INP_Addr">
+          <mat-header-cell *matHeaderCellDef>Address (print)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.INP_Addr1}} {{element.attributes.INP_Addr2}}
+            {{element.attributes.INP_Addr3 }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="INP_InvoiceNumber">
+          <mat-header-cell *matHeaderCellDef>Invoice Number (print)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.INP_InvoiceNumber}}</mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="INV_InvoiceDate">
+          <mat-header-cell *matHeaderCellDef>Statement Period</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.INV_InvoiceDate | date:short }}</mat-cell>
+        </ng-container>
+        <!-- <ng-container matColumnDef="INP_AmountDue">
+          <mat-header-cell *matHeaderCellDef>Amount Due (print)</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.attributes.INP_AmountDue}}</mat-cell>
+        </ng-container> -->
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-        <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayColumns"
-          ></mat-row>
+        <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayColumns"></mat-row>
       </mat-table>
       <div style="display: flex; flex-direction: row; justify-content: center; align-items: flex-end;">
-        <mat-paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100]" (page)="projectService.getPage($event)"></mat-paginator>
+        <mat-paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100]" (page)="projectService.getPage($event)">
+        </mat-paginator>
         <!-- <button mat-mini-fab>
           <mat-icon>add</mat-icon>
         </button> -->

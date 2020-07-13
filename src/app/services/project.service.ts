@@ -12,7 +12,7 @@ import {FormControl} from '@angular/forms';
 import {LoadingService} from './loading.service';
 // import Graphic = __esri.Graphic;
 // import {Graphic}
-import Graphic = __esri.Graphic;
+//import Graphic = __esri.Graphic;
 
 class Attributes {
   ProjectNumber: number;
@@ -58,8 +58,8 @@ export class Project {
 export class ProjectService extends ArcBaseService {
 
   constructor(snackBar: MatSnackBar, loadingService: LoadingService) {
-    super('0',
-      snackBar, loadingService);
+    super(environment.layers.locations,
+      snackBar);
   }
 
   create_new_project() {
@@ -69,12 +69,12 @@ export class ProjectService extends ArcBaseService {
     return new Observable<Project>(obs => {
       this.layerIsLoaded.subscribe(() => {
         // loadModules(['esri/graphic', 'esri/geometry/Polygon', 'esri/SpatialReference'], environment.jsapiConfig).then(([Graphic, Polygon, SpatialReference]) => {
-        const project = new Graphic(this.layer.templates[0].toJSON());
-        project.setSymbol(this.layer.renderer.getSymbol());
-        project.setGeometry(new Polygon(new SpatialReference(3857)));
-        project.attributes.GlobalID = 'new';
-        obs.next(project);
-        obs.complete();
+        // const project = new Graphic(this.layer.templates[0].toJSON());
+        // project.setSymbol(this.layer.renderer.getSymbol());
+        // project.setGeometry(new Polygon(new SpatialReference(3857)));
+        // project.attributes.GlobalID = 'new';
+        // obs.next(project);
+        // obs.complete();
       });
     });
     // });

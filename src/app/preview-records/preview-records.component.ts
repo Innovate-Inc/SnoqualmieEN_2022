@@ -10,13 +10,13 @@ import { DataService } from '../services/data.service';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-list-view',
-  templateUrl: './list-view.component.html',
-  styleUrls: ['./list-view.component.css']
+  selector: 'app-preview-records',
+  templateUrl: './preview-records.component.html',
+  styleUrls: ['./preview-records.component.css']
 })
-export class ListViewComponent implements OnInit {
+export class PreviewRecordsComponent implements OnInit {
   projectService: ProjectService;
-  displayColumns = ['ProjectNumber', 'name', 'date'];
+  displayColumns = ['INV_EncID', 'INV_InvoiceDate'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   prefixname = environment.name;
   // constructor(public projectService: ProjectService, public loadingService: LoadingService,  private data: DataService) {
