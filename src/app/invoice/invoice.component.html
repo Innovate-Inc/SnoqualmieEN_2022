@@ -39,7 +39,7 @@
             <form style="min-width: 150px; max-width: 500px; width: 90%;display: flex; flex-direction: column;">
               <!-- <form style="min-width: 150px; max-width: 500px; width: 90%; display: flex; align-items: center;" [formGroup]="dropdowns"> -->
               <div style="display: flex; align-items: center;">
-                <mat-form-field appearance="fill">
+                <mat-form-field>
 
                   <mat-label>Choose a date</mat-label>
                   <!-- #docregion toggle -->
@@ -71,14 +71,14 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Wild Card" style="width: 50%;">
+      <mat-tab label="Wild Card">
         <!-- <app-wild-card style="display: flex;justify-content: center;"></app-wild-card> -->
         <div class="row">
           <mat-card style="margin-top: 20px;">
             <form style="min-width: 150px; max-width: 500px; width: 90%;display: flex; flex-direction: column;">
               <!-- <form style="min-width: 150px; max-width: 500px; width: 90%; display: flex; align-items: center;" [formGroup]="dropdowns"> -->
               <div style="display: flex; align-items: center;">
-                <mat-form-field style="margin:20px;" appearance="fill">
+                <mat-form-field style="margin:20px;">
                   <mat-label>Fields</mat-label>
                   <mat-select matNativeControl formControlName="fieldSelect">
                     <mat-option value="">--</mat-option>

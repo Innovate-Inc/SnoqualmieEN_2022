@@ -1,7 +1,7 @@
-<mat-toolbar><img height="100%" src="assets/images/cda_tribe_logo.jpg" style="cursor: pointer;"><span class="top_item" routerLink="/app" style="cursor: pointer;">k’u’lnshi<span style="text-decoration: line-through;">l</span>n Encroachment Management System (kEMS)</span>
+<mat-toolbar *ngIf="!(router.url == '/welcome' || router.url == '/app' )"><img height="100%" src="assets/images/cda_tribe_logo.jpg" style="cursor: pointer;"><span class="top_item" routerLink="/app" style="cursor: pointer;"><i>k’u’lnshi<span style="text-decoration: line-through;">l</span>n</i> Encroachment Management System (kEMS)</span>
   <span class="fill-remaining-space"></span>
-  <span class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/payment']" matTooltip="Payment">Payment</button></span>
-  <span class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/invoice']" matTooltip="Invoice">Invoice</button></span>
+  <!-- <span class="tb-mat-button"  *ngIf="!(router.url == '/welcome' )"><button  mat-raised-button [routerLink]="['/payment']" matTooltip="Payment">Payment</button></span>
+  <span class="tb-mat-button"  *ngIf="!(router.url == '/welcome' )"><button  mat-raised-button [routerLink]="['/invoice']" matTooltip="Invoice">Invoice</button></span> -->
   <!-- <span><button mat-mini-fab [routerLink]="['/payment']" matTooltip="Payment"><mat-icon>money</mat-icon></button></span>
   <span><button mat-mini-fab [routerLink]="['/invoice']" matTooltip="Invoice"><mat-icon>description</mat-icon></button></span> -->
   <!-- <span *ngIf="!(router.url == '/welcome' )"><button mat-mini-fab [routerLink]="['/payment']" matTooltip="Payment">

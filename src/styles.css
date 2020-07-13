@@ -2017,7 +2017,7 @@ mat-row.active {
   z-index: 999;
 }
 
-.mat-tab-link {
+/* .mat-tab-link {
   padding: 0 6px !important;
   min-width: 75px !important;
 }
@@ -2025,7 +2025,7 @@ mat-row.active {
 .mat-tab-label-container .mat-tab-label {
   opacity: 1;
   padding: 0;
-}
+} */
 
 
 .mat-tab-group.mat-primary .mat-ink-bar {

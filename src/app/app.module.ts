@@ -37,6 +37,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { NonExemptComponent } from './non-exempt/non-exempt.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { PaymentComponent } from './payment/payment.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { PaymentComponent } from './payment/payment.component';
     WelcomeComponent,
     NonExemptComponent,
     LandingPageComponent,
-    PaymentComponent
+    PaymentComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

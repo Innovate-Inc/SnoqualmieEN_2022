@@ -1,4 +1,5 @@
 <div class="background">
+  <span class="tb-mat-button logout-btn" ><button color="primary" mat-raised-button (click)="logMeOut();" matTooltip="Logout">Logout</button></span>
   <div style="display: flex; justify-content: space-around; flex: 1; flex-direction: column; align-items: center">
     <mat-card>
       <img height="150px;" src="assets/images/cda_tribe_logo.jpg">
@@ -24,9 +25,9 @@
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button [routerLink]="['/app']" color="primary">
-          Click to begin
-        </button>
+        <span class="tb-mat-button" ><button color="primary"  mat-raised-button [routerLink]="['/map/projects']" matTooltip="Projects">Projects</button></span>
+        <span class="tb-mat-button" ><button color="primary"  mat-raised-button [routerLink]="['/invoice']" matTooltip="Invoice">Invoice</button></span>
+        <span class="tb-mat-button" ><button color="primary"  mat-raised-button [routerLink]="['/payment']" matTooltip="Payment">Payment</button></span>
       </mat-card-actions>
     </mat-card>
   </div>
