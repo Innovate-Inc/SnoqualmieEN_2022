@@ -31,7 +31,7 @@ export class IdentityManagementService implements CanActivate {
       if (window.location.pathname === ('/welcome')) {
         // alert(i.authorizeParams.redirect_uri);
         console.log(i);
-        i.authorizeParams.redirect_uri = window.location.protocol + '//' + window.location.host + '/app/projects';
+        i.authorizeParams.redirect_uri = window.location.protocol + '//' + window.location.host + '/home';
       }
       window.location.href = i.authorizeUrl + '?' + Object.keys(i.authorizeParams).map(key => key + '=' + i.authorizeParams[key]).join('&');
     });
