@@ -14,3 +14,11 @@ mat-tab-group {
   display: flex;
   justify-content: center;
 }
+
+.navigation {
+  margin-top:15px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}

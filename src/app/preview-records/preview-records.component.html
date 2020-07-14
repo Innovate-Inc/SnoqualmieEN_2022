@@ -32,31 +32,33 @@
           <mat-header-cell *matHeaderCellDef>Encroachment Number </mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.INV_EncID }}</mat-cell>
         </ng-container>
-        <!-- <ng-container matColumnDef="EN_TYPE">
-          <mat-header-cell *matHeaderCellDef>Encroachment Type (inspection)</mat-header-cell>
+        <ng-container matColumnDef="EN_TYPE">
+          <mat-header-cell *matHeaderCellDef>Encroachment Type</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.EN_TYPE }}</mat-cell>
-        </ng-container> -->
-        <!-- <ng-container matColumnDef="PARCELID">
-          <mat-header-cell *matHeaderCellDef>Parcel Number (inspection)</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="PARCELID">
+          <mat-header-cell *matHeaderCellDef>Parcel Number</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.PARCELID }}</mat-cell>
-        </ng-container> -->
-        <!-- <ng-container matColumnDef="INP_FullName">
-          <mat-header-cell *matHeaderCellDef>Full Name (print)</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="INP_FullName">
+          <!-- start print -->
+          <mat-header-cell *matHeaderCellDef>Full Name</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.INP_FullName }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="INP_CompanyName">
-          <mat-header-cell *matHeaderCellDef>Company Name (print)</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Company Name</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.INP_CompanyName }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="INP_Addr">
-          <mat-header-cell *matHeaderCellDef>Address (print)</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.INP_Addr1}} {{element.attributes.INP_Addr2}}
             {{element.attributes.INP_Addr3 }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="INP_InvoiceNumber">
-          <mat-header-cell *matHeaderCellDef>Invoice Number (print)</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Invoice Number</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.INP_InvoiceNumber}}</mat-cell>
-        </ng-container> -->
+        </ng-container>
+        <!-- end print -->
         <ng-container matColumnDef="INV_InvoiceDate">
           <mat-header-cell *matHeaderCellDef>Statement Period</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.INV_InvoiceDate | date:short }}</mat-cell>
@@ -74,6 +76,29 @@
         <!-- <button mat-mini-fab>
           <mat-icon>add</mat-icon>
         </button> -->
+      </div>
+      <div class="navigation">
+        <!-- <span class="">
+            <div>Total records selected: </div>
+          </span>
+          <span class="tb-mat-button">
+            <button mat-raised-button matTooltip="Execute">Execute</button>
+          </span> -->
+        <span class="tb-mat-button">
+          <button mat-raised-button matTooltip="Back" type='button' (click)="backClick()" color="primary">Back</button>
+        </span>
+        <span class="tb-mat-button">
+          <button mat-raised-button matTooltip="Clear Query">Clear Query</button>
+        </span>
+        <span class="tb-mat-button">
+          <button mat-raised-button matTooltip="Help">Help</button>
+        </span>
+        <span class="tb-mat-button">
+          <button mat-raised-button matTooltip="Next" type='button' (click)="nextClick()" color="primary">Next</button>
+        </span>
+        <!-- <span class="tb-mat-button">
+            <button mat-raised-button matTooltip="Cancel">Cancel</button>
+          </span> -->
       </div>
     </mat-card>
     <!-- <mat-card style="min-width: 150px; margin-top: 0px;height:calc(100vh-64px);">
@@ -112,4 +137,6 @@
       </div>
     </mat-card> -->
   </div>
+
+
 </div>

@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group #invoiceTabs>
   <mat-tab label="Query Encroachments">
     <mat-tab-group>
 
@@ -9,24 +9,22 @@
             <form style="min-width: 150px; max-width: 500px; width: 90%;display: flex; flex-direction: column;">
               <!-- <form style="min-width: 150px; max-width: 500px; width: 90%; display: flex; align-items: center;" [formGroup]="dropdowns"> -->
               <div style="display: flex; align-items: center;">
-                <mat-checkbox>Select all nonexempt encroachments</mat-checkbox>
+                <mat-checkbox checked='True'>Select all nonexempt encroachments</mat-checkbox>
               </div>
 
-              <div style="display: flex; align-items: center; flex-direction: column;">
-                <div style="margin-top:15px; display: flex; flex-direction: row;">
-                  <!-- <span class="">
+              <div class="navigation">
+                <!-- <span class="">
                     <div>Total records selected: </div>
                   </span> -->
-                  <!-- <span class="tb-mat-button">
+                <!-- <span class="tb-mat-button">
                     <button mat-raised-button matTooltip="Execute">Execute</button>
                   </span> -->
-                  <span class="tb-mat-button">
-                    <button mat-raised-button matTooltip="Next">Next</button>
-                  </span>
-                  <!-- <span class="tb-mat-button">
+                <span class="tb-mat-button">
+                  <button mat-raised-button matTooltip="Next" type='button' (click)="nextClick()" color="primary">Next</button>
+                </span>
+                <!-- <span class="tb-mat-button">
                     <button mat-raised-button matTooltip="Cancel">Cancel</button>
                   </span> -->
-                </div>
               </div>
             </form>
           </mat-card>
@@ -50,21 +48,21 @@
                 </mat-form-field>
               </div>
 
-              <div style="display: flex; align-items: center; flex-direction: column;">
-                <div style="margin-top:15px; display: flex; flex-direction: row;">
-                  <span class="">
+              <div class="navigation">
+                <!-- <div style="margin-top:15px; display: flex; flex-direction: row;"> -->
+                <!-- <span class="">
                     <div>Total records selected: </div>
-                  </span>
-                  <span class="tb-mat-button">
+                  </span> -->
+                <!-- <span class="tb-mat-button">
                     <button mat-raised-button matTooltip="Execute">Execute</button>
-                  </span>
+                  </span> -->
                   <span class="tb-mat-button">
-                    <button mat-raised-button matTooltip="Next">Next</button>
+                    <button mat-raised-button matTooltip="Next" type='button' (click)="nextClick()" color="primary">Next</button>
                   </span>
-                  <span class="tb-mat-button">
+                <!-- <span class="tb-mat-button">
                     <button mat-raised-button matTooltip="Cancel">Cancel</button>
-                  </span>
-                </div>
+                  </span> -->
+                <!-- </div> -->
               </div>
             </form>
           </mat-card>
@@ -121,31 +119,16 @@
                   <textarea matInput></textarea>
                 </mat-form-field>
 
-
-                <div style="display: flex; flex-direction: column;">
-                  <div>
-                    <span class="tb-mat-button">
-                      <button mat-raised-button matTooltip="Clear Selected">Clear Selected</button>
-                    </span>
-                    <span class="tb-mat-button">
-                      <button mat-raised-button matTooltip="Help">Help</button>
-                    </span>
-                  </div>
-
-                  <div style="margin-top:15px; display: flex; flex-direction: row;">
-                    <span class="">
-                      <div>Total records selected: </div>
-                    </span>
-                    <span class="tb-mat-button">
-                      <button mat-raised-button matTooltip="Execute">Execute</button>
-                    </span>
-                    <span class="tb-mat-button">
-                      <button mat-raised-button matTooltip="Next">Next</button>
-                    </span>
-                    <span class="tb-mat-button">
-                      <button mat-raised-button matTooltip="Cancel">Cancel</button>
-                    </span>
-                  </div>
+                <div class="navigation">
+                  <span class="tb-mat-button">
+                    <button mat-raised-button matTooltip="Clear Query">Clear Query</button>
+                  </span>
+                  <span class="tb-mat-button">
+                    <button mat-raised-button matTooltip="Help">Help</button>
+                  </span>
+                  <span class="tb-mat-button">
+                    <button mat-raised-button matTooltip="Next" type='button' (click)="nextClick()" color="primary">Next</button>
+                  </span>
                 </div>
               </div>
             </form>
@@ -159,7 +142,7 @@
   </mat-tab>
   <mat-tab label="Preview Records">
     <!-- <mat-card style="margin-top: 20px;"> -->
-      <app-preview-records></app-preview-records>
+    <app-preview-records></app-preview-records>
     <!-- </mat-card> -->
   </mat-tab>
   <mat-tab label="Pre-Populate Fields"> Pre-Populate Fields </mat-tab>

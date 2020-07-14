@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="!(router.url == '/welcome' || router.url == '/home' )"><img height="100%" src="assets/images/cda_tribe_logo.jpg" style="cursor: pointer;"><span class="top_item" routerLink="/home" style="cursor: pointer;"><i>k’u’lnshi<span style="text-decoration: line-through;">l</span>n</i> Encroachment Management System (kEMS)</span>
+<mat-toolbar *ngIf="!(router.url == '/welcome' || router.url == '/home' )"><img height="100%" src="assets/images/cda_tribe_logo.jpg" routerLink="/home" style="cursor: pointer;"><span class="top_item" routerLink="/home" style="cursor: pointer;"><i>k’u’lnshi<span style="text-decoration: line-through;">l</span>n</i> Encroachment Management System (kEMS)</span>
   <span class="fill-remaining-space"></span>
   <!-- <span class="tb-mat-button"  *ngIf="!(router.url == '/welcome' )"><button  mat-raised-button [routerLink]="['/payment']" matTooltip="Payment">Payment</button></span>
   <span class="tb-mat-button"  *ngIf="!(router.url == '/welcome' )"><button  mat-raised-button [routerLink]="['/invoice']" matTooltip="Invoice">Invoice</button></span> -->
@@ -11,17 +11,21 @@
       <mat-icon>description</mat-icon>
     </button></span> -->
 
-  <button mat-button [matMenuTriggerFor]="menu">
+  <!-- <button mat-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
-  </button>
+  </button> -->
 
-  <mat-menu #menu="matMenu">
-    <!-- <span *ngIf="(router.url == '/welcome' )"> -->
+  <!-- <mat-menu #menu="matMenu">
       <button mat-mini-fab (click)="logMeOut();" matTooltip="Logout">
         <mat-icon>person_outline</mat-icon>
       </button>
-    <!-- </span> -->
-  </mat-menu>
+  </mat-menu> -->
+
+  <span class="tb-mat-button logout-btn "> 
+    <button mat-mini-fab color="primary" mat-raised-button (click)="logMeOut();" matTooltip="Logout">
+      <mat-icon>person_outline</mat-icon>
+    </button>
+  </span>
 
 
 

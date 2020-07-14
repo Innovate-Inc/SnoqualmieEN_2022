@@ -27,6 +27,11 @@
   /* display: flex;
   flex-wrap: wrap; */
   background-position: center;
+  top: -64px;
+}
+
+.logo {
+  border-radius: 50%;
 }
 
 p {

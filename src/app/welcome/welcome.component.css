@@ -22,6 +22,10 @@
   background-position: center;
 }
 
+.logo {
+  border-radius: 50%;
+}
+
 p{
 color: darkblue;  
 }

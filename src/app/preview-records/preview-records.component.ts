@@ -16,7 +16,9 @@ import { environment } from '../../environments/environment';
 })
 export class PreviewRecordsComponent implements OnInit {
   projectService: ProjectService;
-  displayColumns = ['INV_EncID', 'INV_InvoiceDate'];
+  displayColumns = ['INV_EncID', 'EN_TYPE', 'PARCELID', 'INP_FullName', 'INP_CompanyName', 'INP_Addr', 'INP_InvoiceNumber', 'INV_InvoiceDate'];
+  // displayColumns = ['INV_EncID', 'INV_InvoiceDate'];
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   prefixname = environment.name;
   // constructor(public projectService: ProjectService, public loadingService: LoadingService,  private data: DataService) {
@@ -44,4 +46,5 @@ export class PreviewRecordsComponent implements OnInit {
   //   this.paginator.pageIndex = 0;
   //   this.projectService.getItems().subscribe();
   // }
+  
 }

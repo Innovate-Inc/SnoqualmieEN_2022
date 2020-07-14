@@ -104,6 +104,7 @@ export class ArcBaseService {
           // featureSet.features.forEach(function (feature, i) {
           //   featureSet.features[i] =
           // })
+          console.log('featureset: ', featureSet);
 
           // featureSet.features.fields = this.prep_fields_meta();
           featureSet.features = this.convertFromEpoch(featureSet.features);
