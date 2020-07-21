@@ -6,11 +6,7 @@ export const environment = {
   portalSetting : {
     url: 'https://maps.snoqualmietribe.us/portal',
     appId: 'diCIRzmGi5yW8nVJ',
-    mapId_1: '839f096da1a94ebb8ec5323a2d166193',
-    mapId_2: 'c838538b432943508f2a7fd568b0a161',
-    mapId_3: '01d331569c8b4127829d21eac99d20b4',
-    mapId_4: '63b1c93bfe8e42dca58459f47db6ebe0',
-    mapId: '76c1fc46069c4544b98493dc55900746'
+    mapId: 'b24d6d7642a24c2c821e1e78eaf0719a'
   },
   restSetting : {
     url: 'https://arcserver.innovateteam.com/arcgis/rest/services/TCRIS/TCRIS/FeatureServer/',
