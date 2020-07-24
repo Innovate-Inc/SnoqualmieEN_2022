@@ -59,11 +59,27 @@ app-esri-map,app-list-view{
 /*  min-width: 50vw*/
 /*}*/
 
-/*app-edit-pane, app-list-view {*/
-/*  flex: 1;*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*}*/
+app-edit-pane, app-list-view {
+  flex: 1;
+  display: flex;
+  /*flex-direction: column;*/
+}
+app-welcome{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+   width: 100%;
+  height: 100vh;
+  /* height: calc(100vh-64px); */
+  background: url('/assets/images/c_bg_sm.png') no-repeat;
+  background-size: cover;
+  color: white;
+  /* display: flex;
+  flex-wrap: wrap; */
+  background-position: center;
+  /*background-size: auto 100%;*/
+  top: -64px;
+}
 
 /*app-project-form, app-related-table-form, app-list-view, app-review-form,*/
 /*app-assigned-task, app-fieldwork, app-cultural-resources, app-stipulations, app-comments, app-comm, app-attachment-form {*/
@@ -91,17 +107,17 @@ app-esri-map,app-list-view{
 /*  width: 100%*/
 /*}*/
 
-/*mat-row.active {*/
-/*  !*background-color: whitesmoke;*!*/
-/*  cursor: pointer;*/
-/*}*/
+mat-row.active {
+  background-color: whitesmoke;
+  cursor: pointer;
+}
 
-/*.mat-header-row {*/
-/*  position: sticky;*/
-/*  top: 0;*/
-/*  !*background: #FAFAFA;*!*/
-/*  z-index: 999;*/
-/*}*/
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  background: #FAFAFA;
+  z-index: 999;
+}
 
 /*.mat-tab-link {*/
 /*  padding: 0 6px !important;*/
@@ -148,4 +164,13 @@ app-esri-map,app-list-view{
 /*.tb-mat-button {*/
 /*  margin-left: 1px;*/
 /*}*/
-
+.list-header {
+  display: flex;
+  justify-content: space-between;
+}
+.searchField{
+  width: 100%;
+}
+.up25{
+  top: -25%;
+}

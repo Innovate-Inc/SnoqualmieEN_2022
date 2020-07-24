@@ -7,8 +7,10 @@ import projection from 'esri/geometry/projection';
 import {finalize, map} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DataSource} from '@angular/cdk/collections';
+import AttachmentInfo from 'esri/layers/support/AttachmentInfo';
+import {LoadingService} from './loading.service';
 
-export abstract class ArcBaseService {
+export class ArcBaseService {
   loading: boolean;
   foreignKeyField: string;
   layer: FeatureLayer;
@@ -23,13 +25,14 @@ export abstract class ArcBaseService {
   datasource: BaseDataSource;
 
 
-  constructor(url: string, public snackBar: MatSnackBar) {
+  constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
     this.datasource = new BaseDataSource(this);
-    this.filter = {num: 25, start: 0};
+    this.filter = {num: 25, start: 0, outFields: ['*']};
     this.layer = new FeatureLayer({
-      url: `${environment.restSetting.url}${url}`,
-      outFields: ['*'],
+      url,
+      // outFields: ['*'], not here anymore?
     });
+    this.layer.load();
     this.layer.when(() => {
       this.meta = this.prep_fields_meta(this.layer.fields);
       this.layerIsLoaded.next(true);
@@ -102,6 +105,7 @@ export abstract class ArcBaseService {
           // featureSet.features.forEach(function (feature, i) {
           //   featureSet.features[i] =
           // })
+          console.log('featureset: ', featureSet);
 
           // featureSet.features.fields = this.prep_fields_meta();
           featureSet.features = this.convertFromEpoch(featureSet.features);
@@ -231,10 +235,10 @@ export abstract class ArcBaseService {
     });
   }
 
-  addClickListener(callback: any) {
-    this.listener = this.layer.on('click', callback);
-    this.listenerActive = true;
-  }
+  // addClickListener(callback: any) {
+  //   //this.listener = this.layer.on('click', callback);
+  //   this.listenerActive = true;
+  // }
 
   removeClickListener() {
     this.listener.remove();
@@ -245,12 +249,12 @@ export abstract class ArcBaseService {
   }
 
   getItems() {
-    // this.loadingService.show();
+    this.loadingService.show();
     return this.query().pipe(
       map(features => {
         this.dataChange.next(features);
       }),
-      // finalize(() => this.loadingService.hide())
+       finalize(() => this.loadingService.hide())
     );
   }
 
@@ -265,7 +269,7 @@ export abstract class ArcBaseService {
   getAttachments(objectId: number) {
     return new Observable(obs => {
       this.layer.queryAttachments({objectIds: [objectId]}).then(attachments => {
-        attachments.forEach(attachment => {
+        attachments[objectId].forEach((attachment: any) => {
           if (attachment.contentType.substring(0, 5) === 'image') {
             attachment.previewUrl = attachment.url;
           } else {

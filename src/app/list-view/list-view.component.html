@@ -1,1 +1,44 @@
-<mat-card></mat-card>
+<mat-card style="display: flex; flex-direction: column; ">
+  <div class="list-header">
+    <mat-form-field class="searchField">
+      <input #searchInput matInput (keyup.enter)="search($event.target.value)" placeholder="Search">
+      <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="search('%');searchInput.value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
+      <mat-icon>add</mat-icon>
+    </button>
+
+
+  </div>
+  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"
+                      style="margin-top: -1.25em; margin-bottom: 15px;"></mat-progress-bar>
+  <mat-table #table [dataSource]="projectService.datasource" style="max-height: 100%; flex:1 1; overflow:auto;">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.attributes.ID_DAHP_full}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.attributes.Project_Name}}</mat-cell>
+    </ng-container>
+    <!--    <ng-container matColumnDef="date">-->
+    <!--      <mat-header-cell *matHeaderCellDef>Date Received</mat-header-cell>-->
+    <!--      <mat-cell *matCellDef="let element">{{element.attributes.Date_Received | date:short }}</mat-cell>-->
+    <!--    </ng-container>-->
+
+    <mat-header-row *matHeaderRowDef="displayColumns">
+
+    </mat-header-row>
+
+    <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayColumns"
+             [routerLink]="['/edit', row.attributes.GlobalID]"></mat-row>
+  </mat-table>
+  <div style="display: flex; flex-direction: row; justify-content: flex-end; align-items: flex-end;">
+    <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
+                   (page)="projectService.getPage($event)"></mat-paginator>
+
+  </div>
+</mat-card>

@@ -69,7 +69,8 @@
             "customWebpackConfig": {
               "path": "./esri.conf.js"
             },
-            "browserTarget": "SnoqualmieEN:build"
+            "browserTarget": "SnoqualmieEN:build",
+            "port": 4201
           },
           "configurations": {
             "production": {

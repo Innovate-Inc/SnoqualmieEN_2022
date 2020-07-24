@@ -17,7 +17,6 @@ import {MatMenuModule} from '@angular/material/menu';
 
 import { MapViewComponent } from './map-view/map-view.component';
 import { ListViewComponent } from './list-view/list-view.component';
-import { InvoiceComponent } from './invoice/invoice.component';
 
 import { IdentityManagementService } from './services/identity-management.service';
 import { LoadingService } from './services/loading.service';
@@ -29,6 +28,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { WildCardComponent } from './wild-card/wild-card.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import {ProjectService} from './services/project.service';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTableModule} from '@angular/material/table';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,6 @@ import { WelcomeComponent } from './welcome/welcome.component';
     EsriMapComponent,
     MapViewComponent,
     ListViewComponent,
-    InvoiceComponent,
     WildCardComponent,
     WelcomeComponent
   ],
@@ -54,12 +56,15 @@ import { WelcomeComponent } from './welcome/welcome.component';
     MatInputModule,
     MatTabsModule,
     MatMenuModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatProgressBarModule
   ],
   providers: [IdentityManagementService,
     LoadingService,
     DataService,
-    // ProjectService
+    ProjectService
   ],
   bootstrap: [AppComponent]
 })

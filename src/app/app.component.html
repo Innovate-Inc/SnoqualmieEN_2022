@@ -3,27 +3,13 @@
   <span class="fill-remaining-space"></span>
   <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/export']" matTooltip="Export Sites to Spreadsheet">Export Sites to Spreadsheet</button></span>
   <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/filter']" matTooltip="Toggle Filter">Toggle Filter</button></span>
-<!--  <span><button mat-mini-fab [routerLink]="['/payment']" matTooltip="Payment"><mat-icon>money</mat-icon></button></span>-->
-<!--  <span><button mat-mini-fab [routerLink]="['/invoice']" matTooltip="Invoice"><mat-icon>description</mat-icon></button></span>-->
 
-<!--  <span *ngIf="!(router.url == '/welcome' )"><button mat-mini-fab [routerLink]="['/payment']" matTooltip="Payment">-->
-<!--      <mat-icon>money</mat-icon>-->
-<!--    </button></span>-->
-<!--  <span *ngIf="!(router.url == '/welcome' )"><button mat-mini-fab [routerLink]="['/invoice']" matTooltip="Invoice">-->
-<!--      <mat-icon>description</mat-icon>-->
-<!--    </button></span>-->
 
-  <button mat-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-
-  <mat-menu #menu="matMenu">
-    <!-- <span *ngIf="(router.url == '/welcome' )"> -->
-      <button mat-mini-fab (click)="logMeOut();" matTooltip="Logout">
+  <span class="tb-mat-button logout-btn ">
+      <button mat-mini-fab color="primary" mat-raised-button (click)="logMeOut();" matTooltip="Logout">
         <mat-icon>person_outline</mat-icon>
       </button>
-    <!-- </span> -->
-  </mat-menu>
+    </span>
 
 
 
