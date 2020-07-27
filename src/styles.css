@@ -156,10 +156,10 @@ mat-row.active {
   flex: 1 1 auto;
 }
 
-/*.top_item{*/
-/*  cursor: pointer !important;*/
-/*  padding-left: 10px !important;*/
-/*}*/
+.top_item{
+  cursor: pointer !important;
+  padding-left: 10px !important;
+}
 
 /*.tb-mat-button {*/
 /*  margin-left: 1px;*/
