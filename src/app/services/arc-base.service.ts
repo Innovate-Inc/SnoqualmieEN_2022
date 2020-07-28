@@ -236,13 +236,13 @@ export class ArcBaseService {
   }
 
   // addClickListener(callback: any) {
-  //   //this.listener = this.layer.on('click', callback);
+  //   this.listener = this.layer.on('click', callback);
   //   this.listenerActive = true;
   // }
-
-  removeClickListener() {
-    this.listener.remove();
-  }
+  //
+  // removeClickListener() {
+  //   this.listener.remove();
+  // }
 
   get data(): any[] {
     return this.dataChange.value;

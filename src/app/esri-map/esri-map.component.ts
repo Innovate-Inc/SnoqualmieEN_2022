@@ -1,4 +1,4 @@
-import { environment } from './../../environments/environment.prod';
+import {environment} from './../../environments/environment.prod';
 import {
   Component,
   OnInit,
@@ -21,6 +21,8 @@ import LayerList from 'esri/widgets/LayerList';
 import FeatureTable from 'esri/widgets/FeatureTable';
 import esriConfig from 'esri/config';
 // import {IdentityManagementService} from '../services/identity-management.service';
+// import {Router} from '@angular/router';
+// import {ProjectService} from '../services/project.service';
 
 
 @Component({
@@ -33,7 +35,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   @Output() mapLoadedEvent = new EventEmitter<boolean>();
 
   // The <div> where we will place the map
-  @ViewChild('mapViewNode', { static: true }) private mapViewEl: ElementRef;
+  @ViewChild('mapViewNode', {static: true}) private mapViewEl: ElementRef;
 
   /**
    * _zoom sets map zoom
@@ -78,7 +80,8 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     return this._basemap;
   }
 
-  constructor() { } // private identityManager: IdentityManagementService) { }
+  constructor() {
+  } // private identityManager: IdentityManagementService) { }
 
   async initializeMap() {
     try {
@@ -140,6 +143,24 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       this.addBasemapGallery();  // Basemap Gallery
       // Add parcels
       console.log('layers: ', this._view.map.allLayers);
+
+      this._view.on('click', event => {
+        const screenPoint = {
+          x: event.x,
+          y: event.y
+        };
+        this._view.hitTest(screenPoint).then( (response: any)  => {
+          console.log(screenPoint);
+          console.log(response);
+          if (response.results.length) {
+            const graphic = response.results.filter((result: any) => {
+              console.log(result.graphic.layer);
+              return result.graphic.layer === 'Snoq_Survey_1147';
+            })[0].graphic;
+            console.log(graphic.attributes);
+          }
+        });
+      });
     });
   }
 

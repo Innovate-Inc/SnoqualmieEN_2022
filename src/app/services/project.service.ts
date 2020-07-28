@@ -10,44 +10,7 @@ import {environment} from '../../environments/environment';
 
 import {FormControl} from '@angular/forms';
 import {LoadingService} from './loading.service';
-// import Graphic = __esri.Graphic;
-// import {Graphic}
-//import Graphic = __esri.Graphic;
 
-// class Attributes {
-//   ProjectNumber: number;
-//   Project_Name: string;
-//   Primary_Reviewer: number;
-//   Priority: string;
-//   Review_Status: string;
-//   Date_Received: string;
-//   Project_Start_Date: string;
-//   Project_Description: string;
-//   Proponent: string;
-//   Proponent_Number: string;
-//   Section_106: string;
-//   Lead_Agency: string;
-//   Agency_or_TCNS_Number: string;
-//   Other_Agency: string;
-//   Other_Agency_Number: string;
-//   Project_Actions: string;
-//   Expected_Ground_Disturbance: string;
-//   // Additional_Review_Needed: string;
-//   // Programs_for_Review: string;
-//   // Additional_Reviewers: string;
-//   Contact_Person: string;
-//   Contact_Info: string;
-//   Contract: string;
-//   Budget: string;
-//   Location: string;
-//   Land_Ownership: string;
-//   Comments: string;
-//   Category: string;
-//   GlobalID: number | string;
-//   OBJECTID: number | string;
-//   SHPO_Permit: number;
-//   notification: string;
-// }
 class Attributes {
   objectid: number | string;
   globalid: number | string;

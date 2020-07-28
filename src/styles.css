@@ -58,8 +58,15 @@ app-esri-map,app-list-view{
 /*  flex-direction: column;*/
 /*  min-width: 50vw*/
 /*}*/
+app-edit-pane  {
+  flex: 1;
+  display: flex;
+  /*flex-direction: column;*/
+  width: 50%;
 
-app-edit-pane, app-list-view {
+}
+
+app-list-view {
   flex: 1;
   display: flex;
   /*flex-direction: column;*/

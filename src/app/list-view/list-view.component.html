@@ -34,7 +34,7 @@
     </mat-header-row>
 
     <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayColumns"
-             [routerLink]="['/edit', row.attributes.GlobalID]"></mat-row>
+             [routerLink]="['/app/edit', row.attributes.globalid]"></mat-row>
   </mat-table>
   <div style="display: flex; flex-direction: row; justify-content: flex-end; align-items: flex-end;">
     <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"

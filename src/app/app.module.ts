@@ -32,6 +32,8 @@ import {ProjectService} from './services/project.service';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { EditPaneComponent } from './edit-pane/edit-pane.component';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MapViewComponent,
     ListViewComponent,
     WildCardComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    EditPaneComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatTableModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDividerModule
   ],
   providers: [IdentityManagementService,
     LoadingService,

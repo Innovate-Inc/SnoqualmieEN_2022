@@ -1,0 +1,44 @@
+<mat-divider></mat-divider>
+<mat-toolbar>{{data.currentMessage |async}}</mat-toolbar>
+<nav mat-tab-nav-bar *ngIf="route.paramMap | async as params">
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <a mat-tab-link routerLink="project"
+           routerLinkActive #project="routerLinkActive"
+           [active]="project.isActive">
+          Review Form
+        </a>
+        <a mat-tab-link routerLink="review"
+           routerLinkActive #related="routerLinkActive"
+           [active]="related.isActive"
+           *ngIf="params.get('id') !== 'new'">
+          Supporting Documents
+        </a>
+        <a mat-tab-link routerLink="cultural resources"
+           routerLinkActive #related="routerLinkActive"
+           [active]="related.isActive"
+           *ngIf="params.get('id') !== 'new'">
+          Abstract
+        </a>
+        <a mat-tab-link routerLink="stipulations"
+           routerLinkActive #related="routerLinkActive"
+           [active]="related.isActive"
+           *ngIf="params.get('id') !== 'new'">
+          Impacts
+        </a>
+        <a mat-tab-link routerLink="assigned"
+           routerLinkActive #related="routerLinkActive"
+           [active]="related.isActive"
+           *ngIf="params.get('id') !== 'new'">
+          Activity Data
+        </a>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</nav>
+<mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"
+                  style="margin-top: -3px; height: 2px;"></mat-progress-bar>
+
+<router-outlet></router-outlet>
+
