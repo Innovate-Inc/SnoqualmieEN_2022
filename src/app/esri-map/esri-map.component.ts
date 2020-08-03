@@ -22,6 +22,10 @@ import FeatureTable from 'esri/widgets/FeatureTable';
 import esriConfig from 'esri/config';
 // import {IdentityManagementService} from '../services/identity-management.service';
 import {Router} from '@angular/router';
+import LayerView = __esri.LayerView;
+import FeatureLayerView = __esri.FeatureLayerView;
+import Handle = __esri.Handle;
+
 // import {ProjectService} from '../services/project.service';
 
 
@@ -31,7 +35,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./esri-map.component.css']
 })
 
-export class EsriMapComponent implements OnInit, OnDestroy , OnChanges {
+export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   @Output() mapLoadedEvent = new EventEmitter<boolean>();
 
   // The <div> where we will place the map
@@ -48,12 +52,14 @@ export class EsriMapComponent implements OnInit, OnDestroy , OnChanges {
   private _basemap = 'topo';
   private _loaded = false;
   private _view: MapView = null;
+  private _highLightLayer: FeatureLayerView;
+  private _highlightHandler: Handle;
 
   get mapLoaded(): boolean {
     return this._loaded;
   }
 
-  @Input() highlightSelectFeature: string
+  @Input() highlightSelectFeature: string;
 
   @Input()
   set zoom(zoom: number) {
@@ -85,8 +91,25 @@ export class EsriMapComponent implements OnInit, OnDestroy , OnChanges {
   constructor(public router: Router) {
   } // private identityManager: IdentityManagementService) { }
 
+  highlightFeature(id: string) {
+    this._highLightLayer.queryFeatures({where: `globalid='${id}'`}).then(result => {
+      if (this._highlightHandler) {
+        this._highlightHandler.remove();
+      }
+      this._highlightHandler = this._highLightLayer.highlight(result.features);
+    });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    // from Travis,
+    //     changes.highlightSelectFeature
+    // changes.highlightSelectFeature = {newValue, oldValue}
+    if (changes.hasOwnProperty('highlightSelectFeature')) {
+      if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
+        console.log(changes);
+        // this.highlightFeature(changes.highlightSelectFeature.currentValue);
+      }
+    }
   }
 
   async initializeMap() {
@@ -133,9 +156,9 @@ export class EsriMapComponent implements OnInit, OnDestroy , OnChanges {
       webMap.load()
         .then(() => {
           webMap.layers
-            .filter(layer =>  layer.type === 'feature' )
+            .filter(layer => layer.type === 'feature')
             .map(layer => {
-              const featLayer =  layer as __esri.FeatureLayer;
+              const featLayer = layer as __esri.FeatureLayer;
               featLayer.outFields = ['*'];
               return featLayer;
             });
@@ -154,6 +177,7 @@ export class EsriMapComponent implements OnInit, OnDestroy , OnChanges {
   ngOnInit() {
     // Initialize MapView and return an instance of MapView
     this.initializeMap().then(mapView => {
+      // this._highLightLayer = mapView.layerViews.find(v => v.layer.title === 'Snoq_Survey - Review Tracking');
       console.log('mapView ready: ', this._view.ready);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
@@ -166,18 +190,19 @@ export class EsriMapComponent implements OnInit, OnDestroy , OnChanges {
         //   x: event.x,
         //   y: event.y
         // };
-        this._view.hitTest(event).then( (response: any)  => {
+        this._view.hitTest(event).then((response: any) => {
           // console.log(screenPoint);
           // console.log(response);
           if (response.results.length) {
             const graphic = response.results.filter((result: any) => {
               // console.log(result);
-              return  result.graphic.layer.url.includes(url);
+              return result.graphic.layer.url.includes(url);
             })[0].graphic;
             this.router.navigate(['/app/edit', graphic.attributes.globalid]);
           }
         })
-          .catch(e => {}) ;
+          .catch(e => {
+          });
       });
     });
   }

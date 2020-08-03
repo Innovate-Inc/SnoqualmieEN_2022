@@ -6,6 +6,7 @@ import { ListViewComponent } from './list-view/list-view.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import {EditPaneComponent} from './edit-pane/edit-pane.component';
 import {ReviewFormComponent} from './review-form/review-form.component';
+import {AbstractFormComponent} from './abstract-form/abstract-form.component';
 
 
 
@@ -16,6 +17,7 @@ const routes: Routes = [
       {
         path: 'edit/:id', component: EditPaneComponent, children: [
           {path: 'review', component: ReviewFormComponent},
+          {path: 'abstract', component: AbstractFormComponent},
           {path: '', redirectTo: 'review', pathMatch: 'full'},
         ]
       },

@@ -39,6 +39,7 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import { AbstractFormComponent } from './abstract-form/abstract-form.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     WildCardComponent,
     WelcomeComponent,
     EditPaneComponent,
-    ReviewFormComponent
+    ReviewFormComponent,
+    AbstractFormComponent
   ],
   imports: [
     BrowserModule,

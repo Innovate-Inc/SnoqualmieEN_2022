@@ -160,7 +160,8 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.editObs.unsubscribe();
+  //  this.editObs.unsubscribe();
+    console.log('ngOnDestroy: Aothing to destry yet')
     // this.mapService.clearGraphics();
   }
 
