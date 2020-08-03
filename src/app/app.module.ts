@@ -34,6 +34,11 @@ import {MatTableModule} from '@angular/material/table';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { EditPaneComponent } from './edit-pane/edit-pane.component';
 import {MatDividerModule} from '@angular/material/divider';
+import { ReviewFormComponent } from './review-form/review-form.component';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -43,7 +48,8 @@ import {MatDividerModule} from '@angular/material/divider';
     ListViewComponent,
     WildCardComponent,
     WelcomeComponent,
-    EditPaneComponent
+    EditPaneComponent,
+    ReviewFormComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +69,12 @@ import {MatDividerModule} from '@angular/material/divider';
     MatSnackBarModule,
     MatTableModule,
     MatProgressBarModule,
-    MatDividerModule
+    MatDividerModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [IdentityManagementService,
     LoadingService,

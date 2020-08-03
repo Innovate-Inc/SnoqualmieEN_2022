@@ -30,7 +30,7 @@ export class ArcBaseService {
     this.filter = {num: 25, start: 0, outFields: ['*']};
     this.layer = new FeatureLayer({
       url,
-      // outFields: ['*'], not here anymore?
+      outFields: ['*'],
     });
     this.layer.load();
     this.layer.when(() => {
@@ -157,35 +157,28 @@ export class ArcBaseService {
   }
 
   // todo: move to wherever the mapview is maintained
-  // selectFeature(globalId, objectId, outFields = ['*']) {
-  //   const vm = this;
-  //   return new Observable<any>(obs => {
-  //     this.layerIsLoaded.subscribe(() => {
-  //       const q = new vm.Query();
-  //
-  //       if (globalId) {
-  //         q.where = `GlobalID='${globalId}'`;
-  //       } else if (objectId) {
-  //         q.objectIds = [objectId];
-  //       }
-  //       q.outFields = outFields;
-  //       this.layer.clearSelection();
-  //       if (globalId || objectId) {
-  //         this.layer.selectFeatures(q, FeatureLayer.SELECTION_NEW, function(features) {
-  //           features = vm.convertFromEpoch(features);
-  //           if (features[0].geometry !== null && features[0].geometry.rings.length === 0) {
-  //             // features[0].setGeometry(new vm.Polygon(new vm.SpatialReference(3857)));
-  //             features[0].setSymbol(vm.layer.renderer.getSymbol());
-  //           }
-  //           obs.next(features[0]);
-  //         }, function(e) {
-  //           vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
-  //           obs.error(e);
-  //         });
-  //       }
-  //     });
-  //   });
-  // }
+  selectFeature(globalId: string, objectId: number, outFields = ['*']) {
+    const vm = this;
+    return new Observable<any>(obs => {
+      this.layerIsLoaded.subscribe(() => {
+        let q;
+        if (globalId) {
+           q = {where: `globalid='${globalId}'`, outFields};
+        } else if (objectId) {
+           q = {objectIds: [objectId], outFields};
+        }
+        if (globalId || objectId) {
+          this.layer.queryFeatures(q).then (featureSet => {
+            const features = vm.convertFromEpoch(featureSet.features);
+            obs.next(features[0]);
+          }, (e => {
+            vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
+            obs.error(e);
+          }));
+        }
+      });
+    });
+  }
 
   convertFromEpoch(features: __esri.Graphic[]) {
     const keys = Object.keys(this.meta);

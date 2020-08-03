@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-map-view',
@@ -10,11 +13,14 @@ export class MapViewComponent implements OnInit {
   mapCenter = [-121.841574, 47.518784];
   basemapType = 'streets-relief-vector';
   mapZoomLevel = 15;
+  highlightId: Observable<string>;
 
-  constructor() {
+  constructor(public route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.highlightId = this.route.paramMap.pipe(filter(params => params.has('id')),
+      map(params => params.get('id')));
   }
 
   mapLoadedEvent(status: boolean) {

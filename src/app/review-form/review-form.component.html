@@ -1,0 +1,242 @@
+<mat-card *ngIf="review | async as p" class="main-card" style="display: flex; flex-direction: column;">
+
+  <form novalidate [formGroup]="featureForm">
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+      <div>
+        <button *ngIf="mapMode === 'edit'" mat-fab (click)="addPolygon()" color="accent"
+                matTooltip="Click to add map feature">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button *ngIf="mapMode === 'draw'" mat-fab (click)="editPolygon()" color="accent"
+                matTooltip="Click to edit map feature">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-fab (click)="save(p)" color="accent">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+    <br/><br/>
+    <div style="display: flex; flex-direction: column">
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Reviewer_Name.alias}}</mat-placeholder>
+        <input matInput  type="text" name={{projectService.meta.Reviewer_Name.alias}}
+               formControlName="Reviewer_Name">
+      </mat-form-field>
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Reviewer_Department.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name={{projectService.meta.Reviewer_Name.alias}} formControlName="Reviewer_Department">-->
+      <!--      </mat-form-field>-->
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Reviewer_Department.alias}}</mat-placeholder>
+        <mat-select formControlName="Reviewer_Department">
+          <mat-option *ngFor="let option of projectService.meta.Reviewer_Department.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Date_Received.alias}}</mat-placeholder>
+        <input matInput [matDatepicker]="DateReceivedPicker" name="Date_Received"
+               formControlName="Date_Received">
+        <mat-datepicker-toggle matSuffix [for]="DateReceivedPicker"></mat-datepicker-toggle>
+        <mat-datepicker #DateReceivedPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-placeholder>
+          {{projectService.meta.Project_Phase.alias}}
+        </mat-placeholder>
+        <mat-select formControlName="Project_Phase">
+          <mat-option *ngFor="let option of projectService.meta.Project_Phase.domain.codedValues"
+                      [value]="option.code">{{
+            option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Project_Name.alias}}</mat-placeholder>
+        <input matInput  type="text" name={{projectService.meta.Project_Name.alias}}
+               formControlName="Project_Name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Jurisdiction.alias}}</mat-placeholder>
+        <mat-select formControlName="Jurisdiction">
+          <mat-option *ngFor="let option of projectService.meta.Jurisdiction.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Notification_Type.alias}}</mat-placeholder>
+        <mat-select formControlName="Notification_Type">
+          <mat-option *ngFor="let option of projectService.meta.Notification_Type.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Notification_ID.alias}}</mat-placeholder>
+        <input matInput  type="text" name={{projectService.meta.Notification_ID.alias}}
+               formControlName="Notification_ID">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Note_Concern.alias}}</mat-placeholder>
+        <input matInput  type="text" name={{projectService.meta.Note_Concern.alias}}
+               formControlName="Note_Concern">
+      </mat-form-field>
+       <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>
+        <input matInput  type="text" name={{projectService.meta.Noti_Dept_Select.alias}}
+               formControlName="Noti_Dept_Select">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Noti_Tribe.alias}}</mat-placeholder>
+        <mat-select formControlName="Noti_Tribe">
+          <mat-option *ngFor="let option of projectService.meta.Noti_Tribe.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Location_Type.alias}}</mat-placeholder>
+        <mat-select formControlName="Location_Type">
+          <mat-option *ngFor="let option of projectService.meta.Location_Type.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Review_Status.alias}}</mat-placeholder>-->
+      <!--        <mat-select formControlName="Review_Status">-->
+      <!--          <mat-option *ngFor="let option of projectService.meta.Review_Status.domain.codedValues" [value]="option.code">-->
+      <!--            {{ option.name }}-->
+      <!--          </mat-option>-->
+      <!--        </mat-select>-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Date_Received.alias}}</mat-placeholder>-->
+      <!--        <input matInput [matDatepicker]="DateReceivedPicker" name="Date_Received"-->
+      <!--               formControlName="Date_Received">-->
+      <!--        <mat-datepicker-toggle matSuffix [for]="DateReceivedPicker"></mat-datepicker-toggle>-->
+      <!--        <mat-datepicker #DateReceivedPicker></mat-datepicker>-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Project_Start_Date.alias}}</mat-placeholder>-->
+      <!--        <input matInput [matDatepicker]="DateStartPicker" name="Project_Start_Date"-->
+      <!--               formControlName="Project_Start_Date">-->
+      <!--        <mat-datepicker-toggle matSuffix [for]="DateStartPicker"></mat-datepicker-toggle>-->
+      <!--        <mat-datepicker #DateStartPicker></mat-datepicker>-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Project_Description.alias}}</mat-placeholder>-->
+      <!--        <textarea matInput matTextareaAutosize name="Project_Description"-->
+      <!--                  formControlName="Project_Description"></textarea>-->
+      <!--      </mat-form-field>-->
+      <!--&lt;!&ndash;      <mat-form-field>&ndash;&gt;-->
+      <!--&lt;!&ndash;        <mat-placeholder>{{projectActionsLuService.meta.Project_Actions.alias}}</mat-placeholder>&ndash;&gt;-->
+      <!--&lt;!&ndash;        <mat-select formControlName="Project_Actions" multiple>&ndash;&gt;-->
+      <!--&lt;!&ndash;          <mat-option *ngFor="let option of projectActionsLuService.meta.Project_Actions.domain.codedValues"&ndash;&gt;-->
+      <!--&lt;!&ndash;                      [value]="option.code">{{&ndash;&gt;-->
+      <!--&lt;!&ndash;            option.name }}&ndash;&gt;-->
+      <!--&lt;!&ndash;          </mat-option>&ndash;&gt;-->
+      <!--&lt;!&ndash;        </mat-select>&ndash;&gt;-->
+      <!--&lt;!&ndash;      </mat-form-field>&ndash;&gt;-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Expected_Ground_Disturbance.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Expected_Ground_Disturbance" formControlName="Expected_Ground_Disturbance">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Category.alias}}</mat-placeholder>-->
+      <!--        <mat-select formControlName="Category">-->
+      <!--          <mat-option *ngFor="let option of projectService.meta.Category.domain.codedValues" [value]="option.code">{{-->
+      <!--            option.name }}-->
+      <!--          </mat-option>-->
+      <!--        </mat-select>-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Location.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Location" formControlName="Location">-->
+      <!--      </mat-form-field>-->
+      <!--&lt;!&ndash;      <mat-form-field>&ndash;&gt;-->
+      <!--&lt;!&ndash;        <mat-placeholder>{{landOwnershipLuService.meta.Land_Ownership.alias}}</mat-placeholder>&ndash;&gt;-->
+      <!--&lt;!&ndash;        <mat-select formControlName="Land_Ownership" multiple>&ndash;&gt;-->
+      <!--&lt;!&ndash;          <mat-option *ngFor="let option of landOwnershipLuService.meta.Land_Ownership.domain.codedValues"&ndash;&gt;-->
+      <!--&lt;!&ndash;                      [value]="option.code">{{&ndash;&gt;-->
+      <!--&lt;!&ndash;            option.name }}&ndash;&gt;-->
+      <!--&lt;!&ndash;          </mat-option>&ndash;&gt;-->
+      <!--&lt;!&ndash;        </mat-select>&ndash;&gt;-->
+      <!--&lt;!&ndash;      </mat-form-field>&ndash;&gt;-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Proponent.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Proponent" formControlName="Proponent">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Proponent_Number.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Proponent_Number" formControlName="Proponent_Number">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Section_106.alias}}</mat-placeholder>-->
+      <!--        <mat-select formControlName="Section_106">-->
+      <!--          <mat-option *ngFor="let option of projectService.meta.Section_106.domain.codedValues" [value]="option.code">{{-->
+      <!--            option.name }}-->
+      <!--          </mat-option>-->
+      <!--        </mat-select>-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Lead_Agency.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Lead_Agency" formControlName="Lead_Agency">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Agency_or_TCNS_Number.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Agency_or_TCNS_Number" formControlName="Agency_or_TCNS_Number">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Other_Agency.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Other_Agency" formControlName="Other_Agency">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Other_Agency_Number.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Other_Agency_Number" formControlName="Other_Agency_Number">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.SHPO_Permit.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="SHPO_Permit" formControlName="SHPO_Permit">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.notification.alias}}</mat-placeholder>-->
+      <!--        <mat-select formControlName="notification">-->
+      <!--          <mat-option *ngFor="let option of projectService.meta.notification.domain.codedValues"-->
+      <!--                      [value]="option.code">{{ option.name }}-->
+      <!--          </mat-option>-->
+      <!--        </mat-select>-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Contact_Person.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Contact_Person" formControlName="Contact_Person">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Contact_Info.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Contact_Info" formControlName="Contact_Info">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Contract.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Contract" formControlName="Contract">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Budget.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Budget" formControlName="Budget">-->
+      <!--      </mat-form-field>-->
+      <!--      <mat-form-field>-->
+      <!--        <mat-placeholder>{{projectService.meta.Comments.alias}}</mat-placeholder>-->
+      <!--        <input matInput type="text" name="Comments" formControlName="Comments">-->
+      <!--      </mat-form-field>-->
+    </div>
+  </form>
+  <!--<div *ngIf="attachment">{{attachment[0].url}}</div>-->
+
+</mat-card>
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+

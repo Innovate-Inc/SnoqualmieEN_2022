@@ -5,6 +5,7 @@ import { IdentityManagementService } from './services/identity-management.servic
 import { ListViewComponent } from './list-view/list-view.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import {EditPaneComponent} from './edit-pane/edit-pane.component';
+import {ReviewFormComponent} from './review-form/review-form.component';
 
 
 
@@ -14,7 +15,8 @@ const routes: Routes = [
     path: 'app', component: MapViewComponent, canActivate: [IdentityManagementService], children: [
       {
         path: 'edit/:id', component: EditPaneComponent, children: [
-          {path: '', redirectTo: 'project', pathMatch: 'full'},
+          {path: 'review', component: ReviewFormComponent},
+          {path: '', redirectTo: 'review', pathMatch: 'full'},
         ]
       },
       { path: 'projects', component: ListViewComponent },

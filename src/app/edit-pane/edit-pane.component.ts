@@ -29,8 +29,8 @@ export class EditPaneComponent implements OnInit {
           if (this.route.snapshot.paramMap.get('id') !== 'new') {
             this.projectService.filter.where = `globalid = '${this.route.snapshot.paramMap.get('id')}'`;
             return this.projectService.query().pipe(tap(results => {
-              this.data.changeMessage(results[0].attributes.ProjectNumber.toString().padStart(this.myFill.length, this.myFill) +
-                ' ' + results[0].attributes.Project_Name);
+              this.data.changeMessage(results[0].attributes.Project_Name); // results[0].attributes.objectid.toString().padStart(this.myFill.length, this.myFill) +
+                //  ' ' + results[0].attributes.Project_Name);
             }));
           } else {this.data.changeMessage('Add New Project'); }
         }));

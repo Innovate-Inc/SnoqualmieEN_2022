@@ -1,4 +1,4 @@
-import {environment} from './../../environments/environment.prod';
+import {environment, url} from './../../environments/environment.prod';
 import {
   Component,
   OnInit,
@@ -7,7 +7,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy, OnChanges, SimpleChanges
 } from '@angular/core';
 
 // Load modules from the Esri ArcGIS API for JavaScript
@@ -21,7 +21,7 @@ import LayerList from 'esri/widgets/LayerList';
 import FeatureTable from 'esri/widgets/FeatureTable';
 import esriConfig from 'esri/config';
 // import {IdentityManagementService} from '../services/identity-management.service';
-// import {Router} from '@angular/router';
+import {Router} from '@angular/router';
 // import {ProjectService} from '../services/project.service';
 
 
@@ -31,7 +31,7 @@ import esriConfig from 'esri/config';
   styleUrls: ['./esri-map.component.css']
 })
 
-export class EsriMapComponent implements OnInit, OnDestroy {
+export class EsriMapComponent implements OnInit, OnDestroy , OnChanges {
   @Output() mapLoadedEvent = new EventEmitter<boolean>();
 
   // The <div> where we will place the map
@@ -52,6 +52,8 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   get mapLoaded(): boolean {
     return this._loaded;
   }
+
+  @Input() highlightSelectFeature: string
 
   @Input()
   set zoom(zoom: number) {
@@ -80,8 +82,12 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     return this._basemap;
   }
 
-  constructor() {
+  constructor(public router: Router) {
   } // private identityManager: IdentityManagementService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
 
   async initializeMap() {
     try {
@@ -110,7 +116,6 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       };
 
       this._view = new MapView(mapViewProperties);
-
       // BaseMap Gallery
       /*
       const basemapGalleryWidget = new BasemapGallery({
@@ -125,8 +130,21 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       this._view.ui.add(baseMapExpand, 'top-left');
       */
 
+      webMap.load()
+        .then(() => {
+          webMap.layers
+            .filter(layer =>  layer.type === 'feature' )
+            .map(layer => {
+              const featLayer =  layer as __esri.FeatureLayer;
+              featLayer.outFields = ['*'];
+              return featLayer;
+            });
+        });
+      this._view.map = webMap;
       // wait for the map to load
       await this._view.when();
+
+
       return this._view;
     } catch (error) {
       console.log('EsriLoader: ', error);
@@ -143,23 +161,23 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       this.addBasemapGallery();  // Basemap Gallery
       // Add parcels
       console.log('layers: ', this._view.map.allLayers);
-
       this._view.on('click', event => {
-        const screenPoint = {
-          x: event.x,
-          y: event.y
-        };
-        this._view.hitTest(screenPoint).then( (response: any)  => {
-          console.log(screenPoint);
-          console.log(response);
+        // const screenPoint = {
+        //   x: event.x,
+        //   y: event.y
+        // };
+        this._view.hitTest(event).then( (response: any)  => {
+          // console.log(screenPoint);
+          // console.log(response);
           if (response.results.length) {
             const graphic = response.results.filter((result: any) => {
-              console.log(result.graphic.layer);
-              return result.graphic.layer === 'Snoq_Survey_1147';
+              // console.log(result);
+              return  result.graphic.layer.url.includes(url);
             })[0].graphic;
-            console.log(graphic.attributes);
+            this.router.navigate(['/app/edit', graphic.attributes.globalid]);
           }
-        });
+        })
+          .catch(e => {}) ;
       });
     });
   }
@@ -211,4 +229,36 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       this._view.container = null;  // destroy the map view
     }
   }
+
+
+// selectFeature(globalId, objectId, outFields = ['*']) {
+  //   const vm = this;
+  //   return new Observable<any>(obs => {
+  //     this.layerIsLoaded.subscribe(() => {
+  //       const q = new vm.Query();
+  //
+  //       if (globalId) {
+  //         q.where = `GlobalID='${globalId}'`;
+  //       } else if (objectId) {
+  //         q.objectIds = [objectId];
+  //       }
+  //       q.outFields = outFields;
+  //       this.layer.clearSelection();
+  //       if (globalId || objectId) {
+  //         this.layer.selectFeatures(q, FeatureLayer.SELECTION_NEW, function(features) {
+  //           features = vm.convertFromEpoch(features);
+  //           if (features[0].geometry !== null && features[0].geometry.rings.length === 0) {
+  //             // features[0].setGeometry(new vm.Polygon(new vm.SpatialReference(3857)));
+  //             features[0].setSymbol(vm.layer.renderer.getSymbol());
+  //           }
+  //           obs.next(features[0]);
+  //         }, function(e) {
+  //           vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
+  //           obs.error(e);
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
+
 }

@@ -4,32 +4,32 @@
   <mat-tab-group>
     <mat-tab>
       <ng-template mat-tab-label>
-        <a mat-tab-link routerLink="project"
-           routerLinkActive #project="routerLinkActive"
-           [active]="project.isActive">
+        <a mat-tab-link routerLink="review"
+           routerLinkActive #review="routerLinkActive"
+           [active]="review.isActive">
           Review Form
         </a>
-        <a mat-tab-link routerLink="review"
-           routerLinkActive #related="routerLinkActive"
-           [active]="related.isActive"
+        <a mat-tab-link routerLink="supportdocs"
+           routerLinkActive #supportdocs="routerLinkActive"
+           [active]="supportdocs.isActive"
            *ngIf="params.get('id') !== 'new'">
           Supporting Documents
         </a>
-        <a mat-tab-link routerLink="cultural resources"
-           routerLinkActive #related="routerLinkActive"
-           [active]="related.isActive"
+        <a mat-tab-link routerLink="abstract"
+           routerLinkActive #abstract="routerLinkActive"
+           [active]="abstract.isActive"
            *ngIf="params.get('id') !== 'new'">
           Abstract
         </a>
-        <a mat-tab-link routerLink="stipulations"
-           routerLinkActive #related="routerLinkActive"
-           [active]="related.isActive"
+        <a mat-tab-link routerLink="impacts"
+           routerLinkActive #impacts="routerLinkActive"
+           [active]="impacts.isActive"
            *ngIf="params.get('id') !== 'new'">
           Impacts
         </a>
-        <a mat-tab-link routerLink="assigned"
-           routerLinkActive #related="routerLinkActive"
-           [active]="related.isActive"
+        <a mat-tab-link routerLink="activity"
+           routerLinkActive #activity="routerLinkActive"
+           [active]="activity.isActive"
            *ngIf="params.get('id') !== 'new'">
           Activity Data
         </a>

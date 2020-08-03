@@ -3,6 +3,7 @@
         [basemap]="basemapType"
         [zoom]="mapZoomLevel"
         (mapLoadedEvent)="mapLoadedEvent($event)"
+        [highlightSelectFeature]="highlightId | async"
       >
       </app-esri-map>
 
