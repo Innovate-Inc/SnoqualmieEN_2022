@@ -1,0 +1,26 @@
+<mat-card *ngIf="abstract | async as p" class="main-card" style="display: flex; flex-direction: column;">
+
+  <form novalidate [formGroup]="featureForm">
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+      <div>
+        <button mat-fab (click)="save(p)" color="accent">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+    <br/><br/>
+    <div style="display: flex; flex-direction: column">
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Abstract.alias}}</mat-placeholder>
+
+        <mat-label>{{projectService.meta.Abstract.alias}}</mat-label>
+        <textarea matInput formControlName="Abstract" matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5></textarea>
+
+<!--        <input matInput  type="text" name={{projectService.meta.Abstract.alias}}-->
+<!--               formControlName="Abstract">-->
+      </mat-form-field>
+   </div>
+  </form>
+  <!--<div *ngIf="attachment">{{attachment[0].url}}</div>-->
+
+</mat-card>
