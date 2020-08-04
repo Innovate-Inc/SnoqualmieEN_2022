@@ -24,7 +24,7 @@ export class ListViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadingService.show();
+    // this.loadingService.show();
     this.data.changeMessage('');
     this.projectService.layerIsLoaded.subscribe(() => {
       this.projectService.filter.where = `Project_Name like '%'`;

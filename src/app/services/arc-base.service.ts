@@ -184,7 +184,7 @@ export class ArcBaseService {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
-        if (this.meta[key].type === 'esriFieldTypeDate' && feature.attributes[key] !== null) {
+        if (this.meta[key].type === 'date' && feature.attributes[key] !== null) {
           if (feature.attributes[key] === -2209132800000) {
             feature.attributes[key] = null;
           } else {
@@ -200,7 +200,7 @@ export class ArcBaseService {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
-        if (this.meta[key].type === 'esriFieldTypeDate' && feature.attributes[key] instanceof Date) {
+        if (this.meta[key].type === 'date' && feature.attributes[key] instanceof Date) {
           feature.attributes[key] = feature.attributes[key].getTime();
         }
       }

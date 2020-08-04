@@ -4,8 +4,6 @@
 /*!*@import "https://js.arcgis.com/3.23/esri/css/esri.css";*!*/
 /*!*@import "https://js.arcgis.com/3.23/dijit/themes/claro/claro.css";*!*/
 
-
-
 /*#mainMap_gc path{*/
 /*  fill-opacity: 0.25 !important;*/
 /*}​*/
@@ -17,6 +15,14 @@
 /*.mat-column-ProjectNumber, .cdk-column-ProjectNumber {*/
 /*  flex: 0 0 100px !important;*/
 /*}*/
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  /*background-color: #00504f;*/
+  height: 3px;
+}
+.mat-tab-group.mat-primary .mat-ink-bar {
+    display: none;
+}
 
 
 html, body, app-root {
@@ -33,9 +39,11 @@ app-map-view {
   display: flex;
 }
 
-app-esri-map,app-list-view{
+app-esri-map{
   flex:1;
+  /*width: 50%;*/
 }
+
 app-edit-pane  {
   /*flex: 1;*/
   /*display: flex;*/
@@ -88,6 +96,14 @@ app-welcome{
   background-position: center;
   /*background-size: auto 100%;*/
   top: -64px;
+}
+
+app-review-form, app-abstract-form{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  padding: 15px;
 }
 
 /*app-project-form, app-related-table-form, app-list-view, app-review-form,*/
