@@ -1,7 +1,18 @@
-app-abstract-form{
-  flex: 1;
+.fColumnn {
   display: flex;
   flex-direction: column;
-  overflow-y: hidden;
-  padding: 15px;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button-pad-left {
+  margin-left: 5px;
+}
+
+.button-pad-right {
+  margin-right: 5px;
 }

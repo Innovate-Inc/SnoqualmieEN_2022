@@ -11,7 +11,7 @@ import {environment} from '../../environments/environment';
   templateUrl: './edit-pane.component.html',
   styleUrls: ['./edit-pane.component.css']
 })
-export class EditPaneComponent implements OnInit {
+export class EditPaneComponent implements  OnInit  {
   message: string;
   projectId: any;
   prefixName = environment.name
@@ -19,6 +19,8 @@ export class EditPaneComponent implements OnInit {
   constructor(public projectService: ProjectService, public route: ActivatedRoute, public loadingService: LoadingService,
               public data: DataService) {
   }
+
+
   ngOnInit() {
     this.data.currentMessage.subscribe(message => this.message = message);
     // this.projectId = this.route.snapshot.paramMap.get('id');

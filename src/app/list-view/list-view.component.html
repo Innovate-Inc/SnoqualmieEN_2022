@@ -36,7 +36,7 @@
     <mat-row  *matRowDef="let row; columns: displayColumns"
              [routerLink]="['/app/edit', row.attributes.globalid]"></mat-row>
   </mat-table>
-  <div class = "paginator-div" style="display: flex; flex-direction: row; justify-content: flex-end; align-items: flex-end;">
+  <div class = "paginator-div" >
     <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
                    (page)="projectService.getPage($event)"></mat-paginator>
 

@@ -1,0 +1,18 @@
+.fColumnn {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button-pad-left {
+  margin-left: 5px;
+}
+
+.button-pad-right {
+  margin-right: 5px;
+}
