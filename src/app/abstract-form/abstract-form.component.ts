@@ -28,7 +28,7 @@ export class AbstractFormComponent implements OnInit {
   mapMode = 'edit';
   featureForm = new FormGroup({
     // ProjectNumber: new FormControl(),
-    objectid: new FormControl(),
+    OBJECTID: new FormControl(),
     globalid: new FormControl(),
     Reviewer_Name: new FormControl(),
     Review_Name_Note: new FormControl(),
@@ -125,12 +125,13 @@ export class AbstractFormComponent implements OnInit {
 
   save(abstracty: any) {
     abstracty.attributes = this.featureForm.value;
+    console.log(abstracty.attributes);
     // let project_actions = review.attributes.Project_Actions;
     // delete abstract.attributes.Project_Actions;
     // let land_ownership = review.attributes.Land_Ownership;
     // delete abstract.attributes.Land_Ownership;
     this.projectService.layerIsLoaded.subscribe(() => {
-        this.projectService.updateFeature(abstracty);
+        this.projectService.updateFeature(abstracty).subscribe();
       }
     );
 

@@ -40,6 +40,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { AbstractFormComponent } from './abstract-form/abstract-form.component';
+import { SupportDocsFormComponent } from './support-docs-form/support-docs-form.component';
+import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
+import { ActivityFormComponent } from './activity-form/activity-form.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { AbstractFormComponent } from './abstract-form/abstract-form.component';
     WelcomeComponent,
     EditPaneComponent,
     ReviewFormComponent,
-    AbstractFormComponent
+    AbstractFormComponent,
+    SupportDocsFormComponent,
+    ImpactsFormComponent,
+    ActivityFormComponent
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ import {FormControl} from '@angular/forms';
 import {LoadingService} from './loading.service';
 
 class Attributes {
-  objectid: number | string;
+  OBJECTID: number | string;
   globalid: number | string;
   Reviewer_Name: string;
   Review_Name_Note: string;

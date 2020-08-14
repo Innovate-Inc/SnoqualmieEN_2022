@@ -1,6 +1,8 @@
 .fColumnn {
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 324px);
+  overflow-y: scroll;
 }
 
 .button-row {

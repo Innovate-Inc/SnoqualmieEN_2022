@@ -15,7 +15,7 @@
   </div>
 <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
 <!--                      ></mat-progress-bar>-->
-  <mat-table #table [dataSource]="projectService.datasource" >
+  <mat-table class="tbox" #table [dataSource]="projectService.datasource" >
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.attributes.ID_DAHP_full}}</mat-cell>

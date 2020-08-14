@@ -1,9 +1,9 @@
-<mat-divider></mat-divider>
+<!--<mat-divider></mat-divider>-->
 <mat-toolbar>{{data.currentMessage |async}}</mat-toolbar>
 <nav mat-tab-nav-bar *ngIf="route.paramMap | async as params">
-  <mat-tab-group>
-    <mat-tab>
-      <ng-template mat-tab-label>
+<!--  <mat-tab-group>-->
+<!--    <mat-tab>-->
+<!--      <ng-template mat-tab-label>-->
         <a mat-tab-link routerLink="review"
            routerLinkActive #review="routerLinkActive"
            [active]="review.isActive">
@@ -33,9 +33,9 @@
            *ngIf="params.get('id') !== 'new'">
           Activity Data
         </a>
-      </ng-template>
-    </mat-tab>
-  </mat-tab-group>
+<!--      </ng-template>-->
+<!--    </mat-tab>-->
+<!--  </mat-tab-group>-->
 </nav>
 <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"
                   style="margin-top: -3px; height: 2px;"></mat-progress-bar>

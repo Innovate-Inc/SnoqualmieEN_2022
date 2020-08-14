@@ -7,6 +7,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import {EditPaneComponent} from './edit-pane/edit-pane.component';
 import {ReviewFormComponent} from './review-form/review-form.component';
 import {AbstractFormComponent} from './abstract-form/abstract-form.component';
+import {ActivityFormComponent} from './activity-form/activity-form.component';
+import {ImpactsFormComponent} from './impacts-form/impacts-form.component';
+import {SupportDocsFormComponent} from './support-docs-form/support-docs-form.component';
 
 
 
@@ -17,7 +20,10 @@ const routes: Routes = [
       {
         path: 'edit/:id', component: EditPaneComponent, children: [
           {path: 'review', component: ReviewFormComponent},
+          {path: 'supportdocs', component: SupportDocsFormComponent},
           {path: 'abstract', component: AbstractFormComponent},
+          {path: 'impacts', component: ImpactsFormComponent},
+          {path: 'activity', component: ActivityFormComponent},
           {path: '', redirectTo: 'review', pathMatch: 'full'},
         ]
       },

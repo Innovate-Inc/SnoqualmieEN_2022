@@ -28,3 +28,7 @@ mat-row {
   align-items: flex-end;
 }
 
+.tbox {
+  overflow-y: scroll;
+  max-height: calc(100vh - 240px);
+}

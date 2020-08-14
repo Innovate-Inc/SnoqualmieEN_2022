@@ -28,7 +28,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   mapMode = 'edit';
   featureForm = new FormGroup({
     // ProjectNumber: new FormControl(),
-    objectid: new FormControl(),
+    OBJECTID: new FormControl(),
     globalid: new FormControl(),
     Reviewer_Name: new FormControl(),
     Review_Name_Note: new FormControl(),
@@ -160,65 +160,65 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-  //  this.editObs.unsubscribe();
-    console.log('ngOnDestroy: Aothing to destry yet')
+    //  this.editObs.unsubscribe();
+    console.log('ngOnDestroy: Aothing to destry yet');
     // this.mapService.clearGraphics();
   }
 
   save(review: any) {
     review.attributes = this.featureForm.value;
     // let project_actions = review.attributes.Project_Actions;
-    delete review.attributes.Project_Actions;
+    // delete review.attributes.Project_Actions;
     // let land_ownership = review.attributes.Land_Ownership;
-    delete review.attributes.Land_Ownership;
+    // delete review.attributes.Land_Ownership;
     this.projectService.layerIsLoaded.subscribe(() => {
-      this.projectService.queryMax().subscribe(projectMaxResults => {
-        if (review.attributes.ProjectNumber === null) {
-          review.attributes.ProjectNumber = Number(projectMaxResults[0].attributes.ProjectNumMAX) + 1;
-        }
-        // Observable.if(() => review.attributes.GlobalID === 'new',
-        //   this.projectService.addFeature(review).pipe(
-        //     tap(results => {
-        //       this.editObs.unsubscribe();
-        //       // this.mapService.clearGraphics();
-        //       this.router.navigate(['/edit', results[0].globalId]);
-        //       return results;
-        //     })
-        //   ),
-        //   this.projectService.updateFeature(review))
-        //   .subscribe(
-        //   results => {
-        //   // delete all related multiselect values
-        //   this.projectActionsLuService.layerIsLoaded.subscribe(() => {
-        //     this.projectActionsLuService.filter.where = `projectsid_fk = '${results[0].globalId}'`;
-        //     this.projectActionsLuService.query().subscribe(projectActions_results => {
-        //       projectActions_results.forEach((element) => {
-        //         this.projectActionsLuService.delete(element).subscribe();
-        //       });
-        //       if (project_actions instanceof Array) {
-        //         project_actions.forEach((element) => {
-        //           this.projectActionsLuService.create_new_action(results[0].globalId, element).subscribe();
-        //         });
-        //       }
-        //     });
-        //   });
-        //   this.landOwnershipLuService.layerIsLoaded.subscribe(() => {
-        //     this.landOwnershipLuService.filter.where = `project_fk = '${results[0].globalId}'`;
-        //     this.landOwnershipLuService.query().subscribe(landOwner_results => {
-        //       landOwner_results.forEach((element) => {
-        //         this.landOwnershipLuService.delete(element).subscribe();
-        //       });
-        //       if (land_ownership instanceof Array) {
-        //         land_ownership.forEach((element) => {
-        //           this.landOwnershipLuService.create_new_action(results[0].globalId, element).subscribe();
-        //         });
-        //       }
-        //     });
-        //   });
-        // }
-        // );
-      });
+      if (review.attributes.ID_DAHP_full === null) {
+        this.projectService.queryMax().subscribe(projectMaxResults => {
+          review.attributes.ID_DAHP_full = Number(projectMaxResults[0].attributes.ProjectNumMAX) + 1;
+        });
+      }
+      // Observable.if(() => review.attributes.GlobalID === 'new',
+      //   this.projectService.addFeature(review).pipe(
+      //     tap(results => {
+      //       this.editObs.unsubscribe();
+      //       // this.mapService.clearGraphics();
+      //       this.router.navigate(['/edit', results[0].globalId]);
+      //       return results;
+      //     })
+      //   ),
+      this.projectService.updateFeature(review)
+        .subscribe(
+          //   results => {
+          //   // delete all related multiselect values
+          //   this.projectActionsLuService.layerIsLoaded.subscribe(() => {
+          //     this.projectActionsLuService.filter.where = `projectsid_fk = '${results[0].globalId}'`;
+          //     this.projectActionsLuService.query().subscribe(projectActions_results => {
+          //       projectActions_results.forEach((element) => {
+          //         this.projectActionsLuService.delete(element).subscribe();
+          //       });
+          //       if (project_actions instanceof Array) {
+          //         project_actions.forEach((element) => {
+          //           this.projectActionsLuService.create_new_action(results[0].globalId, element).subscribe();
+          //         });
+          //       }
+          //     });
+          //   });
+          //   this.landOwnershipLuService.layerIsLoaded.subscribe(() => {
+          //     this.landOwnershipLuService.filter.where = `project_fk = '${results[0].globalId}'`;
+          //     this.landOwnershipLuService.query().subscribe(landOwner_results => {
+          //       landOwner_results.forEach((element) => {
+          //         this.landOwnershipLuService.delete(element).subscribe();
+          //       });
+          //       if (land_ownership instanceof Array) {
+          //         land_ownership.forEach((element) => {
+          //           this.landOwnershipLuService.create_new_action(results[0].globalId, element).subscribe();
+          //         });
+          //       }
+          //     });
+          //   });
+          // }
+        );
     });
+  }}
 
-  }
-}
+

@@ -37,6 +37,7 @@ html, body, app-root {
 
 app-map-view {
   display: flex;
+  height: calc(100vh - 64px);
 }
 
 app-esri-map{
@@ -104,6 +105,7 @@ app-review-form, app-abstract-form{
   flex-direction: column;
   overflow-y: hidden;
   padding: 15px;
+  max-height: calc(100vh - 213px);
 }
 
 /*app-project-form, app-related-table-form, app-list-view, app-review-form,*/
