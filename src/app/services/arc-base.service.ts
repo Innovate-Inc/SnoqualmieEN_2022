@@ -171,6 +171,8 @@ export class ArcBaseService {
           this.layer.queryFeatures(q).then (featureSet => {
             const features = vm.convertFromEpoch(featureSet.features);
             obs.next(features[0]);
+
+            //this._view.goTo(featureSet.features);
           }, (e => {
             vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
             obs.error(e);

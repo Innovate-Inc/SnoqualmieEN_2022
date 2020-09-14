@@ -92,11 +92,13 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   } // private identityManager: IdentityManagementService) { }
 
   highlightFeature(id: string) {
+    console.log("WHAT the hell");
     this._highLightLayer.queryFeatures({where: `globalid='${id}'`}).then(result => {
       if (this._highlightHandler) {
         this._highlightHandler.remove();
       }
       this._highlightHandler = this._highLightLayer.highlight(result.features);
+      this._view.goTo(result.features);
     });
   }
 
@@ -106,8 +108,9 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     // changes.highlightSelectFeature = {newValue, oldValue}
     if (changes.hasOwnProperty('highlightSelectFeature')) {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
+        console.log('changes:');
         console.log(changes);
-        // this.highlightFeature(changes.highlightSelectFeature.currentValue);
+        this.highlightFeature(changes.highlightSelectFeature.currentValue);
       }
     }
   }
@@ -177,7 +180,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     // Initialize MapView and return an instance of MapView
     this.initializeMap().then(mapView => {
-      // this._highLightLayer = mapView.layerViews.find(v => v.layer.title === 'Snoq_Survey - Review Tracking');
+      //this._highLightLayer = mapView.layerViews.find(v => v.layer.title === 'Snoq_Survey - Review Tracking');
       console.log('mapView ready: ', this._view.ready);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
@@ -198,6 +201,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
               // console.log(result);
               return result.graphic.layer.url.includes(url);
             })[0].graphic;
+            this._view.goTo(graphic);
             this.router.navigate(['/app/edit', graphic.attributes.globalid]);
           }
         })
