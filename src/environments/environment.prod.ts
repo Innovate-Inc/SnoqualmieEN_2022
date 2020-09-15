@@ -21,8 +21,7 @@ export const environment = {
     meet: `${url}/8`,
     site: `${url}/9`,
     violation: `${url}/10`
-    // url: 'https://arcserver.innovateteam.com/arcgis/rest/services/TCRIS/TCRIS/FeatureServer/',
-    // report: 'https://arcserver.innovateteam.com/arcgis/rest/services/TCRIS/'
-  }
+  },
+  mapLayerName: 'Snoq_Survey - Review Tracking'
 };
 

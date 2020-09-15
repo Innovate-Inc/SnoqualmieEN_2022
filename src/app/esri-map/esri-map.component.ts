@@ -52,7 +52,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private _basemap = 'topo';
   private _loaded = false;
   private _view: MapView = null;
-  private _highLightLayer: FeatureLayerView;
+  private _highLightLayer: any; // FeatureLayerView;
   private _highlightHandler: Handle;
 
   get mapLoaded(): boolean {
@@ -92,13 +92,16 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   } // private identityManager: IdentityManagementService) { }
 
   highlightFeature(id: string) {
-    console.log("WHAT the hell");
-    this._highLightLayer.queryFeatures({where: `globalid='${id}'`}).then(result => {
+    console.log('highlight run');
+
+    this._view.whenLayerView(this._highLightLayer).then((layerView: any) => {
+      this._highLightLayer.queryFeatures({where: `globalid='${id}'`, outFields: '*'}).then((result: any) => {
       if (this._highlightHandler) {
         this._highlightHandler.remove();
       }
-      this._highlightHandler = this._highLightLayer.highlight(result.features);
+      this._highlightHandler = layerView.highlight(result.features);
       this._view.goTo(result.features);
+      });
     });
   }
 
@@ -106,10 +109,9 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     // from Travis,
     //     changes.highlightSelectFeature
     // changes.highlightSelectFeature = {newValue, oldValue}
+    console.log('ngOnChanges')
     if (changes.hasOwnProperty('highlightSelectFeature')) {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
-        console.log('changes:');
-        console.log(changes);
         this.highlightFeature(changes.highlightSelectFeature.currentValue);
       }
     }
@@ -180,25 +182,17 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     // Initialize MapView and return an instance of MapView
     this.initializeMap().then(mapView => {
-      //this._highLightLayer = mapView.layerViews.find(v => v.layer.title === 'Snoq_Survey - Review Tracking');
-      console.log('mapView ready: ', this._view.ready);
+      this._highLightLayer =  this._view.map.allLayers.find(v => v.title === environment.mapLayerName);
+      console.log('_highlight ready: ', this._highLightLayer);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
       this.addHome();  // Home button
       this.addBasemapGallery();  // Basemap Gallery
-      // Add parcels
-      console.log('layers: ', this._view.map.allLayers);
+      // if (this.route.snapshot.children.length > 0 && this.route.snapshot.children[0].paramMap.has('id')) {}
       this._view.on('click', event => {
-        // const screenPoint = {
-        //   x: event.x,
-        //   y: event.y
-        // };
         this._view.hitTest(event).then((response: any) => {
-          // console.log(screenPoint);
-          // console.log(response);
           if (response.results.length) {
             const graphic = response.results.filter((result: any) => {
-              // console.log(result);
               return result.graphic.layer.url.includes(url);
             })[0].graphic;
             this._view.goTo(graphic);
