@@ -8,6 +8,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy, OnChanges, SimpleChanges
+
 } from '@angular/core';
 
 // Load modules from the Esri ArcGIS API for JavaScript
@@ -21,7 +22,7 @@ import LayerList from 'esri/widgets/LayerList';
 import FeatureTable from 'esri/widgets/FeatureTable';
 import esriConfig from 'esri/config';
 // import {IdentityManagementService} from '../services/identity-management.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import LayerView = __esri.LayerView;
 import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
@@ -37,7 +38,7 @@ import Handle = __esri.Handle;
 
 export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   @Output() mapLoadedEvent = new EventEmitter<boolean>();
-
+  navigationSubscription: any;
   // The <div> where we will place the map
   @ViewChild('mapViewNode', {static: true}) private mapViewEl: ElementRef;
 
@@ -54,6 +55,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private _view: MapView = null;
   private _highLightLayer: any; // FeatureLayerView;
   private _highlightHandler: Handle;
+  private _id: any;
 
   get mapLoaded(): boolean {
     return this._loaded;
@@ -88,19 +90,43 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     return this._basemap;
   }
 
-  constructor(public router: Router) {
+  constructor(public router: Router, public route: ActivatedRoute) {
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.refreshMap();
+      }
+    });
   } // private identityManager: IdentityManagementService) { }
+
+  refreshMap() {
+    // Set default values and re-fetch any data you need.
+    if ((this.router.url.indexOf('/app/projects') > -1) && (this._loaded)) {
+      console.log('init map');
+      this.ngOnInit(); // rather than init the map, here we should center and zoom the extent and remove highlight.
+    }
+
+  }
 
   highlightFeature(id: string) {
     console.log('highlight run');
-
+    let biskit: any;
     this._view.whenLayerView(this._highLightLayer).then((layerView: any) => {
-      this._highLightLayer.queryFeatures({where: `globalid='${id}'`, outFields: '*'}).then((result: any) => {
-      if (this._highlightHandler) {
-        this._highlightHandler.remove();
-      }
-      this._highlightHandler = layerView.highlight(result.features);
-      this._view.goTo(result.features);
+      this._highLightLayer.queryFeatures({where: `globalid='${id}'`, outFields: '*', returnGeometry: true}).then((result: any) => {
+        if (this._highlightHandler) {
+          this._highlightHandler.remove();
+        }
+        this._highlightHandler = layerView.highlight(result.features);
+        if (result.geometryType === 'point') {
+          biskit = result.features;
+
+        } else {
+          biskit = result.features[0].geometry;
+        }
+        console.log('biskit', biskit);
+        this._view.goTo(biskit).catch((error: any) => {
+          console.log(error);
+        });
       });
     });
   }
@@ -109,7 +135,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     // from Travis,
     //     changes.highlightSelectFeature
     // changes.highlightSelectFeature = {newValue, oldValue}
-    console.log('ngOnChanges')
+    console.log(changes);
     if (changes.hasOwnProperty('highlightSelectFeature')) {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
         this.highlightFeature(changes.highlightSelectFeature.currentValue);
@@ -179,30 +205,44 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  zngDoCheck() {
+    this._id = this.route.snapshot.children[0].paramMap.get('id');
+    console.log(this._id);
+    if (this._id) {
+      this.highlightFeature(this._id);
+    }
+  }
+
+
   ngOnInit() {
     // Initialize MapView and return an instance of MapView
     this.initializeMap().then(mapView => {
-      this._highLightLayer =  this._view.map.allLayers.find(v => v.title === environment.mapLayerName);
+      this._highLightLayer = this._view.map.allLayers.find(v => v.title === environment.mapLayerName);
       console.log('_highlight ready: ', this._highLightLayer);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
       this.addHome();  // Home button
       this.addBasemapGallery();  // Basemap Gallery
-      // if (this.route.snapshot.children.length > 0 && this.route.snapshot.children[0].paramMap.has('id')) {}
       this._view.on('click', event => {
         this._view.hitTest(event).then((response: any) => {
           if (response.results.length) {
             const graphic = response.results.filter((result: any) => {
               return result.graphic.layer.url.includes(url);
             })[0].graphic;
-            this._view.goTo(graphic);
+            if (this._highlightHandler) {
+              this._highlightHandler.remove();
+            }
+            // this._view.goTo(graphic);
             this.router.navigate(['/app/edit', graphic.attributes.globalid]);
           }
         })
           .catch(e => {
           });
       });
-    });
+    }).then(() => {
+        this.zngDoCheck();
+      }
+    );
   }
 
   addHome() {
@@ -248,40 +288,11 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
     if (this._view) {
       this._view.container = null;  // destroy the map view
     }
   }
-
-
-// selectFeature(globalId, objectId, outFields = ['*']) {
-  //   const vm = this;
-  //   return new Observable<any>(obs => {
-  //     this.layerIsLoaded.subscribe(() => {
-  //       const q = new vm.Query();
-  //
-  //       if (globalId) {
-  //         q.where = `GlobalID='${globalId}'`;
-  //       } else if (objectId) {
-  //         q.objectIds = [objectId];
-  //       }
-  //       q.outFields = outFields;
-  //       this.layer.clearSelection();
-  //       if (globalId || objectId) {
-  //         this.layer.selectFeatures(q, FeatureLayer.SELECTION_NEW, function(features) {
-  //           features = vm.convertFromEpoch(features);
-  //           if (features[0].geometry !== null && features[0].geometry.rings.length === 0) {
-  //             // features[0].setGeometry(new vm.Polygon(new vm.SpatialReference(3857)));
-  //             features[0].setSymbol(vm.layer.renderer.getSymbol());
-  //           }
-  //           obs.next(features[0]);
-  //         }, function(e) {
-  //           vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
-  //           obs.error(e);
-  //         });
-  //       }
-  //     });
-  //   });
-  // }
-
 }

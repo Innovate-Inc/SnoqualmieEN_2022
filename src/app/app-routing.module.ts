@@ -16,7 +16,7 @@ import {SupportDocsFormComponent} from './support-docs-form/support-docs-form.co
 
 const routes: Routes = [
   {
-    path: 'app', component: MapViewComponent, canActivate: [IdentityManagementService], children: [
+    path: 'app', component: MapViewComponent, canActivate: [IdentityManagementService], runGuardsAndResolvers: 'paramsChange', children: [
       {
         path: 'edit/:id', component: EditPaneComponent, children: [
           {path: 'review', component: ReviewFormComponent},
@@ -36,8 +36,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+ imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+ exports: [RouterModule],
 })
 export class AppRoutingModule {
 }
