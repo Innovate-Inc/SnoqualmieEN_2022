@@ -103,7 +103,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     // Set default values and re-fetch any data you need.
     if ((this.router.url.indexOf('/app/projects') > -1) && (this._loaded)) {
       console.log('init map');
-      this.ngOnInit(); // rather than init the map, here we should center and zoom the extent and remove highlight.
+      if (this._highlightHandler) {
+        this._highlightHandler.remove();
+      }
+      this._view.goTo({zoom: this._zoom, center: this._center});
     }
 
   }
@@ -241,6 +244,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       });
     }).then(() => {
         this.zngDoCheck();
+        this._center = [this._view.center.longitude, this._view.center.latitude];
+        this._zoom = this._view.zoom;
       }
     );
   }
