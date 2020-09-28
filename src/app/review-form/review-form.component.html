@@ -80,19 +80,19 @@
         <input matInput type="text" name={{projectService.meta.Note_Concern.alias}}
                formControlName="Note_Concern">
       </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>
-        <input matInput type="text" name={{projectService.meta.Noti_Dept_Select.alias}}
-               formControlName="Noti_Dept_Select">
-      </mat-form-field>
 <!--      <mat-form-field>-->
 <!--        <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>-->
-<!--        <mat-select formControlName="Noti_Dept_Select">-->
-<!--          <mat-option *ngFor="let option of projectService.meta.Noti_Dept_Select.domain.codedValues"-->
-<!--                      [value]="option.code">{{ option.name }}-->
-<!--          </mat-option>-->
-<!--        </mat-select>-->
+<!--        <input matInput type="text" name={{projectService.meta.Noti_Dept_Select.alias}}-->
+<!--               formControlName="Noti_Dept_Select">-->
 <!--      </mat-form-field>-->
+      <mat-form-field>
+        <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>
+        <mat-select formControlName="Noti_Dept_Select" multiple>
+          <mat-option *ngFor="let option of projectService.meta.Noti_Dept_Select.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field>
         <mat-placeholder>{{projectService.meta.Noti_Tribe.alias}}</mat-placeholder>
         <mat-select formControlName="Noti_Tribe">
@@ -104,8 +104,11 @@
 
        <mat-form-field  [hidden]="featureForm.controls.Noti_Tribe.value !='yes'">
         <mat-placeholder >{{projectService.meta.Noti_Tribe_Text.alias}}</mat-placeholder>
-        <input  matInput type="text" name={{projectService.meta.Noti_Tribe_Text.alias}}
-               formControlName="Noti_Tribe_Text">
+        <mat-select formControlName="Noti_Tribe_Text">
+          <mat-option *ngFor="let option of projectService.meta.Noti_Tribe_Text.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field >

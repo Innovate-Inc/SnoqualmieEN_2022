@@ -112,6 +112,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
           //   }));
           //   Observable.forkJoin([project_action_obs, land_ownership_obs]).subscribe(() => this.featureForm.patchValue(review.attributes));
           // } else
+          review.attributes.Noti_Dept_Select = review.attributes.Noti_Dept_Select.split(',');
           this.featureForm.patchValue(review.attributes);
         }
 
@@ -167,10 +168,13 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
 
   save(review: any) {
     review.attributes = this.featureForm.value;
-    // let project_actions = review.attributes.Project_Actions;
-    // delete review.attributes.Project_Actions;
+    const reviewDept = review.attributes.Noti_Dept_Select;
+    delete review.attributes.Noti_Dept_Select;
     // let land_ownership = review.attributes.Land_Ownership;
     // delete review.attributes.Land_Ownership;
+    if (reviewDept instanceof Array) {
+      review.attributes.Noti_Dept_Select = reviewDept.toString();
+    }
     this.projectService.layerIsLoaded.subscribe(() => {
       if (review.attributes.ID_DAHP_full === null) {
         this.projectService.queryMax().subscribe(projectMaxResults => {
@@ -219,6 +223,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
           // }
         );
     });
-  }}
+  }
+}
 
 

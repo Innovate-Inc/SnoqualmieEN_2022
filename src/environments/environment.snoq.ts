@@ -22,6 +22,6 @@ export const environment = {
     site: `${url}/8`,
     violation: `${url}/9`
   },
-  mapLayerName: 'Assert Review Tracking'
+  mapLayerName: 'Assert_Review_Tracking'
 };
 
