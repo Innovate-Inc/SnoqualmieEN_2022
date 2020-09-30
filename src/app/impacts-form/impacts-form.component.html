@@ -22,14 +22,14 @@
             <br><br>
             <mat-label>Are there anticipated environmental resource impacts?</mat-label>
             <br><br>
-            <mat-radio-group matNativeControl [(ngModel)]="Enviro_Impact" [formControl]="Enviro_Impact"
+            <mat-radio-group matNativeControl [formControl]="Enviro_Impact"
                 aria-label="Are there anticipated environmental resource impacts?">
-                <mat-radio-button (click)="test()" value="Yes">Yes</mat-radio-button>
-                <mat-radio-button (click)="test()" value="No">No</mat-radio-button>
+                <mat-radio-button (click)="enviroClick(1)" value="Yes">Yes</mat-radio-button>
+                <mat-radio-button (click)="enviroClick(2)" value="No">No</mat-radio-button>
             </mat-radio-group>
             <br><br>
             <mat-divider></mat-divider>
-            <div *ngIf="Enviro_Impact == 'Yes'">
+            <div *ngIf="Enviro_Impact_var == 'Yes'">
                 <br><br>
                 <mat-label for="">What type of impact?</mat-label>
                 <br><br>
@@ -81,19 +81,19 @@
                     <mat-radio-button value="Yes">Fully mitigated</mat-radio-button>
                     <mat-radio-button value="Partially">Partially mitigated</mat-radio-button>
                 </mat-radio-group>
+                <br><br>
+                <mat-divider></mat-divider>
             </div>
-            <br><br>
-            <mat-divider></mat-divider>
             <br><br>
             <mat-label for="">Are there anticipated cultural impacts?</mat-label>
             <br><br>
-            <mat-radio-group [formControl]="Impact_Culture" aria-label="Are there anticipated culural impacts?">
-                <mat-radio-button value="Yes">Yes</mat-radio-button>
-                <mat-radio-button value="No">No</mat-radio-button>
+            <mat-radio-group aria-label="Are there anticipated culural impacts?">
+                <mat-radio-button (click)="impactCulture(1)" value="Yes">Yes</mat-radio-button>
+                <mat-radio-button (click)="impactCulture(2)" value="No">No</mat-radio-button>
             </mat-radio-group>
-            <div *ngIf="true">
-                <br><br>
-                <mat-divider></mat-divider>
+            <br><br>
+            <mat-divider></mat-divider>
+            <div *ngIf="Impact_Culture_var == 'Yes'">
                 <br><br>
                 <mat-label for="">Please specify the type of cultural impact</mat-label>
                 <br><br>
@@ -119,8 +119,8 @@
                 <mat-label for="">Is this a known archeology site?</mat-label>
                 <br><br>
                 <mat-radio-group [(ngModel)]="archeologySite" aria-label="Is this a known archeology site?">
-                    <mat-radio-button (click)="test()" value="Yes">Yes</mat-radio-button>
-                    <mat-radio-button (click)="test()" value="No">No</mat-radio-button>
+                    <mat-radio-button (click)="archeologyClick(1)" value="Yes">Yes</mat-radio-button>
+                    <mat-radio-button (click)="archeologyClick(2)" value="No">No</mat-radio-button>
                 </mat-radio-group>
 
                 <div *ngIf="archeologySite == 'Yes'">
@@ -139,12 +139,12 @@
                 <label for="">Is this a known or named ethographic site?</label>
                 <br><br>
                 <mat-radio-group aria-label="Is this a known or named ethographic site?">
-                    <mat-radio-button value="Yes">Yes</mat-radio-button>
-                    <mat-radio-button value="No">No</mat-radio-button>
+                    <mat-radio-button (click)="ethographicClick(1)" value="Yes">Yes</mat-radio-button>
+                    <mat-radio-button (click)="ethographicClick(2)" value="No">No</mat-radio-button>
                 </mat-radio-group>
                 <br><br>
 
-                <div *ngIf="true">
+                <div *ngIf="ethographicSite == 'Yes'">
                     <br><br>
                     <mat-divider></mat-divider>
                     <br><br>

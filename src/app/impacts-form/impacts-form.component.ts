@@ -13,8 +13,11 @@ import { ProjectService } from '../services/project.service';
 })
 export class ImpactsFormComponent implements OnInit {
   impacts: Subject<any>;
-  archeologySite: string;
-  Enviro_Impact: string;
+  //following vars are a workaround for ngModel
+  archeologySite: any;
+  ethographicSite: any;
+  Enviro_Impact_var: any;
+  Impact_Culture_var: any;
 
   featureForm = new FormGroup({
     // ProjectNumber: new FormControl(),
@@ -91,8 +94,39 @@ export class ImpactsFormComponent implements OnInit {
     );
 
   }
-  test(){
-    console.log(this.Enviro_Impact);
-  }
 
+  //The following four functions are a workaround for ngModel. The purpose of them is to hide or show a block of html
+  enviroClick(option: any){
+    if(option == 1){
+      this.Enviro_Impact_var = "Yes";
+    }
+    else{
+      this.Enviro_Impact_var = "No";
+    }
+  }
+  impactCulture(option: any){
+    if(option == 1){
+      this.Impact_Culture_var = "Yes";
+    }
+    else{
+      this.Impact_Culture_var = "No";
+    }
+  }
+  archeologyClick(option: any){
+    if(option == 1){
+      this.archeologySite = "Yes";
+    }
+    else{
+      this.archeologySite = "No";
+    }
+  }
+  ethographicClick(option: any){
+    if(option == 1){
+      this.ethographicSite = "Yes";
+    }
+    else{
+      this.ethographicSite = "No";
+    }
+  }
+  //end ngModel workaround functions
 }
