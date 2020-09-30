@@ -43,6 +43,7 @@ import { AbstractFormComponent } from './abstract-form/abstract-form.component';
 import { SupportDocsFormComponent } from './support-docs-form/support-docs-form.component';
 import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
 import { ActivityFormComponent } from './activity-form/activity-form.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { ActivityFormComponent } from './activity-form/activity-form.component';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatRadioModule,
   ],
   providers: [IdentityManagementService,
     LoadingService,

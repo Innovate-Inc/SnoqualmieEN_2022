@@ -1,1 +1,125 @@
-<p>impacts-form works!</p>
+<mat-card *ngIf="impacts | async as i">
+
+    <form novalidate [formGroup]="featureForm">
+        <div class="button-row">
+            <div>
+                <button class="button-pad-right" mat-fab (click)="save(i)" color="accent">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </div>
+        <br /><br />
+        <div class="fColumnn">
+
+            <mat-radio-group [formControl]="Impact_YN" aria-label="Are impacts anticipated?">
+                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                <mat-radio-button value="No">No</mat-radio-button>
+                <mat-radio-button value="Possibly">Possibly</mat-radio-button>
+            </mat-radio-group>
+            <mat-divider></mat-divider>
+            <mat-radio-group [formControl]="Enviro_Impact"
+                aria-label="Are there anticipated environmental resource impacts?">
+                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                <mat-radio-button value="No">No</mat-radio-button>
+            </mat-radio-group>
+            <mat-divider></mat-divider>
+            <div *ngIf="Enviro_Impact">
+                <mat-form-field appearance="fill">
+                    <mat-label>What type of impact?</mat-label>
+                    <mat-select [formControl]="Enviro_Impact_Type">
+                        <mat-option value="option">Option</mat-option>
+                        <mat-option value="option">Option</mat-option>
+                        <mat-option value="option">Option</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+                <br>
+                <mat-label>Are there <b>wetland</b> impacts as a result of this review?</mat-label>
+                <mat-slider [formControl]="Wetland_Likert" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-divider></mat-divider>
+                <br>
+                <mat-label>Are there <b>aquatic area</b> impacts as a result of this review?</mat-label>
+                <mat-slider [formControl]="Aquatic_Likert" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-divider></mat-divider>
+                <br>
+                <mat-label>Are there <b>storm water</b> impacts as a result of this review?</mat-label>
+                <mat-slider [formControl]="Storm_Likert" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-divider></mat-divider>
+                <br>
+                <mat-label>Are there <b>wetland</b> impacts as a result of this review?</mat-label>
+                <mat-slider [formControl]="Veg_Likert" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-divider></mat-divider>
+                <br>
+                <mat-label>Are there <b>watertype</b> impacts as a result of this review?</mat-label>
+                <mat-slider [formControl]="Watertype_Likert" min="0" max="10" step="1" value="5"></mat-slider>
+
+                <mat-divider></mat-divider>
+                <mat-radio-group [formControl]="" aria-label="Is mitigation provided?">
+                    <mat-radio-button value="Yes">Fully mitigated</mat-radio-button>
+                    <mat-radio-button value="Partially">Partially mitigated</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <mat-divider></mat-divider>
+            <mat-radio-group [formControl]="Impact_Culture" aria-label="Are there anticipated culural impacts?">
+                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                <mat-radio-button value="No">No</mat-radio-button>
+            </mat-radio-group>
+            <div *ngIf="Impact_Culture">
+                <mat-divider></mat-divider>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Please specify the type of cultural impact</mat-label>
+                    <mat-select [formControl]="Culture_Type">
+                        <mat-option value="option">Option</mat-option>
+                        <mat-option value="option">Option</mat-option>
+                        <mat-option value="option">Option</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Please provide notes on potential impacts to culture</mat-label>
+                    <input [formCotrol]="Culture_Note" matInput>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+                <mat-radio-group [formControl]="" aria-label="Is this a known archeology site?">
+                    <mat-radio-button value="Yes">Yes</mat-radio-button>
+                    <mat-radio-button value="No">No</mat-radio-button>
+                </mat-radio-group>
+
+                <div *ngIf="">
+                    <mat-divider></mat-divider>
+                    <mat-form-field appearance="fill">
+                        <mat-label>What measures are being taken into account to protect or “mitigate”?</mat-label>
+                        <input [formCotrol]="" matInput>
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <mat-radio-group aria-label="Is this a known or named ethographic site?">
+                    <mat-radio-button value="Yes">Yes</mat-radio-button>
+                    <mat-radio-button value="No">No</mat-radio-button>
+                </mat-radio-group>
+                <mat-divider></mat-divider>
+
+                <div *ngIf="">
+                    <mat-divider></mat-divider>
+                    <mat-form-field appearance="fill">
+                        <mat-label>What is the name of the ethographic site?</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-divider></mat-divider>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Has there been an archeological study perfromed on or near the site?</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-divider></mat-divider>
+                    <mat-form-field appearance="fill">
+                        <mat-label>What is the probability of archaeological resources being discovered?</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</mat-card>
