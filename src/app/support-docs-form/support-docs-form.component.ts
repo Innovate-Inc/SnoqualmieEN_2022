@@ -53,7 +53,7 @@ export class SupportDocsFormComponent implements OnInit {
     // } else {
     this.dialog.open(DocPopupComponent, {
       width: '650px',
-      data: {docTask: task, ready: this.ready}
+      data: {docTask: task, ready: this.ready, meta: this.docService.meta}
     });
   }
 }

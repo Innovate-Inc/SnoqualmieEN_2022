@@ -4,11 +4,11 @@
   <form novalidate [formGroup]="featureForm">
     <div style="display: flex; flex-direction: column; justify-content: space-between;">
       <mat-form-field>
-        <mat-placeholder>{{docuService.meta.Creator.alias}}</mat-placeholder>
+        <mat-placeholder>{{meta.Creator.alias}}</mat-placeholder>
         <input matInput type="text" name="Creator Number" formControlName="Creator">
       </mat-form-field>
       <mat-form-field>
-        <mat-placeholder>{{docuService.meta.CreationDate.alias}}</mat-placeholder>
+        <mat-placeholder>{{meta.CreationDate.alias}}</mat-placeholder>
         <input matInput [matDatepicker]="StartDatePicker" name="Start Date" formControlName="CreationDate">
         <mat-datepicker-toggle matSuffix [for]="StartDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #StartDatePicker></mat-datepicker>
@@ -18,12 +18,12 @@
         <!--<input matInput type="text" name="Project ID" formControlName="ProjectID">-->
       <!--</mat-form-field>-->
       <mat-form-field>
-        <mat-placeholder>{{docuService.meta.Docu_Type.alias}}</mat-placeholder>
+        <mat-placeholder>{{meta.Docu_Type.alias}}</mat-placeholder>
         <input matInput type="text" name="File Type" formControlName="Docu_Type">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-placeholder>{{docuService.meta.Docu_Note.alias}}</mat-placeholder>
+        <mat-placeholder>{{meta.Docu_Note.alias}}</mat-placeholder>
         <input matInput type="text" name="Docu_Note" formControlName="Docu_Note">
       </mat-form-field>
 <!--      <mat-form-field>-->

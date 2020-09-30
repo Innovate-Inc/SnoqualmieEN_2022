@@ -31,12 +31,14 @@ export class DocPopupComponent implements OnInit , AfterViewInit {
               @Inject(MAT_DIALOG_DATA) public data: any, public docuService: DocuService, public  loadingService: LoadingService) {
   }
   ready: any;
+  meta: any;
   ngOnInit(): void {
     this.featureForm.patchValue(this.data.docTask.attributes);
   }
 
   ngAfterViewInit(): void {
     this.ready = this.data.ready;
+    this.meta = this.data.meta;
   }
 
 
