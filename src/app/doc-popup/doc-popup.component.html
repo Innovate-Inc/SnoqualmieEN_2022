@@ -1,0 +1,79 @@
+<h1 mat-dialog-title>Supporting Document
+</h1>
+<div mat-dialog-content *ngIf="ready">
+  <form novalidate [formGroup]="featureForm">
+    <div style="display: flex; flex-direction: column; justify-content: space-between;">
+      <mat-form-field>
+        <mat-placeholder>{{docuService.meta.Creator.alias}}</mat-placeholder>
+        <input matInput type="text" name="Creator Number" formControlName="Creator">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{docuService.meta.CreationDate.alias}}</mat-placeholder>
+        <input matInput [matDatepicker]="StartDatePicker" name="Start Date" formControlName="CreationDate">
+        <mat-datepicker-toggle matSuffix [for]="StartDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #StartDatePicker></mat-datepicker>
+      </mat-form-field>
+      <!--<mat-form-field>-->
+        <!--<mat-placeholder>{{fieldworkService.meta.ProjectID.alias}}</mat-placeholder>-->
+        <!--<input matInput type="text" name="Project ID" formControlName="ProjectID">-->
+      <!--</mat-form-field>-->
+      <mat-form-field>
+        <mat-placeholder>{{docuService.meta.Docu_Type.alias}}</mat-placeholder>
+        <input matInput type="text" name="File Type" formControlName="Docu_Type">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-placeholder>{{docuService.meta.Docu_Note.alias}}</mat-placeholder>
+        <input matInput type="text" name="Docu_Note" formControlName="Docu_Note">
+      </mat-form-field>
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Probes_Units.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Probes Units" formControlName="Probes_Units">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Num_Pre_Sites.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Num Pre Sites" formControlName="Num_Pre_Sites">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Num_Hist_Sites.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Num Hist Sites" formControlName="Num_Hist_Sites">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Num_Multi_Sites.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Num Multi Sites" formControlName="Num_Multi_Sites">-->
+<!--      </mat-form-field>.-->
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Num_Isolates.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Num Pre Sites" formControlName="Num_Isolates">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Cost.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Cost" formControlName="Cost">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Contract.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Contract" formControlName="Contract">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field>-->
+<!--        <mat-placeholder>{{docuService.meta.Comments.alias}}</mat-placeholder>-->
+<!--        <input matInput type="text" name="Comments" formControlName="Comments">-->
+<!--      </mat-form-field>-->
+      <!--<mat-form-field>-->
+        <!--<mat-placeholder>{{fieldworkService.meta.GlobalID.alias}}</mat-placeholder>-->
+        <!--<input matInput type="text" name="GloablID" formControlName="GlobalID">-->
+      <!--</mat-form-field>-->
+      <!--<mat-form-field>-->
+        <!--<mat-placeholder>{{fieldworkService.meta.ProjectFK.alias}}</mat-placeholder>-->
+        <!--<input matInput type="text" name="Cost" formControlName="ProjectFK">-->
+      <!--</mat-form-field>-->
+      <!--<mat-form-field>-->
+        <!--<mat-placeholder>{{fieldworkService.meta.OBJECTID.alias}}</mat-placeholder>-->
+        <!--<input matInput type="text" name="Object ID" formControlName="OBJECTID">-->
+      <!--</mat-form-field>-->
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="save()" cdkFocusInitial>Save</button>
+</div>

@@ -43,6 +43,8 @@ import { AbstractFormComponent } from './abstract-form/abstract-form.component';
 import { SupportDocsFormComponent } from './support-docs-form/support-docs-form.component';
 import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
 import { ActivityFormComponent } from './activity-form/activity-form.component';
+import {DocuService} from './services/docu.service';
+import { DocPopupComponent } from './doc-popup/doc-popup.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { ActivityFormComponent } from './activity-form/activity-form.component';
     AbstractFormComponent,
     SupportDocsFormComponent,
     ImpactsFormComponent,
-    ActivityFormComponent
+    ActivityFormComponent,
+    DocPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +90,8 @@ import { ActivityFormComponent } from './activity-form/activity-form.component';
   providers: [IdentityManagementService,
     LoadingService,
     DataService,
-    ProjectService
+    ProjectService,
+    DocuService
   ],
   bootstrap: [AppComponent]
 })
