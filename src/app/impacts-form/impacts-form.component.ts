@@ -13,6 +13,8 @@ import { ProjectService } from '../services/project.service';
 })
 export class ImpactsFormComponent implements OnInit {
   impacts: Subject<any>;
+  archeologySite: string;
+  Enviro_Impact: string;
 
   featureForm = new FormGroup({
     // ProjectNumber: new FormControl(),
@@ -88,6 +90,9 @@ export class ImpactsFormComponent implements OnInit {
       }
     );
 
+  }
+  test(){
+    console.log(this.Enviro_Impact);
   }
 
 }

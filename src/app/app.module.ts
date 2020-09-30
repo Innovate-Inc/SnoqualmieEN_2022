@@ -44,6 +44,7 @@ import { SupportDocsFormComponent } from './support-docs-form/support-docs-form.
 import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
 import { ActivityFormComponent } from './activity-form/activity-form.component';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatSliderModule,
   ],
   providers: [IdentityManagementService,
     LoadingService,
