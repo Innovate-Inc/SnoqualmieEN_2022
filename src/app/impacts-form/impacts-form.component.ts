@@ -16,36 +16,11 @@ export class ImpactsFormComponent implements OnInit {
   //following vars are a workaround for ngModel
   archeologySite: any;
   ethographicSite: any;
-  Enviro_Impact_var: any;
-  Impact_Culture_var: any;
+  Impact_Enviro_var: any = "No";
+  Culture_Impact_var: any = "No";
 
   featureForm = new FormGroup({
     // ProjectNumber: new FormControl(),
-    OBJECTID: new FormControl(),
-    globalid: new FormControl(),
-    Reviewer_Name: new FormControl(),
-    Review_Name_Note: new FormControl(),
-    Date_Received: new FormControl(),
-    Reviewer_Department: new FormControl(),
-    ID_DAHP: new FormControl(),
-    ID_Initials: new FormControl(),
-    Notification_ID: new FormControl(),
-    ID_DAHP_full: new FormControl(),
-    Project_Name: new FormControl(),
-    Jurisdiction: new FormControl(),
-    Jurisdiction_other: new FormControl(),
-    Jurisdiction_Type: new FormControl(),
-    Project_Phase: new FormControl(),
-    Notification_Type: new FormControl(),
-    Note_Concern: new FormControl(),
-    Noti_Dept_Select: new FormControl(),
-    Noti_Dept_Select_other: new FormControl(),
-    Noti_Tribe: new FormControl(),
-    Noti_Tribe_Text: new FormControl(),
-    Location_Type: new FormControl(),
-    Abstract: new FormControl(),
-    Docu_YN: new FormControl(),
-    Docu_Repeat_count: new FormControl(),
     Impact_YN: new FormControl(),
     Enviro_Impact: new FormControl(),
     Enviro_Impact_Type: new FormControl(),
@@ -54,13 +29,16 @@ export class ImpactsFormComponent implements OnInit {
     Storm_Likert: new FormControl(),
     Veg_Likert: new FormControl(),
     Watertype_Likert: new FormControl(),
+    Mitigation: new FormControl(),
     Impact_Culture: new FormControl(),
     Culture_Type: new FormControl(),
     Culture_Note: new FormControl(),
-    CreationDate: new FormControl(),
-    Creator: new FormControl(),
-    EditDate: new FormControl(),
-    Editor: new FormControl()
+    Archeology: new FormControl(),
+    Arch_YN_study: new FormControl(),
+    Arch_Resources: new FormControl(),
+    Mitigation_Desc: new FormControl(),
+    Ethnographic: new FormControl(),
+    Ethno_Name: new FormControl(),
   });
   
   constructor(public projectService: ProjectService, private route: ActivatedRoute, private router: Router,
@@ -98,18 +76,18 @@ export class ImpactsFormComponent implements OnInit {
   //The following four functions are a workaround for ngModel. The purpose of them is to hide or show a block of html
   enviroClick(option: any){
     if(option == 1){
-      this.Enviro_Impact_var = "Yes";
+      this.Impact_Enviro_var = "Yes";
     }
     else{
-      this.Enviro_Impact_var = "No";
+      this.Impact_Enviro_var = "No";
     }
   }
   impactCulture(option: any){
     if(option == 1){
-      this.Impact_Culture_var = "Yes";
+      this.Culture_Impact_var = "Yes";
     }
     else{
-      this.Impact_Culture_var = "No";
+      this.Culture_Impact_var = "No";
     }
   }
   archeologyClick(option: any){
