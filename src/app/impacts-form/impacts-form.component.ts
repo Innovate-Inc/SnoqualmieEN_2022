@@ -65,6 +65,7 @@ export class ImpactsFormComponent implements OnInit {
   }
 
   save(abstracty: any) {
+    console.log(abstracty);
     abstracty.attributes = this.featureForm.value;
     this.projectService.layerIsLoaded.subscribe(() => {
         this.projectService.updateFeature(abstracty).subscribe();
