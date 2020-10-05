@@ -43,8 +43,6 @@ import { AbstractFormComponent } from './abstract-form/abstract-form.component';
 import { SupportDocsFormComponent } from './support-docs-form/support-docs-form.component';
 import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
 import { ActivityFormComponent } from './activity-form/activity-form.component';
-import { MatRadioModule } from '@angular/material/radio';
-import {MatSliderModule} from '@angular/material/slider';
 import {DocuService} from './services/docu.service';
 import { DocPopupComponent } from './doc-popup/doc-popup.component';
 
@@ -62,6 +60,7 @@ import { DocPopupComponent } from './doc-popup/doc-popup.component';
     SupportDocsFormComponent,
     ImpactsFormComponent,
     ActivityFormComponent,
+    DocPopupComponent
   ],
   imports: [
     BrowserModule,
