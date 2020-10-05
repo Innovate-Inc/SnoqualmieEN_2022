@@ -86,6 +86,8 @@ import { DocPopupComponent } from './doc-popup/doc-popup.component';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatRadioModule,
+    MatSliderModule,
   ],
   providers: [IdentityManagementService,
     LoadingService,
