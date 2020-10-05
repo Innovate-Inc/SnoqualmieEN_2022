@@ -21,6 +21,10 @@ export class ImpactsFormComponent implements OnInit {
 
   featureForm = new FormGroup({
     // ProjectNumber: new FormControl(),
+    OBJECTID: new FormControl(),
+    globalid: new FormControl(),
+    Reviewer_Name: new FormControl(),
+    Review_Name_Note: new FormControl(),
     Impact_YN: new FormControl(),
     Enviro_Impact: new FormControl(),
     Enviro_Impact_Type: new FormControl(),
@@ -39,6 +43,10 @@ export class ImpactsFormComponent implements OnInit {
     Mitigation_Desc: new FormControl(),
     Ethnographic: new FormControl(),
     Ethno_Name: new FormControl(),
+    CreationDate: new FormControl(),
+    Creator: new FormControl(),
+    EditDate: new FormControl(),
+    Editor: new FormControl()
   });
   
   constructor(public projectService: ProjectService, private route: ActivatedRoute, private router: Router,
@@ -59,6 +67,18 @@ export class ImpactsFormComponent implements OnInit {
         if (impacts.attributes.globalid !== 'new') {
          
           this.featureForm.patchValue(impacts.attributes);
+          if(this.featureForm.controls["Enviro_Impact"].value === "Yes"){
+            this.Impact_Enviro_var = "Yes";
+          }
+          if(this.featureForm.controls["Impact_Culture"].value === "Yes"){
+            this.Culture_Impact_var = "Yes";
+          }
+          if(this.featureForm.controls["Archeology"].value === "Yes"){
+            this.archeologySite = "Yes";
+          }
+          if(this.featureForm.controls["Ethnographic"].value === "Yes"){
+            this.ethographicSite = "Yes";
+          }
         }
       }),
     ).subscribe(() => this.loadingService.hide());
