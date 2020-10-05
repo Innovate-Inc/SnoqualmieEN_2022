@@ -45,6 +45,8 @@ import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
 import { ActivityFormComponent } from './activity-form/activity-form.component';
 import {DocuService} from './services/docu.service';
 import { DocPopupComponent } from './doc-popup/doc-popup.component';
+import { MatRadioModule } from '@angular/material/radio';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
