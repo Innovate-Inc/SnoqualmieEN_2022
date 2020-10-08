@@ -47,6 +47,20 @@ import {DocuService} from './services/docu.service';
 import { DocPopupComponent } from './doc-popup/doc-popup.component';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatSliderModule} from '@angular/material/slider';
+import { CommentFormComponent } from './activity-sub-modules/comment-form/comment-form.component';
+import { HearingFormComponent } from './activity-sub-modules/hearing-form/hearing-form.component';
+import { MeetingFormComponent } from './activity-sub-modules/meeting-form/meeting-form.component';
+import { ChanceEncounterFormComponent } from './activity-sub-modules/chance-encounter-form/chance-encounter-form.component';
+import { SiteVisitFormComponent } from './activity-sub-modules/site-visit-form/site-visit-form.component';
+import { CallFormComponent } from './activity-sub-modules/call-form/call-form.component';
+import { ViolationFormComponent } from './activity-sub-modules/violation-form/violation-form.component';
+import { FieldWorkFormComponent } from './activity-sub-modules/field-work-form/field-work-form.component';
+import { CallTabComponent } from './activity-sub-modules/call-tab/call-tab.component';
+import { CommentTabComponent } from './activity-sub-modules/comment-tab/comment-tab.component';
+import { MeetingTabComponent } from './activity-sub-modules/meeting-tab/meeting-tab.component';
+import { HearingTabComponent } from './activity-sub-modules/hearing-tab/hearing-tab.component';
+import { ChanceEncounterTabComponent } from './activity-sub-modules/chance-encounter-tab/chance-encounter-tab.component';
+import { SiteVisitTabComponent } from './activity-sub-modules/site-visit-tab/site-visit-tab.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +76,21 @@ import {MatSliderModule} from '@angular/material/slider';
     SupportDocsFormComponent,
     ImpactsFormComponent,
     ActivityFormComponent,
-    DocPopupComponent
+    DocPopupComponent,
+    CommentFormComponent,
+    HearingFormComponent,
+    MeetingFormComponent,
+    ChanceEncounterFormComponent,
+    SiteVisitFormComponent,
+    CallFormComponent,
+    ViolationFormComponent,
+    FieldWorkFormComponent,
+    CallTabComponent,
+    CommentTabComponent,
+    MeetingTabComponent,
+    HearingTabComponent,
+    ChanceEncounterTabComponent,
+    SiteVisitTabComponent
   ],
   imports: [
     BrowserModule,

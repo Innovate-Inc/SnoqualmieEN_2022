@@ -49,7 +49,7 @@ export class ImpactsFormComponent implements OnInit {
     Editor: new FormControl()
   });
   
-  constructor(public projectService: ProjectService, private route: ActivatedRoute, private router: Router,
+  constructor(public projectService: ProjectService, private route: ActivatedRoute,
     public  loadingService: LoadingService) { }
 
   ngOnInit(): void { 
