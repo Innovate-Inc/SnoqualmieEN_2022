@@ -6,23 +6,15 @@
                 <button class="button-pad-right" mat-fab (click)="save(p)" color="accent">
                     <mat-icon>save</mat-icon>
                 </button>
+                <p *ngIf="!featureForm.pristine">There are unsaved changes</p>
             </div>
         </div>
         <br /><br />
         <div class="fColumnn">
-            <mat-label>Are impacts anticipated?</mat-label>
-            <br><br>
-            <mat-radio-group formControlName="Impact_YN" aria-label="Are impacts anticipated?">
-                <mat-radio-button value="Yes">Yes</mat-radio-button>
-                <mat-radio-button value="No">No</mat-radio-button>
-                <mat-radio-button value="Possibly">Possibly</mat-radio-button>
-            </mat-radio-group>
-            <br><br>
-            <mat-divider></mat-divider>
             <br><br>
             <mat-label>Are there anticipated environmental resource impacts?</mat-label>
             <br><br>
-            <mat-radio-group formControlName="Enviro_Impact"
+            <mat-radio-group [disabled]="!projectService.editing"  formControlName="Enviro_Impact"
             aria-label="Are there anticipated environmental resource impacts?">
                 <mat-radio-button (click)="enviroClick(1)" value="Yes">Yes</mat-radio-button>
                 <mat-radio-button (click)="enviroClick(2)" value="No">No</mat-radio-button>
@@ -35,7 +27,7 @@
                 <br><br>
                 <mat-form-field appearance="fill">
                     <mat-label>Select</mat-label>
-                    <mat-select formControlName="Enviro_Impact_Type">
+                    <mat-select [disabled]="!projectService.editing" formControlName="Enviro_Impact_Type">
                         <mat-option value="option">Option</mat-option>
                         <mat-option value="option">Option</mat-option>
                         <mat-option value="option">Option</mat-option>
@@ -47,37 +39,37 @@
                 <br><br>                
                 <mat-label>Are there <b>wetland</b> impacts as a result of this review?</mat-label>
                 <br><br>
-                <mat-slider formControlName="Wetland_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-slider [disabled]="!projectService.editing" formControlName="Wetland_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
                 <mat-label>Are there <b>aquatic area</b> impacts as a result of this review?</mat-label>
                 <br><br>
-                <mat-slider formControlName="Aquatic_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-slider [disabled]="!projectService.editing" formControlName="Aquatic_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
                 <mat-label>Are there <b>storm water</b> impacts as a result of this review?</mat-label>
                 <br><br>
-                <mat-slider formControlName="Storm_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-slider [disabled]="!projectService.editing" formControlName="Storm_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
                 <mat-label>Are there <b>vegitation</b> impacts as a result of this review?</mat-label>
                 <br><br>
-                <mat-slider formControlName="Veg_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-slider [disabled]="!projectService.editing" formControlName="Veg_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
                 <mat-label>Are there <b>watertype</b> impacts as a result of this review?</mat-label>
                 <br><br>
-                <mat-slider formControlName="Watertype_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                <mat-slider [disabled]="!projectService.editing" formControlName="Watertype_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
                 <label>Is mitigation provided?</label>
                 <br><br>
-                <mat-radio-group formControlName="Mitigation" aria-label="Is mitigation provided?">
+                <mat-radio-group [disabled]="!projectService.editing" formControlName="Mitigation" aria-label="Is mitigation provided?">
                     <mat-radio-button value="Yes">Fully mitigated</mat-radio-button>
                     <mat-radio-button value="Partially">Partially mitigated</mat-radio-button>
                 </mat-radio-group>
@@ -87,7 +79,7 @@
             <br><br>
             <mat-label for="">Are there anticipated cultural impacts?</mat-label>
             <br><br>
-            <mat-radio-group formControlName="Impact_Culture" aria-label="Are there anticipated culural impacts?">
+            <mat-radio-group [disabled]="!projectService.editing" formControlName="Impact_Culture" aria-label="Are there anticipated culural impacts?">
                 <mat-radio-button (click)="impactCulture(1)" value="Yes">Yes</mat-radio-button>
                 <mat-radio-button (click)="impactCulture(2)" value="No">No</mat-radio-button>
             </mat-radio-group>
@@ -99,7 +91,7 @@
                 <br><br>
                 <mat-form-field appearance="fill">
                     <mat-label>Select</mat-label>
-                    <mat-select formControlName="Culture_Type">
+                    <mat-select  [disabled]="!projectService.editing" formControlName="Culture_Type">
                         <mat-option value="option">Option</mat-option>
                         <mat-option value="option">Option</mat-option>
                         <mat-option value="option">Option</mat-option>
@@ -111,14 +103,14 @@
                 <mat-label for="">Please provide notes on potential impacts to culture</mat-label>
                 <br><br>
                 <mat-form-field appearance="fill">
-                    <input matInput formControlName="Culture_Note">
+                    <input [readonly]="!projectService.editing" matInput formControlName="Culture_Note">
                 </mat-form-field>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
                 <mat-label for="">Is this a known archeology site?</mat-label>
                 <br><br>
-                <mat-radio-group formControlName="Archeology" aria-label="Is this a known archeology site?">
+                <mat-radio-group [disabled]="!projectService.editing" formControlName="Archeology" aria-label="Is this a known archeology site?">
                     <mat-radio-button (click)="archeologyClick(1)" value="Yes">Yes</mat-radio-button>
                     <mat-radio-button (click)="archeologyClick(2)" value="No">No</mat-radio-button>
                 </mat-radio-group>
@@ -130,7 +122,7 @@
                     <mat-label for="">What measures are being taken into account to protect or “mitigate”?</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
-                        <input formControlName="Mitigation_Desc" matInput>
+                        <input  [readonly]="!projectService.editing" formControlName="Mitigation_Desc" matInput>
                     </mat-form-field>
                 </div>
                 <br><br>
@@ -138,7 +130,7 @@
                 <br><br>
                 <label for="">Is this a known or named ethographic site?</label>
                 <br><br>
-                <mat-radio-group formControlName="Ethnographic" aria-label="Is this a known or named ethographic site?">
+                <mat-radio-group [disabled]="!projectService.editing" formControlName="Ethnographic" aria-label="Is this a known or named ethographic site?">
                     <mat-radio-button (click)="ethographicClick(1)" value="Yes">Yes</mat-radio-button>
                     <mat-radio-button (click)="ethographicClick(2)" value="No">No</mat-radio-button>
                 </mat-radio-group>
@@ -151,7 +143,7 @@
                     <mat-label for="">What is the name of the ethographic site?</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
-                        <input formControlName="Ethno_Name" matInput>
+                        <input [readonly]="!projectService.editing" formControlName="Ethno_Name" matInput>
                     </mat-form-field>
                     <br><br>
                     <mat-divider></mat-divider>
@@ -159,7 +151,7 @@
                     <mat-label for="">Has there been an archeological study perfromed on or near the site?</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
-                        <input formControlName="Arch_YN_study" matInput>
+                        <input [readonly]="!projectService.editing" formControlName="Arch_YN_study" matInput>
                     </mat-form-field>
                     <br><br>
                     <mat-divider></mat-divider>
@@ -167,7 +159,7 @@
                     <mat-label for="">What is the probability of archaeological resources being discovered?</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
-                        <input formControlName="Arch_Resources" matInput>
+                        <input  [readonly]="!projectService.editing" formControlName="Arch_Resources" matInput>
                     </mat-form-field>
                 </div>
             </div>
