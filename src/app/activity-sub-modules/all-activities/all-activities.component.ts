@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { CommentFormComponent } from '../comment-form/comment-form.component';
 export interface PeriodicElement {
   attributes: {
     Call_Who: string;
@@ -23,24 +21,19 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {attributes:{Call_Type: 10, Call_Who: 'Neon', Call_Number: 20.1797, Call_Email: 'Ne'}},
 ];
 @Component({
-  selector: 'app-comment-tab',
-  templateUrl: './comment-tab.component.html',
-  styleUrls: ['./comment-tab.component.css']
+  selector: 'app-all-activities',
+  templateUrl: './all-activities.component.html',
+  styleUrls: ['./all-activities.component.css']
 })
-export class CommentTabComponent implements OnInit {
-  displayedColumnsd: string[] = ['nature', 'name', 'email', 'number'];
+export class AllActivitiesComponent implements OnInit {
+  displayedColumnsc: string[] = ['nature', 'name', 'email', 'number'];
   dataSource = ELEMENT_DATA;
 
 
-  constructor(public dialog: MatDialog) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
-  openDialog(): void {
-    let dialogRef = this.dialog.open(CommentFormComponent, {
-      height: '700px',
-      width: '600px',
-    });
-  }
+
 
 }

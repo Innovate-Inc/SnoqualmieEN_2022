@@ -238,3 +238,11 @@ background-color:#ffb45e;
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
 background-color: #fff;
 }
+
+.mat-activity-table {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}

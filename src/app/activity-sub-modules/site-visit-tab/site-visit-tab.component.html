@@ -1,1 +1,47 @@
-<p>site-visit-tab works!</p>
+<section>
+    <form>
+        <mat-form-field style="padding: 30px; width: 40%;">
+            <input matInput placeholder="Search">
+        </mat-form-field>
+        <span style="padding: 60px; float: right;">
+            <button mat-mini-fab color="primary" (click)="openDialog()" aria-label="Add a call activity button">
+                <mat-icon>add</mat-icon>
+            </button>
+        </span>
+    </form>
+</section>
+<section>
+    <table mat-table [dataSource]="dataSource" class="mat-activity-table">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="nature">
+          <th mat-header-cell *matHeaderCellDef>Nature</th>
+          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Type}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Who}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Email}} </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef> Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Number}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsa"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsa;"></tr>
+      </table>
+      <br><br><br>
+</section>

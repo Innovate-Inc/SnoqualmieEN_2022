@@ -62,6 +62,8 @@ import { HearingTabComponent } from './activity-sub-modules/hearing-tab/hearing-
 import { ChanceEncounterTabComponent } from './activity-sub-modules/chance-encounter-tab/chance-encounter-tab.component';
 import { SiteVisitTabComponent } from './activity-sub-modules/site-visit-tab/site-visit-tab.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AllActivitiesComponent } from './activity-sub-modules/all-activities/all-activities.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +94,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     HearingTabComponent,
     ChanceEncounterTabComponent,
     SiteVisitTabComponent,
+    AllActivitiesComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -120,6 +124,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatRadioModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatDialogModule,
   ],
   providers: [IdentityManagementService,
     LoadingService,

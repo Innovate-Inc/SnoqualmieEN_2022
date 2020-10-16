@@ -1,1 +1,75 @@
-<p>call-form works!</p>
+<h2 mat-dialog-title>Add or view a call action</h2>
+<mat-dialog-content>
+    <form class="example-form">
+        <mat-form-field>
+          <mat-label>Name of Caller</mat-label>
+          <input matInput >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Number</mat-label>
+          <input matInput >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput >
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Nature of call</mat-label>
+            <mat-select>
+              <mat-option value="option">
+                Option
+              </mat-option>
+              <mat-option value="option2">
+                Option
+              </mat-option>
+              <mat-option value="option3">
+                Option
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Notes</mat-label>
+            <input matInput >
+          </mat-form-field> 
+          <br>
+          <span style="padding-left: 45%; width: 10%;">
+            <button mat-fab color="primary" aria-label="upload1">
+                <mat-icon>cloud_upload</mat-icon>
+            </button>
+            <h5 style="text-align: center;" mat-dialog-title>Upload Attachment</h5>
+        </span>
+          <mat-form-field appearance="fill">
+            <mat-label>Action Taken</mat-label>
+            <mat-select>
+              <mat-option value="option">
+                Option
+              </mat-option>
+              <mat-option value="option2">
+                Option
+              </mat-option>
+              <mat-option value="option3">
+                Option
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Notes</mat-label>
+            <input matInput >
+          </mat-form-field> 
+          <span style="padding-left: 45%; width: 10%;">
+            <button mat-fab color="primary" aria-label="upload1">
+                <mat-icon>cloud_upload</mat-icon>
+            </button>
+            <h5 style="text-align: center;" mat-dialog-title>Upload Attachment</h5>
+        </span>
+      </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close color="primary">Save</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

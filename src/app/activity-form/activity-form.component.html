@@ -1,5 +1,11 @@
 <nav mat-tab-nav-bar>
    
+
+    <a mat-tab-link routerLinkActive
+    #allactivities="routerLinkActive"
+    [active]="allactivities.isActive"
+    routerLink="allactivities"> All </a>
+
     <a mat-tab-link routerLinkActive
     #comment="routerLinkActive"
     [active]="comment.isActive"

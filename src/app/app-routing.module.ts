@@ -24,6 +24,7 @@ import { CommentTabComponent } from './activity-sub-modules/comment-tab/comment-
 import { HearingTabComponent } from './activity-sub-modules/hearing-tab/hearing-tab.component';
 import { MeetingTabComponent } from './activity-sub-modules/meeting-tab/meeting-tab.component';
 import { SiteVisitTabComponent } from './activity-sub-modules/site-visit-tab/site-visit-tab.component';
+import { AllActivitiesComponent } from './activity-sub-modules/all-activities/all-activities.component';
 
 
 
@@ -38,6 +39,7 @@ const routes: Routes = [
           {path: 'abstract', component: AbstractFormComponent},
           {path: 'impacts', component: ImpactsFormComponent},
           {path: 'activity', component: ActivityFormComponent, children: [
+            {path: 'allactivities', component: AllActivitiesComponent},
             {path: 'call', component: CallTabComponent, children: [
               {path: 'call-form', component: CallFormComponent}
             ]},
