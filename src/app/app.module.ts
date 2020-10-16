@@ -26,7 +26,6 @@ import { DataService } from './services/data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { WildCardComponent } from './wild-card/wild-card.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import {ProjectService} from './services/project.service';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -54,7 +53,6 @@ import {MatSliderModule} from '@angular/material/slider';
     EsriMapComponent,
     MapViewComponent,
     ListViewComponent,
-    WildCardComponent,
     WelcomeComponent,
     EditPaneComponent,
     ReviewFormComponent,
