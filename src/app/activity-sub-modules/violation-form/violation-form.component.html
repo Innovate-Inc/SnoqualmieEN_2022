@@ -1,10 +1,10 @@
-<mat-card *ngIf="activities | async as p">
+<mat-card>
 
     <form novalidate [formGroup]="activityForm">
         <br><br>
         <div class="button-row">
             <div>
-                <button class="button-pad-right" mat-fab (click)="save(p)" color="accent">
+                <button class="button-pad-right" mat-fab (click)="save()" color="accent">
                     <mat-icon>save</mat-icon>
                 </button>
             </div>
@@ -16,11 +16,14 @@
             <mat-radio-group formControlName="Violation_YN" aria-label="Is there a violation?">
                 <mat-radio-button (click)="violation(1)" value="Yes">Yes</mat-radio-button>
                 <mat-radio-button (click)="violation(2)" value="No">No</mat-radio-button>
-                <mat-radio-button (click)="violation(3)" value="UnderInvestigation">Under Investigation</mat-radio-button>
+                <mat-radio-button (click)="violation(3)" value="UnderInvestigation">Under Investigation
+                </mat-radio-button>
             </mat-radio-group>
             <br><br>
-            <mat-divider></mat-divider>
             <div *ngIf="violationsBool === 'Yes'">
+
+                <mat-divider></mat-divider>
+                <br><br>
                 <mat-label>Add Survey123 link below</mat-label>
                 <br><br>
                 <mat-form-field appearance="fill">

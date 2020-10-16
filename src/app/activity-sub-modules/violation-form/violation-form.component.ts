@@ -32,22 +32,6 @@ export class ViolationFormComponent implements OnInit {
     public  loadingService: LoadingService) { }
 
   ngOnInit(): void { 
-    this.loadingService.show();
-    this.activities = new BehaviorSubject(null);
-    this.route.parent.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        return iif(() => params.get('id') === 'new',
-          this.projectService.create_new_project(),
-          this.projectService.selectFeature(params.get('id'), null));
-      }),
-      map(activities => {
-        this.activities.next(activities);
-        if (activities.attributes.globalid !== 'new') {
-         
-          this.activityForm.patchValue(activities.attributes);
-        }
-      }),
-    ).subscribe(() => this.loadingService.hide());
   }
 
   violation(number: any){
@@ -58,13 +42,7 @@ export class ViolationFormComponent implements OnInit {
       this.violationsBool = "No";
     }
   }
-  save(abstracty: any) {
-    console.log(abstracty);
-    abstracty.attributes = this.activityForm.value;
-    this.projectService.layerIsLoaded.subscribe(() => {
-        this.projectService.updateFeature(abstracty).subscribe();
-      }
-    );
+  save() {
 
   }
 }
