@@ -1,0 +1,7 @@
+<div style="display: flex; flex-direction: column; justify-content: space-around">
+  <p>{{ data.msg }}</p>
+  <div style="display: flex; flex-direction: row; justify-content: flex-end;">
+    <button mat-raised-button color="accent" (click)="dialogRef.close(false)">{{data.negativeText}}</button>
+    <button mat-raised-button color="accent" (click)="dialogRef.close(true)">{{data.positiveText}}</button>
+  </div>
+</div>

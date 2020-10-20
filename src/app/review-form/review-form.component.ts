@@ -81,6 +81,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadingService.show();
     this.review = new BehaviorSubject(null);
+    this.loadingService.show();
     this.route.parent.paramMap.pipe(
       switchMap((params: ParamMap) => {
         return iif(() => params.get('id') === 'new',

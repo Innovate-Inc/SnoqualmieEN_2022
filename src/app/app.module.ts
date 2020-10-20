@@ -45,6 +45,7 @@ import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
 import { ActivityFormComponent } from './activity-form/activity-form.component';
 import { DocuService } from './services/docu.service';
 import { DocPopupComponent } from './doc-popup/doc-popup.component';
+import { UploadDialogComponent } from './upload-dialog/upload-dialog.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { CommentFormComponent } from './activity-sub-modules/comment-form/comment-form.component';
@@ -59,11 +60,13 @@ import { CallTabComponent } from './activity-sub-modules/call-tab/call-tab.compo
 import { CommentTabComponent } from './activity-sub-modules/comment-tab/comment-tab.component';
 import { MeetingTabComponent } from './activity-sub-modules/meeting-tab/meeting-tab.component';
 import { HearingTabComponent } from './activity-sub-modules/hearing-tab/hearing-tab.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ChanceEncounterTabComponent } from './activity-sub-modules/chance-encounter-tab/chance-encounter-tab.component';
 import { SiteVisitTabComponent } from './activity-sub-modules/site-visit-tab/site-visit-tab.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AllActivitiesComponent } from './activity-sub-modules/all-activities/all-activities.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -95,6 +98,8 @@ import { AllActivitiesComponent } from './activity-sub-modules/all-activities/al
     ChanceEncounterTabComponent,
     SiteVisitTabComponent,
     AllActivitiesComponent,
+    ConfirmDialogComponent,
+    UploadDialogComponent,
     
   ],
   imports: [
@@ -125,6 +130,8 @@ import { AllActivitiesComponent } from './activity-sub-modules/all-activities/al
     MatSliderModule,
     MatSlideToggleModule,
     MatDialogModule,
+    MatGridListModule,
+
   ],
   providers: [IdentityManagementService,
     LoadingService,

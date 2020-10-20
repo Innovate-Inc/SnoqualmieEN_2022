@@ -60,12 +60,16 @@
             <mat-label>Notes</mat-label>
             <input matInput >
           </mat-form-field> 
-          <span style="padding-left: 45%; width: 10%;">
-            <button mat-fab color="primary" aria-label="upload1">
-                <mat-icon>cloud_upload</mat-icon>
-            </button>
-            <h5 style="text-align: center;" mat-dialog-title>Upload Attachment</h5>
-        </span>
+          <br>
+          <mat-grid-list cols="4"> 
+          <mat-grid-tile style="background: #f5f5f5; overflow: hidden; cursor:pointer;" >
+            <!-- input ng-disabled="uploading" type="file" name="attachment" id="attachmentInput"/ -->
+            <a class="thumbnail" title="Add attachment">
+              <mat-icon style="font-size:50px; position: absolute; top:20%; left:30%;">add</mat-icon>
+              <mat-grid-tile-footer style="background:rgba(176,190,197,0.7);"><h3>Add Attachment</h3></mat-grid-tile-footer>
+            </a>
+          </mat-grid-tile>
+        </mat-grid-list>
       </form>
 </mat-dialog-content>
 <mat-dialog-actions>
