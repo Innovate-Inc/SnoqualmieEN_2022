@@ -12,7 +12,7 @@
         <br /><br />
         <div class="fColumnn">
             <br><br>
-            <mat-label>Are there anticipated environmental resource impacts?</mat-label>
+            <mat-label>{{this.projectService.meta.Enviro_Impact.alias}}</mat-label>
             <br><br>
             <mat-radio-group [disabled]="!projectService.editing"  formControlName="Enviro_Impact"
             aria-label="Are there anticipated environmental resource impacts?">
@@ -23,7 +23,7 @@
             <mat-divider></mat-divider>
             <div *ngIf="Impact_Enviro_var === 'Yes'">
                 <br><br>
-                <mat-label for="">What type of impact?</mat-label>
+                <mat-label for="">{{this.projectService.meta.Enviro_Impact_Type.alias}}</mat-label>
                 <br><br>
                 <mat-form-field appearance="fill">
                     <mat-label>Select</mat-label>
@@ -37,37 +37,37 @@
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>                
-                <mat-label>Are there <b>wetland</b> impacts as a result of this review?</mat-label>
+                <mat-label>{{this.projectService.meta.Wetland_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Wetland_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <mat-label>Are there <b>aquatic area</b> impacts as a result of this review?</mat-label>
+                <mat-label>{{this.projectService.meta.Aquatic_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Aquatic_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <mat-label>Are there <b>storm water</b> impacts as a result of this review?</mat-label>
+                <mat-label>{{this.projectService.meta.Storm_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Storm_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <mat-label>Are there <b>vegitation</b> impacts as a result of this review?</mat-label>
+                <mat-label>{{this.projectService.meta.Veg_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Veg_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <mat-label>Are there <b>watertype</b> impacts as a result of this review?</mat-label>
+                <mat-label>{{this.projectService.meta.Watertype_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Watertype_Likert" thumbLabel tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <label>Is mitigation provided?</label>
+                <label>{{this.projectService.meta.Mitigation.alias}}</label>
                 <br><br>
                 <mat-radio-group [disabled]="!projectService.editing" formControlName="Mitigation" aria-label="Is mitigation provided?">
                     <mat-radio-button value="Yes">Fully mitigated</mat-radio-button>
@@ -77,7 +77,7 @@
                 <mat-divider></mat-divider>
             </div>
             <br><br>
-            <mat-label for="">Are there anticipated cultural impacts?</mat-label>
+            <mat-label for="">{{this.projectService.meta.Impact_Culture.alias}}</mat-label>
             <br><br>
             <mat-radio-group [disabled]="!projectService.editing" formControlName="Impact_Culture" aria-label="Are there anticipated culural impacts?">
                 <mat-radio-button (click)="impactCulture(1)" value="Yes">Yes</mat-radio-button>
@@ -87,7 +87,7 @@
             <div *ngIf="Culture_Impact_var === 'Yes'">
                 <mat-divider></mat-divider>
                 <br><br>
-                <mat-label for="">Please specify the type of cultural impact</mat-label>
+                <mat-label for="">{{this.projectService.meta.Culture_Type.alias}}</mat-label>
                 <br><br>
                 <mat-form-field appearance="fill">
                     <mat-label>Select</mat-label>
@@ -100,7 +100,7 @@
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <mat-label for="">Please provide notes on potential impacts to culture</mat-label>
+                <mat-label for="">{{this.projectService.meta.Culture_Note.alias}}</mat-label>
                 <br><br>
                 <mat-form-field appearance="fill">
                     <input [readonly]="!projectService.editing" matInput formControlName="Culture_Note">
@@ -108,7 +108,7 @@
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <mat-label for="">Is this a known archeology site?</mat-label>
+                <mat-label for="">{{this.projectService.meta.Archeology.alias}}</mat-label>
                 <br><br>
                 <mat-radio-group [disabled]="!projectService.editing" formControlName="Archeology" aria-label="Is this a known archeology site?">
                     <mat-radio-button (click)="archeologyClick(1)" value="Yes">Yes</mat-radio-button>
@@ -119,7 +119,7 @@
                     <br><br>
                     <mat-divider></mat-divider>
                     <br><br> 
-                    <mat-label for="">What measures are being taken into account to protect or “mitigate”?</mat-label>
+                    <mat-label for="">{{this.projectService.meta.Mitigation_Desc.alias}}</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
                         <input  [readonly]="!projectService.editing" formControlName="Mitigation_Desc" matInput>
@@ -128,7 +128,7 @@
                 <br><br>
                 <mat-divider></mat-divider>
                 <br><br>
-                <label for="">Is this a known or named ethographic site?</label>
+                <label for="">{{this.projectService.meta.Ethnographic.alias}}</label>
                 <br><br>
                 <mat-radio-group [disabled]="!projectService.editing" formControlName="Ethnographic" aria-label="Is this a known or named ethographic site?">
                     <mat-radio-button (click)="ethographicClick(1)" value="Yes">Yes</mat-radio-button>
@@ -140,7 +140,7 @@
                     <br><br>
                     <mat-divider></mat-divider>
                     <br><br>
-                    <mat-label for="">What is the name of the ethographic site?</mat-label>
+                    <mat-label for="">{{this.projectService.meta.Ethno_Name.alias}}</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
                         <input [readonly]="!projectService.editing" formControlName="Ethno_Name" matInput>
@@ -148,7 +148,7 @@
                     <br><br>
                     <mat-divider></mat-divider>
                     <br><br>
-                    <mat-label for="">Has there been an archeological study perfromed on or near the site?</mat-label>
+                    <mat-label for="">{{this.projectService.meta.Arch_YN_study.alias}}</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
                         <input [readonly]="!projectService.editing" formControlName="Arch_YN_study" matInput>
@@ -156,7 +156,7 @@
                     <br><br>
                     <mat-divider></mat-divider>
                     <br><br>
-                    <mat-label for="">What is the probability of archaeological resources being discovered?</mat-label>
+                    <mat-label for="">{{this.projectService.meta.Arch_Resources.alias}}</mat-label>
                     <br><br>
                     <mat-form-field appearance="fill">
                         <input  [readonly]="!projectService.editing" formControlName="Arch_Resources" matInput>
