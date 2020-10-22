@@ -1,0 +1,27 @@
+<div layout="column" layout-fill>
+    <mat-card>
+      <h1 mat-dialog-title>File Upload</h1>
+      <div [hidden]="fileNameInput?.files[0]?.name || data.attached >= data.maxAttach">Please select a File to upload</div>
+      <div [hidden]="data.attached < data.maxAttach">Maximum number of attachments ({{data.maxAttach}}) reached</div>
+      <div>{{ fileNameInput?.files[0]?.name }}</div>
+      <mat-dialog-actions style="display: flex; flex-direction: row; justify-content: flex-end;">
+        <form role="form" id="attachmentForm" class="ng-pristine ng-valid">
+          <input #fileNameInput type="file" name="attachment" id="attachmentInput" style="display: none;">
+        </form>
+        <button mat-button class="mat-raised-button " [disabled]="(uploading || data.attached >= data.maxAttach)"
+                onclick="document.getElementById('attachmentInput').click();" color="accent">Browse
+        </button>
+        <!--<span class="spacer"></span>-->
+        <button mat-button class="mat-raised-button " (click)="uploadFile();" [disabled]="(uploading || data.attached >= data.maxAttach)" color="accent">
+          <span [hidden]="uploading" >Upload</span>
+          <div layout="row" layout-sm="column" layout-align="space-around">
+            <mat-progress-spinner mode="indeterminate" *ngIf="uploading" diameter="25"></mat-progress-spinner>
+          </div>
+        </button>
+      </mat-dialog-actions>
+    </mat-card>
+    <br><br>
+    <button mat-button mat-dialog-close color="primary">Cancel</button>
+</div>
+  
+  

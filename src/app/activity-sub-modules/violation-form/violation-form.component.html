@@ -1,0 +1,37 @@
+<mat-card>
+
+    <form novalidate [formGroup]="activityForm">
+        <br><br>
+        <div class="button-row">
+            <div>
+                <button class="button-pad-right" mat-fab (click)="save()" color="accent">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </div>
+        <br /><br />
+        <div class="fColumnn">
+            <mat-label for="">Is there a violation?</mat-label>
+            <br><br>
+            <mat-radio-group formControlName="Violation_YN" aria-label="Is there a violation?">
+                <mat-radio-button (click)="violation(1)" value="Yes">Yes</mat-radio-button>
+                <mat-radio-button (click)="violation(2)" value="No">No</mat-radio-button>
+                <mat-radio-button (click)="violation(3)" value="UnderInvestigation">Under Investigation
+                </mat-radio-button>
+            </mat-radio-group>
+            <br><br>
+            <div *ngIf="violationsBool === 'Yes'">
+
+                <mat-divider></mat-divider>
+                <br><br>
+                <mat-label>Add Survey123 link below</mat-label>
+                <br><br>
+                <mat-form-field appearance="fill">
+                    <input formControlName="Violation_Doc_Note" matInput>
+                </mat-form-field>
+                <br><br>
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+    </form>
+</mat-card>

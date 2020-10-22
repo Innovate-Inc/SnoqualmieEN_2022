@@ -1,1 +1,50 @@
-<p>activity-form works!</p>
+<nav mat-tab-nav-bar>
+   
+
+    <a mat-tab-link routerLinkActive
+    #allactivities="routerLinkActive"
+    [active]="allactivities.isActive"
+    routerLink="allactivities"> All </a>
+
+    <a mat-tab-link routerLinkActive
+    #comment="routerLinkActive"
+    [active]="comment.isActive"
+    routerLink="comment"> Comment </a>
+
+    <a mat-tab-link routerLinkActive
+    #meeting="routerLinkActive" 
+    [active]="meeting.isActive"
+    routerLink="meeting"> Meeting </a>
+
+    <a mat-tab-link routerLinkActive 
+    #hearing="routerLinkActive"
+    [active]="hearing.isActive"
+    routerLink="hearing"> Hearing </a>
+
+    <a mat-tab-link routerLinkActive 
+    #chanceencounter="routerLinkActive"
+    [active]="chanceencounter.isActive"
+    routerLink="chanceencounter"> Chance Encounter </a>
+
+    <a mat-tab-link routerLinkActive 
+    #sitevisit="routerLinkActive"
+    [active]="sitevisit.isActive"
+    routerLink="sitevisit"> Site Visit </a>
+
+    <a mat-tab-link routerLinkActive 
+    #call="routerLinkActive"
+    [active]="call.isActive"
+    routerLink="call"> Call </a>
+
+    <a mat-tab-link routerLinkActive
+    #violation="routerLinkActive" 
+    [active]="violation.isActive"
+    routerLink="violation"> Violation </a>
+
+    <a mat-tab-link routerLinkActive 
+    #fieldwork="routerLinkActive"
+    [active]="fieldwork.isActive"
+    routerLink="fieldwork"> Fieldwork </a>
+</nav>
+
+<router-outlet></router-outlet>

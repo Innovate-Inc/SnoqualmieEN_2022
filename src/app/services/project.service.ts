@@ -54,6 +54,7 @@ class Attributes {
   Editor: string;
 }
 
+
 export class Project {
   attributes: Attributes;
   geometry: any;
@@ -61,10 +62,12 @@ export class Project {
 
 @Injectable()
 export class ProjectService extends ArcBaseService {
+  editing: boolean = false;
 
   constructor(snackBar: MatSnackBar, loadingService: LoadingService) {
    super(environment.layers.review, snackBar, loadingService);
   }
+
 
   create_new_project() {
     // const vm = this;

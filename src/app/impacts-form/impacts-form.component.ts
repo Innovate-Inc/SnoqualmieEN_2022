@@ -25,7 +25,6 @@ export class ImpactsFormComponent implements OnInit {
     globalid: new FormControl(),
     Reviewer_Name: new FormControl(),
     Review_Name_Note: new FormControl(),
-    Impact_YN: new FormControl(),
     Enviro_Impact: new FormControl(),
     Enviro_Impact_Type: new FormControl(),
     Wetland_Likert: new FormControl(),
@@ -49,7 +48,7 @@ export class ImpactsFormComponent implements OnInit {
     Editor: new FormControl()
   });
   
-  constructor(public projectService: ProjectService, private route: ActivatedRoute, private router: Router,
+  constructor(public projectService: ProjectService, private route: ActivatedRoute,
     public  loadingService: LoadingService) { }
 
   ngOnInit(): void { 
@@ -85,46 +84,56 @@ export class ImpactsFormComponent implements OnInit {
   }
 
   save(abstracty: any) {
+    Object.keys(this.featureForm.controls).forEach((key) => {
+      this.featureForm.get(key).markAsPristine();
+    });    
     console.log(abstracty);
     abstracty.attributes = this.featureForm.value;
     this.projectService.layerIsLoaded.subscribe(() => {
         this.projectService.updateFeature(abstracty).subscribe();
       }
     );
-
   }
 
   //The following four functions are a workaround for ngModel. The purpose of them is to hide or show a block of html
   enviroClick(option: any){
-    if(option == 1){
-      this.Impact_Enviro_var = "Yes";
-    }
-    else{
-      this.Impact_Enviro_var = "No";
+    if(this.projectService.editing){
+      if(option == 1){
+        this.Impact_Enviro_var = "Yes";
+      }
+      else{
+        this.Impact_Enviro_var = "No";
+      }
     }
   }
   impactCulture(option: any){
-    if(option == 1){
-      this.Culture_Impact_var = "Yes";
-    }
-    else{
-      this.Culture_Impact_var = "No";
+    if(this.projectService.editing){
+      if(option == 1){
+        this.Culture_Impact_var = "Yes";
+      }
+      else{
+        this.Culture_Impact_var = "No";
+      }
     }
   }
   archeologyClick(option: any){
-    if(option == 1){
-      this.archeologySite = "Yes";
-    }
-    else{
-      this.archeologySite = "No";
+    if(this.projectService.editing){
+      if(option == 1){
+        this.archeologySite = "Yes";
+      }
+      else{
+        this.archeologySite = "No";
+      }
     }
   }
   ethographicClick(option: any){
-    if(option == 1){
-      this.ethographicSite = "Yes";
-    }
-    else{
-      this.ethographicSite = "No";
+    if(this.projectService.editing){
+      if(option == 1){
+        this.ethographicSite = "Yes";
+      }
+      else{
+        this.ethographicSite = "No";
+      }
     }
   }
   //end ngModel workaround functions

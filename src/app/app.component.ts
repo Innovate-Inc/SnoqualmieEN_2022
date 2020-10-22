@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {IdentityManagementService} from './services/identity-management.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectService } from './services/project.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class AppComponent {
 
 
    // constructor(private activatedRoute: ActivatedRoute, private identityManager: IdentityManagementService) {
-    constructor(public router: Router, private identityManager: IdentityManagementService) {
+    constructor(public router: Router, private identityManager: IdentityManagementService, public projectService: ProjectService) {
 
   }
   // See app.component.html
@@ -22,4 +23,7 @@ export class AppComponent {
     this.router.navigate(['welcome']);
   }
 
+  log(){
+    console.log(this.projectService.editing);
+  }
 }

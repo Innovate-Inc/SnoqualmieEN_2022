@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Project, ProjectService} from '../services/project.service';
 // import {EditService} from '../services/edit.service';
 import {finalize, map, switchMap, takeWhile, tap} from 'rxjs/operators';
@@ -81,49 +81,19 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadingService.show();
     this.review = new BehaviorSubject(null);
+    this.loadingService.show();
     this.route.parent.paramMap.pipe(
       switchMap((params: ParamMap) => {
         return iif(() => params.get('id') === 'new',
           this.projectService.create_new_project(),
           this.projectService.selectFeature(params.get('id'), null));
-        // else { return this.projectService.selectFeature(params.get('id'), null); }
       }),
       map(review => {
-        // if (this.editObs !== undefined) {
-        //   this.editObs.unsubscribe();
-        //   this.mapMode = '';
-        // }
         this.review.next(review);
         if (review.attributes.globalid !== 'new') {
-          //   const project_action_obs = this.projectActionsLuService.layerIsLoaded.pipe(switchMap(() => {
-          //     this.projectActionsLuService.filter.where = `projectsid_fk = '${review.attributes.GlobalID}'`;
-          //     return this.projectActionsLuService.query().pipe(tap(results => {
-          //       this.actions = results;
-          //       review.attributes.Project_Actions = results.map(r => r.attributes.Project_Actions);
-          //     }));
-          //   }));
-          //
-          //   const land_ownership_obs = this.landOwnershipLuService.layerIsLoaded.pipe(switchMap(() => {
-          //     this.landOwnershipLuService.filter.where = `project_fk = '${review.attributes.GlobalID}'`;
-          //     return this.landOwnershipLuService.query().pipe(tap(results => {
-          //       this.owner = results;
-          //       review.attributes.Land_Ownership = results.map(r => r.attributes.Land_Ownership);
-          //     }));
-          //   }));
-          //   Observable.forkJoin([project_action_obs, land_ownership_obs]).subscribe(() => this.featureForm.patchValue(review.attributes));
-          // } else
           review.attributes.Noti_Dept_Select = review.attributes.Noti_Dept_Select.split(',');
           this.featureForm.patchValue(review.attributes);
         }
-
-        // if (review.attributes.globalid !== 'new' && review.geometry !== null && review.geometry.rings.length > 0) {
-        //   this.mapService.center(review.geometry);
-        //   this.editPolygon();
-        // } else {
-        //   this.mapService.addGraphic(review);
-        //   this.addPolygon();
-        //
-        // }
       }),
     ).subscribe(() => this.loadingService.hide());
   }
@@ -167,6 +137,9 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   }
 
   save(review: any) {
+    Object.keys(this.featureForm.controls).forEach((key) => {
+      this.featureForm.get(key).markAsPristine();
+    });    
     review.attributes = this.featureForm.value;
     const reviewDept = review.attributes.Noti_Dept_Select;
     delete review.attributes.Noti_Dept_Select;
