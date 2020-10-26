@@ -246,3 +246,30 @@ background-color: #fff;
 table {
   width: 100%;
 }
+.activity-upload-icon {
+  font-size:100px; 
+  position: absolute; 
+  top:6%; 
+  left:16%;
+}
+mat-grid-list.activity-grid-list{
+  width: 80%;
+  min-width: 80%;
+  max-width: 80%;
+  padding-left: 10%;
+  display: inline-block;
+}
+
+.activity-form {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 550px;
+  width: auto;
+  text-align: center;
+}
+h2.mat-dialog-title {
+  padding-left: 5%;
+}
+mat-dialog {
+  background-color: white;
+}

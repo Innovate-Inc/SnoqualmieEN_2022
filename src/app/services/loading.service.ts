@@ -6,13 +6,12 @@ import {BehaviorSubject} from 'rxjs';
 export class LoadingService {
   loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor() { }
+  constructor() {
+   }
   show() {
     this.loading.next(true);
-    console.log('SHOW!');
   }
   hide() {
     this.loading.next(false);
-    console.log('HIDE!');
   }
 }

@@ -50,6 +50,15 @@ export class SupportDocsFormComponent implements OnInit {
     });
 
   }
+  openEmptyDialog(): void {
+    this.dialog.open(DocPopupComponent, {
+      width: '650px',
+      data: {docTask: {attributes: {'globalid': 'new', 'parentglobalid': this.projectId }}, meta: this.docService.meta}
+    }).afterClosed().subscribe(confirmed => {
+      this.ngOnInit();
+    });
+
+  }
 }
 
 
