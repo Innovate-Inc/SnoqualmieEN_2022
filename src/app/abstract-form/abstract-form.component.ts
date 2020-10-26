@@ -124,6 +124,9 @@ export class AbstractFormComponent implements OnInit {
   }
 
   save(abstracty: any) {
+    Object.keys(this.featureForm.controls).forEach((key) => {
+      this.featureForm.get(key).markAsPristine();
+    });    
     abstracty.attributes = this.featureForm.value;
     console.log(abstracty.attributes);
     // let project_actions = review.attributes.Project_Actions;

@@ -6,6 +6,8 @@ import {finalize, switchMap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DocPopupComponent} from '../doc-popup/doc-popup.component';
 import {MatDialog} from '@angular/material/dialog';
+import { ArcBaseService } from '../services/arc-base.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-support-docs-form',
@@ -15,11 +17,11 @@ import {MatDialog} from '@angular/material/dialog';
 export class SupportDocsFormComponent implements OnInit {
   displayColumns = ['type', 'date', 'Creator'];
   projectId: string;
-  docService: DocuService;
+  docService: ArcBaseService;
   ready: any;
 
   constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
-    this.docService = new DocuService(snackBar, loadingService);
+    this.docService = new ArcBaseService(environment.layers.docu,  snackBar, loadingService);
   }
 
   ngOnInit(): void {
@@ -36,25 +38,26 @@ export class SupportDocsFormComponent implements OnInit {
             }));
           })
         );
-      })).subscribe();
+      })).subscribe(()=>this.loadingService.hide());
   }
 
   openDialog(task: any): void {
-    // if (task.attributes.GlobalID === 'new') {
-    //   this.docService.create_new_fieldwork(this.project_id).subscribe(new_fieldwork => {
-    //     this.dialog.open(DocPopupComponent, {
-    //       width: '650px',
-    //       data: {fieldwork: new_fieldwork}
-    //     }).afterClosed().pipe(flatMap(result => {
-    //       console.log('The dialog was closed');
-    //       return this.fieldworkService.getItems();
-    //     })).subscribe();
-    //   });
-    // } else {
     this.dialog.open(DocPopupComponent, {
       width: '650px',
-      data: {docTask: task, ready: this.ready, meta: this.docService.meta}
+      data: {docTask: task, meta: this.docService.meta, objectID: task.attributes.objectid}
+    }).afterClosed().subscribe(confirmed => {
+      this.ngOnInit();
     });
+
+  }
+  openEmptyDialog(): void {
+    this.dialog.open(DocPopupComponent, {
+      width: '650px',
+      data: {docTask: {attributes: {'globalid': 'new', 'parentglobalid': this.projectId }}, meta: this.docService.meta}
+    }).afterClosed().subscribe(confirmed => {
+      this.ngOnInit();
+    });
+
   }
 }
 

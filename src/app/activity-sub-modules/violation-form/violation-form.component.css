@@ -1,0 +1,10 @@
+mat-form-field {
+    width: 90%;
+}
+
+form {
+    padding: 15px;
+}
+mat-radio-button {
+    padding-left: 20px;
+}

@@ -24,6 +24,7 @@ export class EditPaneComponent implements  OnInit  {
   ngOnInit() {
     this.data.currentMessage.subscribe(message => this.message = message);
     // this.projectId = this.route.snapshot.paramMap.get('id');
+    this.loadingService.show();
     this.route.paramMap.pipe(
       // switchMap(() => this.projectId = this.route.snapshot.paramMap.get('id')),
       switchMap(() => {

@@ -11,4 +11,6 @@ mat-toolbar {
   margin: 5px;
 }
 
-
+app-impacts-form {
+  overflow: hidden;
+}

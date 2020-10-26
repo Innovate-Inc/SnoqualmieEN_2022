@@ -5,6 +5,7 @@
         <button class="button-pad-right" mat-fab (click)="save(p)" color="accent">
           <mat-icon>save</mat-icon>
         </button>
+        <p *ngIf="!featureForm.pristine">There are unsaved changes</p>
       </div>
     </div>
     <br/><br/>
@@ -12,7 +13,7 @@
       <mat-form-field>
         <mat-placeholder>{{projectService.meta.Abstract.alias}}</mat-placeholder>
         <mat-label>{{projectService.meta.Abstract.alias}}</mat-label>
-        <textarea matInput formControlName="Abstract" matTextareaAutosize matAutosizeMinRows=3
+        <textarea [readonly]="!projectService.editing" matInput formControlName="Abstract" matTextareaAutosize matAutosizeMinRows=3
                   matAutosizeMaxRows=20></textarea>
       </mat-form-field>
     </div>
