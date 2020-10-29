@@ -77,3 +77,16 @@ $app-warn:    mat-palette($mat-red);
 $app-theme:   mat-light-theme($app-primary, $app-accent, $app-warn);
 @include angular-material-theme($app-theme);
 @include mat-slide-toggle-theme(mat-light-theme($app-primary, $app-accent));
+
+
+/* started this, might be easiest to just use styles.css as it may be hard to use two font families
+$custom-typography: mat-typography-config(
+  $font-family: 'Arvo',  
+  $headline: mat-typography-level(32px, 1.45, 700),
+  $title: mat-typography-level(24px, 1.45, 700),
+  $subheading-2: mat-typography-level(20.8px, 1.45, 500),
+  $subheading-1: mat-typography-level(16px, 1.45, 500),
+);
+
+@include angular-material-typography($custom-typography);
+*/

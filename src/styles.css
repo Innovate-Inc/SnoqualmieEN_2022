@@ -15,6 +15,16 @@
 /*  flex: 0 0 100px !important;*/
 /*}*/
 
+
+/* needs tweeking
+h1, h2, h3, h4, h5, span, div {
+  font-family: Arvo;
+}
+input, button, p {
+  font-family: ABeeZee;
+}
+*/
+
  mat-raised-button.mat-red, mat-mini-fab.mat-red  {
   color: rgb(196,18,48);
  }
