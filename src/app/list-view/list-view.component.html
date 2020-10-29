@@ -1,21 +1,20 @@
 <mat-card >
-  
-  <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
-    <mat-icon>add</mat-icon>
-  </button>
-  <br><br>
-  <div>
+  <div class="list-header">
     <mat-form-field class="searchField">
       <input #searchInput matInput (keyup.enter)="search($event.target.value)" placeholder="Search">
       <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="search('%');searchInput.value=''">
         <mat-icon>close</mat-icon>
       </button>
-    </mat-form-field> 
-     <button mat-raised-button color="accent" (click)="search($event.target.value)">Execute</button>
+    </mat-form-field>
+
+    <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
+      <!-- <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']" (click)="addFeature()"> -->
+        <mat-icon>add</mat-icon>
+    </button>
+
 
   </div>
-
-  <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
+<!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
 <!--                      ></mat-progress-bar>-->
   <mat-table class="tbox" #table [dataSource]="projectService.datasource" >
     <ng-container matColumnDef="id">
