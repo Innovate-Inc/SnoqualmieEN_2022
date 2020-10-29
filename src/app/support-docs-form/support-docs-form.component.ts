@@ -19,6 +19,7 @@ export class SupportDocsFormComponent implements OnInit {
   projectId: string;
   docService: ArcBaseService;
   ready: any;
+  searchItem: string = '';
 
   constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
     this.docService = new ArcBaseService(environment.layers.docu,  snackBar, loadingService);
@@ -58,6 +59,11 @@ export class SupportDocsFormComponent implements OnInit {
       this.ngOnInit();
     });
 
+  }
+  execute(){
+    console.log(this.searchItem);
+    this.docService.filter.where = `(Creator like '%${this.searchItem}%' or Docu_Type like '%${this.searchItem}%' or Docu_Note like '%${this.searchItem}%') and parentglobalid = '${this.projectId}'`;
+    this.docService.getItems().subscribe();
   }
 }
 

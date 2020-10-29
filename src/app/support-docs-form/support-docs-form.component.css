@@ -1,0 +1,10 @@
+
+
+.supportDocsTable {
+    height: calc(100vh - 450px);
+    flex: 1 1; 
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
+  

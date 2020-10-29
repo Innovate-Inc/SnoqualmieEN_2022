@@ -34,7 +34,7 @@ export class ListViewComponent implements OnInit {
   }
 
   search(searchText: any) {
-    this.projectService.filter.where  = `Project_Name like '%${searchText}%'`;
+    this.projectService.filter.where  = `Project_Name like '%${searchText}%' or ID_DAHP_full like '%${searchText}'`;
     this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
   //   if (isNumeric(searchText)) {
   //     this.projectService.filter.where = this.projectService.filter.where.concat(` OR ProjectNumber = ${searchText}`);
