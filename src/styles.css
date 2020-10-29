@@ -1,6 +1,6 @@
 
 /*!*@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";*!*/
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+/*@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 /*!*@import "https://js.arcgis.com/3.23/esri/css/esri.css";*!*/
 /*!*@import "https://js.arcgis.com/3.23/dijit/themes/claro/claro.css";*!*/
 
@@ -15,7 +15,6 @@
 /*.mat-column-ProjectNumber, .cdk-column-ProjectNumber {*/
 /*  flex: 0 0 100px !important;*/
 /*}*/
-
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   /*background-color: #00504f;*/
   height: 3px;
