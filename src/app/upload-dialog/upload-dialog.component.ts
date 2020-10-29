@@ -2,6 +2,7 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArcBaseService } from '../services/arc-base.service';
+import { DialogService } from '../services/dialog.service';
 import { LoadingService } from '../services/loading.service';
 
 
@@ -29,11 +30,12 @@ export class UploadDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<UploadDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UploadDialogData, public snackBar: MatSnackBar, public loadingService: LoadingService) {
-      this.uploadService = new ArcBaseService(this.data.uploadLayer, this.snackBar, this.loadingService);
+      this.uploadService = new ArcBaseService(this.data.uploadLayer, this.snackBar, this.loadingService,);
     }
 
 
   ngOnInit(): void {
+
   }
   
   cancel(): void {
