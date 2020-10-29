@@ -1,14 +1,14 @@
-import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
-import {environment} from '../../environments/environment';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 import FeatureLayer from 'esri/layers/FeatureLayer';
 import Query from 'esri/tasks/support/Query';
 import StatisticDefinition from 'esri/tasks/support/StatisticDefinition';
 import projection from 'esri/geometry/projection';
-import {finalize, map} from 'rxjs/operators';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {DataSource} from '@angular/cdk/collections';
+import { finalize, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataSource } from '@angular/cdk/collections';
 import AttachmentInfo from 'esri/layers/support/AttachmentInfo';
-import {LoadingService} from './loading.service';
+import { LoadingService } from './loading.service';
 
 export class ArcBaseService {
   loading: boolean;
@@ -27,7 +27,7 @@ export class ArcBaseService {
 
   constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
     this.datasource = new BaseDataSource(this);
-    this.filter = {num: 25, start: 0, outFields: ['*']};
+    this.filter = { num: 25, start: 0, outFields: ['*'] };
     this.layer = new FeatureLayer({
       url,
       outFields: ['*'],
@@ -54,7 +54,7 @@ export class ArcBaseService {
           // get geometry to null if its empty so the server does not reject it
           const features = this.prepForServer([feature.clone()]);
           if (type === 'add') {
-            this.layer.applyEdits({addFeatures: features}).then(results => {
+            this.layer.applyEdits({ addFeatures: features }).then(results => {
               obs.next(results.addFeatureResults);
               if (!quiet) {
                 this.openSnackBar('Added!', '');
@@ -65,7 +65,7 @@ export class ArcBaseService {
               obs.error(e);
             });
           } else if (type === 'update') {
-            this.layer.applyEdits({updateFeatures: features}).then(results => {
+            this.layer.applyEdits({ updateFeatures: features }).then(results => {
               obs.next(results.updateFeatureResults);
               if (!quiet) {
                 this.openSnackBar('Updated!', '');
@@ -147,7 +147,7 @@ export class ArcBaseService {
     });
   }
 
-  projectPoint(point: __esri.Geometry, outSR = {wkid: 4326}) {
+  projectPoint(point: __esri.Geometry, outSR = { wkid: 4326 }) {
     return new Observable<any>(observer => {
       projection.load().then(() => {
         const projectedPoint = projection.project(point, outSR);
@@ -163,12 +163,12 @@ export class ArcBaseService {
       this.layerIsLoaded.subscribe(() => {
         let q;
         if (globalId) {
-           q = {where: `globalid='${globalId}'`, outFields};
+          q = { where: `globalid='${globalId}'`, outFields };
         } else if (objectId) {
-           q = {objectIds: [objectId], outFields};
+          q = { objectIds: [objectId], outFields };
         }
         if (globalId || objectId) {
-          this.layer.queryFeatures(q).then (featureSet => {
+          this.layer.queryFeatures(q).then(featureSet => {
             const features = vm.convertFromEpoch(featureSet.features);
             obs.next(features[0]);
 
@@ -221,7 +221,7 @@ export class ArcBaseService {
 
   delete(feature: __esri.Graphic) {
     return new Observable(obs => {
-      this.layer.applyEdits({deleteFeatures: [feature]}).then(result => {
+      this.layer.applyEdits({ deleteFeatures: [feature] }).then(result => {
         obs.next(result.deleteFeaturesResult);
       }).catch(e => {
         this.openSnackBar(e.toString() + ' ' + e.details[0], '');
@@ -249,7 +249,7 @@ export class ArcBaseService {
       map(features => {
         this.dataChange.next(features);
       }),
-       finalize(() => this.loadingService.hide())
+      finalize(() => this.loadingService.hide())
     );
   }
 
@@ -263,16 +263,18 @@ export class ArcBaseService {
 
   getAttachments(objectId: number) {
     return new Observable(obs => {
-      this.layer.queryAttachments({objectIds: [objectId]}).then(attachments => {
-        attachments[objectId].forEach((attachment: any) => {
-          if (attachment.contentType.substring(0, 5) === 'image') {
-            attachment.previewUrl = attachment.url;
-          } else {
-            attachment.previewUrl = 'assets/images/Very-Basic-File-icon.png';
-            attachment.extension = attachment.name.split('.').pop();
-          }
-        });
-        obs.next(attachments);
+      this.layer.queryAttachments({ objectIds: [objectId] }).then(attachments => {
+        if (attachments[objectId]) {
+          attachments[objectId].forEach((attachment: any) => {
+            if (attachment.contentType.substring(0, 5) === 'image') {
+              attachment.previewUrl = attachment.url;
+            } else {
+              attachment.previewUrl = 'assets/images/Very-Basic-File-icon.png';
+              attachment.extension = attachment.name.split('.').pop();
+            }
+          });
+          obs.next(attachments);
+        }
       });
     });
   }

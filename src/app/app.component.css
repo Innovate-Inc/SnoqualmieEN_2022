@@ -10,3 +10,7 @@ mat-toolbar {
 .mat-mini-fab {
   margin: 5px;
 }
+
+app-impacts-form {
+  overflow: hidden;
+}

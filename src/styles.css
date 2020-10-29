@@ -1,6 +1,5 @@
 
 /*!*@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";*!*/
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 /*!*@import "https://js.arcgis.com/3.23/esri/css/esri.css";*!*/
 /*!*@import "https://js.arcgis.com/3.23/dijit/themes/claro/claro.css";*!*/
 
@@ -16,6 +15,10 @@
 /*  flex: 0 0 100px !important;*/
 /*}*/
 
+ mat-raised-button.mat-red, mat-mini-fab.mat-red  {
+  color: rgb(196,18,48);
+ }
+ 
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   /*background-color: #00504f;*/
   height: 3px;
@@ -99,7 +102,7 @@ app-welcome{
   top: -64px;
 }
 
-app-review-form, app-abstract-form{
+app-review-form, app-abstract-form, app-support-docs-form{
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -107,6 +110,7 @@ app-review-form, app-abstract-form{
   padding: 15px;
   max-height: calc(100vh - 213px);
 }
+
 
 /*app-project-form, app-related-table-form, app-list-view, app-review-form,*/
 /*app-assigned-task, app-fieldwork, app-cultural-resources, app-stipulations, app-comments, app-comm, app-attachment-form {*/
@@ -188,15 +192,9 @@ mat-row.active {
   padding-left: 10px !important;
 }
 
-/*.tb-mat-button {*/
-/*  margin-left: 1px;*/
-/*}*/
-.list-header {
-  display: flex;
-  justify-content: space-between;
-}
 .searchField{
-  width: 100%;
+  width: 70%;
+  padding-right: 20px;
 }
 .up25{
   top: -25%;
@@ -245,4 +243,31 @@ background-color: #fff;
 
 table {
   width: 100%;
+}
+.activity-upload-icon {
+  font-size:100px; 
+  position: absolute; 
+  top:6%; 
+  left:16%;
+}
+mat-grid-list.activity-grid-list{
+  width: 80%;
+  min-width: 80%;
+  max-width: 80%;
+  padding-left: 10%;
+  display: inline-block;
+}
+
+.activity-form {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 550px;
+  width: auto;
+  text-align: center;
+}
+h2.mat-dialog-title {
+  padding-left: 5%;
+}
+mat-dialog {
+  background-color: white;
 }

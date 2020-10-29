@@ -7,3 +7,22 @@ mat-slider {
 mat-form-field {
     width: 80%;
 }
+
+.fColumnn {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 324px);
+    overflow-y: scroll;
+  }
+  
+  .button-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .button-pad-right {
+    margin-right: 5px;
+  }
+  
+  
