@@ -398,13 +398,11 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       if (results.length) {
         const objectId = results.addFeatureResults[0].objectId;
 
-
-        
         if (this._highlightHandler) {
           this._highlightHandler.remove();
         }
         // this._view.goTo(graphic);
-        this.router.navigate(['/app/edit', graphic.attributes.globalid]);
+        // this.router.navigate(['/app/edit', graphic.attributes.globalid]);
       }
     });
 
