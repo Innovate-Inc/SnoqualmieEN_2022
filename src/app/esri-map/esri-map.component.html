@@ -1,2 +1,24 @@
 <!-- Here's the DIV that we inject the map into -->
 <div #mapViewNode></div>
+<div id='sketchPanel' class='sketchPanel' class='esri-widget'>
+  <button *ngIf="this.mode==='none'" (click)=enterSketchMode(); class='create' mat-mini-fab color="primary" matTooltip="Add Item">
+    <mat-icon>add</mat-icon>
+  </button>
+  <!-- <button class='edit' mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
+    <mat-icon>create</mat-icon>
+  </button> -->
+  <button *ngIf="this.mode==='complete'" (click)=saveNewFeature(); class='save' mat-mini-fab color="primary" matTooltip="Save">
+    <mat-icon>save</mat-icon>
+  </button>
+
+  <button *ngIf="this.mode==='complete'" (click)=cancelNewFeature(); class='cancel' mat-mini-fab color="primary" matTooltip="Cancel">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div id='instructions' class='instructions'>
+  <ul>
+    <li>Click to start drawing a new item</li>
+    <li>Double-click to complete</li>
+  </ul>
+</div>

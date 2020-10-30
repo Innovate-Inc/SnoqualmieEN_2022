@@ -1,7 +1,25 @@
 /* import the required JSAPI css */
+
 @import url('https://js.arcgis.com/4.15/esri/css/main.css');
-
 .esri-view {
-  height: calc(100vh - 64px);  /*subtract tool bar */
+  height: calc(100vh - 64px);
+  /*subtract tool bar */
+}
 
+#sketchPanel {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+#instructions {
+  width: 300px;
+  background: #fff;
+  padding: 10px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+button {
+  margin-left: 10px;
 }

@@ -1,4 +1,4 @@
-import {environment, url} from './../../environments/environment.prod';
+import { environment, url } from './../../environments/environment.prod';
 import {
   Component,
   OnInit,
@@ -21,8 +21,11 @@ import Expand from 'esri/widgets/Expand'; // clickable button for opening a widg
 import LayerList from 'esri/widgets/LayerList';
 import FeatureTable from 'esri/widgets/FeatureTable';
 import esriConfig from 'esri/config';
+import SketchViewModel from 'esri/widgets/Sketch/SketchViewModel';
+import GraphicsLayer from 'esri/layers/GraphicsLayer';
+import Graphic from 'esri/Graphic';
 // import {IdentityManagementService} from '../services/identity-management.service';
-import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import LayerView = __esri.LayerView;
 import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
@@ -40,7 +43,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   @Output() mapLoadedEvent = new EventEmitter<boolean>();
   navigationSubscription: any;
   // The <div> where we will place the map
-  @ViewChild('mapViewNode', {static: true}) private mapViewEl: ElementRef;
+  @ViewChild('mapViewNode', { static: true }) private mapViewEl: ElementRef;
 
   /**
    * _zoom sets map zoom
@@ -56,6 +59,12 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private _highLightLayer: any; // FeatureLayerView;
   private _highlightHandler: Handle;
   private _id: any;
+  private sketchViewModel: any;
+  private graphicsLayer: any;
+  private cancel = false;
+  private editLyr: any;
+  mode = 'none';
+  createGraphic: any;
 
   get mapLoaded(): boolean {
     return this._loaded;
@@ -106,7 +115,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       if (this._highlightHandler) {
         this._highlightHandler.remove();
       }
-      this._view.goTo({zoom: this._zoom, center: this._center});
+      this._view.goTo({ zoom: this._zoom, center: this._center });
     }
 
   }
@@ -115,7 +124,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     console.log('highlight run');
     let biskit: any;
     this._view.whenLayerView(this._highLightLayer).then((layerView: any) => {
-      this._highLightLayer.queryFeatures({where: `globalid='${id}'`, outFields: '*', returnGeometry: true}).then((result: any) => {
+      this._highLightLayer.queryFeatures({ where: `globalid='${id}'`, outFields: '*', returnGeometry: true }).then((result: any) => {
         if (this._highlightHandler) {
           this._highlightHandler.remove();
         }
@@ -196,15 +205,79 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
               featLayer.outFields = ['*'];
               return featLayer;
             });
+
         });
       this._view.map = webMap;
-      // wait for the map to load
-      await this._view.when();
 
+      // wait for the map to load
+      await this._view.when(() => {
+        this.graphicsLayer = new GraphicsLayer();
+        this._view.map.add(this.graphicsLayer);
+        this.sketchViewModel = new SketchViewModel({
+          view: this._view,
+          layer: this.graphicsLayer,
+          updateOnGraphicClick: false,
+          defaultUpdateOptions: {
+            // set the default options for the update operations
+            toggleToolOnClick: false // only reshape operation will be enabled
+          },
+          defaultCreateOptions: {
+            mode: 'hybrid'
+          }
+        });
+
+        this.sketchViewModel.on('update', (evt: any) => {
+          this.onGraphicUpdate(evt);
+        });
+        this.sketchViewModel.on('create', (evt: any) => {
+          this.onGraphicCreate(evt);
+        });
+
+        this.editLyr = this._view.map.allLayers.find((layer: any) => {
+          const lyrUrl = `${layer.url}/${layer.layerId}`;
+          return environment.layers.review === lyrUrl;
+        });
+      });
 
       return this._view;
     } catch (error) {
       console.log('EsriLoader: ', error);
+    }
+  }
+
+  onGraphicUpdate(event: any) {
+    if (event.state === 'complete') {
+      console.log(event);
+
+      // save
+      // if (this.cancel === false) {
+      //   let addGraphic = new Graphic({
+      //     attributes: { OBJECTID: event.graphics[0].attributes.OBJECTID },
+      //     geometry: event.graphics[0].geometry
+      //   });
+      //   environment.layers..applyEdits({
+      //     updateFeatures: [addGraphic]
+      //   }).then(function (results) {
+      //     graphicsLayer.removeAll();
+      //     featureLayer.refresh();
+      //     featureLayer.visible = true;
+      //   });
+      // }
+      // // cancel
+      // else {
+      //   console.log(event);
+      //   graphicsLayer.removeAll();
+      //   featureLayer.visible = true;
+      //   this.cancel = false;
+      // }
+    }
+  }
+
+  onGraphicCreate(event: any) {
+    if (event.state === 'complete') {
+      console.log('create complete', event);
+      this.mode = 'complete';
+      this.createGraphic = event.graphic;
     }
   }
 
@@ -243,10 +316,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           });
       });
     }).then(() => {
-        this.zngDoCheck();
-        this._center = [this._view.center.longitude, this._view.center.latitude];
-        this._zoom = this._view.zoom;
-      }
+      this.zngDoCheck();
+      this._center = [this._view.center.longitude, this._view.center.latitude];
+      this._zoom = this._view.zoom;
+    }
     );
   }
 
@@ -255,6 +328,18 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       view: this._view
     });
     this._view.ui.add(homeBtn, 'top-left');  // Add to top left corner of view
+  }
+
+  addEditing() {
+    const sketchViewModel = new SketchViewModel({
+      view: this._view,
+      // layer: graphicsLayer,
+      updateOnGraphicClick: false,
+      defaultUpdateOptions: {
+        // set the default options for the update operations
+        toggleToolOnClick: false // only reshape operation will be enabled
+      }
+    });
   }
 
   addBasemapGallery() {
@@ -288,8 +373,49 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       expandTooltip: 'Layer List',
       content: layerList
     });
-    this._view.ui.add(layerListExpand, 'top-right');
+    this._view.ui.add(layerListExpand, 'top-left');
+    this._view.ui.add('sketchPanel', 'top-right');
+  }
 
+  enterSketchMode() {
+    console.log('sketch mode');
+    this.mode = 'add';
+    this.editLyr.visible = false;
+    this.sketchViewModel.create('polygon', { mode: 'hybrid' });
+    this._view.ui.add('instructions', 'top-right');
+
+  }
+
+  saveNewFeature() {
+    console.log('save new feature');
+    this._view.ui.remove('instructions');
+    this.editLyr.visible = true;
+    this.graphicsLayer.removeAll();
+    this.mode = 'none';
+
+    this.editLyr.applyEdits({ addFeatures: [this.createGraphic] }).then((results: any) => {
+      console.log(results);
+      if (results.length) {
+        const objectId = results.addFeatureResults[0].objectId;
+
+
+        
+        if (this._highlightHandler) {
+          this._highlightHandler.remove();
+        }
+        // this._view.goTo(graphic);
+        this.router.navigate(['/app/edit', graphic.attributes.globalid]);
+      }
+    });
+
+  }
+
+  cancelNewFeature() {
+    console.log('cancel new feature');
+    this._view.ui.remove('instructions');
+    this.editLyr.visible = true;
+    this.graphicsLayer.removeAll();
+    this.mode = 'none';
   }
 
   ngOnDestroy() {
