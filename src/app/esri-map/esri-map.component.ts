@@ -63,6 +63,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private graphicsLayer: any;
   private cancel = false;
   private editLyr: any;
+  mode = 'none';
+  createGraphic: any;
 
   get mapLoaded(): boolean {
     return this._loaded;
@@ -203,11 +205,14 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
               featLayer.outFields = ['*'];
               return featLayer;
             });
+
         });
       this._view.map = webMap;
 
       // wait for the map to load
       await this._view.when(() => {
+        this.graphicsLayer = new GraphicsLayer();
+        this._view.map.add(this.graphicsLayer);
         this.sketchViewModel = new SketchViewModel({
           view: this._view,
           layer: this.graphicsLayer,
@@ -220,20 +225,19 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
             mode: 'hybrid'
           }
         });
-        this.graphicsLayer = new GraphicsLayer();
-        this._view.map.add(this.graphicsLayer);
 
-        this.sketchViewModel.on('update', this.onGraphicUpdate);
-        this.sketchViewModel.on('create', this.onGraphicCreate);
+        this.sketchViewModel.on('update', (evt: any) => {
+          this.onGraphicUpdate(evt);
+        });
+        this.sketchViewModel.on('create', (evt: any) => {
+          this.onGraphicCreate(evt);
+        });
 
-        this.editLyr = this._view.map.allLayers.find( (layer: any) => {
+        this.editLyr = this._view.map.allLayers.find((layer: any) => {
           const lyrUrl = `${layer.url}/${layer.layerId}`;
           return environment.layers.review === lyrUrl;
-         });
+        });
       });
-
-
-
 
       return this._view;
     } catch (error) {
@@ -268,8 +272,12 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onGraphicCreate(evt: any) {
-
+  onGraphicCreate(event: any) {
+    if (event.state === 'complete') {
+      console.log('create complete', event);
+      this.mode = 'complete';
+      this.createGraphic = event.graphic;
+    }
   }
 
   zngDoCheck() {
@@ -290,7 +298,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       this.mapLoadedEvent.emit(true);
       this.addHome();  // Home button
       this.addBasemapGallery();  // Basemap Gallery
-      //this.addEditor();
       this._view.on('click', event => {
         this._view.hitTest(event).then((response: any) => {
           if (response.results.length) {
@@ -365,8 +372,47 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       expandTooltip: 'Layer List',
       content: layerList
     });
-    this._view.ui.add(layerListExpand, 'top-right');
+    this._view.ui.add(layerListExpand, 'top-left');
+    this._view.ui.add('sketchPanel', 'top-right');
+  }
 
+  enterSketchMode() {
+    console.log('sketch mode');
+    this.mode = 'add';
+    this.editLyr.visible = false;
+    this.sketchViewModel.create('polygon', { mode: 'hybrid' });
+    this._view.ui.add('instructions', 'top-right');
+
+  }
+
+  saveNewFeature() {
+    console.log('save new feature');
+    this._view.ui.remove('instructions');
+    this.editLyr.visible = true;
+    this.graphicsLayer.removeAll();
+    this.mode = 'none';
+
+    this.editLyr.applyEdits({ addFeatures: [this.createGraphic] }).then((results: any) => {
+      console.log(results);
+      if (results.length) {
+        const objectId = results.addFeatureResults[0].objectId;
+
+        if (this._highlightHandler) {
+          this._highlightHandler.remove();
+        }
+        // this._view.goTo(graphic);
+        // this.router.navigate(['/app/edit', graphic.attributes.globalid]);
+      }
+    });
+
+  }
+
+  cancelNewFeature() {
+    console.log('cancel new feature');
+    this._view.ui.remove('instructions');
+    this.editLyr.visible = true;
+    this.graphicsLayer.removeAll();
+    this.mode = 'none';
   }
 
   ngOnDestroy() {
