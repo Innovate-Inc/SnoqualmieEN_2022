@@ -1,0 +1,23 @@
+mat-card {
+    flex: 1;
+    margin: 15px;
+    /*width: 50%;*/
+    display: flex;
+    flex-direction: column;
+  }
+  
+ mat-row {
+    cursor: pointer;
+  }
+  
+  .paginator-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  
+.tbox {
+  overflow-y: scroll;
+  max-height: calc(100vh - 525px);
+}

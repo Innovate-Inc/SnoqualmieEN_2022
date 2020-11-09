@@ -1,47 +1,46 @@
-<section>
+<mat-card>
     <form>
         <mat-form-field style="padding: 30px; width: 40%;">
             <input matInput placeholder="Search">
         </mat-form-field>
         <span style="padding: 60px; float: right;">
-            <button mat-mini-fab color="primary" (click)="openDialog()" aria-label="Add a call activity button">
+            <button mat-mini-fab color="primary"
+            (click)="openDialog({attributes: {'globalid': 'new', 'parentglobalid': this.projectId }})" 
+            aria-label="Add a chance encounter activity button">
                 <mat-icon>add</mat-icon>
             </button>
         </span>
     </form>
-</section>
-<section>
-    <table mat-table [dataSource]="dataSource" class="mat-activity-table">
+    <mat-table class="tbox" [dataSource]="activityService.datasource">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
       
         <!-- Position Column -->
-        <ng-container matColumnDef="nature">
-          <th mat-header-cell *matHeaderCellDef>Nature</th>
-          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Type}} </td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Who}} </td>
+        <ng-container matColumnDef="CE_Who">
+          <mat-header-cell *matHeaderCellDef>Chance Encounter</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.attributes?.CE_Who}} </mat-cell>
         </ng-container>
       
         <!-- Weight Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Email}} </td>
+        <ng-container matColumnDef="CreationDate">
+          <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.attributes?.CreationDate | date}} </mat-cell>
         </ng-container>
       
         <!-- Symbol Column -->
-        <ng-container matColumnDef="number">
-          <th mat-header-cell *matHeaderCellDef> Number </th>
-          <td mat-cell *matCellDef="let element"> {{element.attributes?.Call_Number}} </td>
+        <ng-container matColumnDef="Creator">
+          <mat-header-cell *matHeaderCellDef> Submited By </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.attributes?.Creator}} </mat-cell>
         </ng-container>
       
-        <tr mat-header-row *matHeaderRowDef="displayedColumnse"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnse;"></tr>
-      </table>
-      <br><br><br>
-</section>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDialog(row)"></mat-row>
+      </mat-table>
+      <div class = "paginator-div" >
+        <mat-paginator [length]="activityService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
+                       (page)="activityService.getPage($event)"></mat-paginator>
+    
+      </div>
+      
+    </mat-card>
