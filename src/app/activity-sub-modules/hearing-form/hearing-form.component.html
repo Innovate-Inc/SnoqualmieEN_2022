@@ -1,10 +1,9 @@
 <h2 mat-dialog-title>Add or view a hearing activity</h2>
 <form class="activity-form">
     <mat-dialog-content>
-
         <mat-form-field appearance="fill">
-            <mat-label>Staff Involved</mat-label>
-            <mat-select>
+            <mat-label>{{meta.Activity_Staff.alias}}</mat-label>
+            <mat-select formControlName="Activity_Staff">
                 <mat-option value="option">
                     Option
                 </mat-option>
@@ -17,8 +16,8 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill">
-            <mat-label>Departments Involved</mat-label>
-            <mat-select>
+            <mat-label>{{meta.Activity_Department.alias}}</mat-label>
+            <mat-select formControlName="Activity_Department">
                 <mat-option value="option">
                     Option
                 </mat-option>
@@ -31,15 +30,15 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill">
-            <mat-label>Date Activity Occurred</mat-label>
-            <input matInput [matDatepicker]="picker">
+            <mat-label>{{meta.Activity_Date.alias}}</mat-label>
+            <input matInput formControlName="Activity_Date" [matDatepicker]="picker">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Hearing Notes</mat-label>
-            <input matInput>
+            <mat-label>{{meta.Hearing_Notes.alias}}</mat-label>
+            <input formControlName="Hearing_Notes" matInput>
         </mat-form-field>
 
         <br>
@@ -71,8 +70,8 @@
             </mat-grid-tile>
         </mat-grid-list>
         <mat-form-field>
-            <mat-label>Provide a description of uploaded attachment</mat-label>
-            <input matInput>
+            <mat-label>{{meta.Hearing_Doc_Note.alias}}</mat-label>
+            <input formControlName="Hearing_Doc_note" matInput>
         </mat-form-field>
     </mat-dialog-content>
 </form>

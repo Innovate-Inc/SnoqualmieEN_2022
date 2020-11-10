@@ -20,17 +20,8 @@
     <mat-form-field appearance="fill">
       <mat-label>{{meta.Call_Type.alias}}</mat-label>
       <mat-select required formControlName="Call_Type">
-        <mat-option value="Questions">
-          Questions
-        </mat-option>
-        <mat-option value="Tribal Complaints">
-          Tribal Member Complaints
-        </mat-option>
-        <mat-option value="Citizen Complaint">
-          Citizen Complaint
-        </mat-option>
-        <mat-option value="Citizen Complaint">
-          Citizen Complaint
+        <mat-option *ngFor="let option of activityService.meta.Call_Type.domain.codedValues"
+          [value]="option.code">{{ option.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>

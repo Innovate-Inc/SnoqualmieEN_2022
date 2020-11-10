@@ -18,20 +18,18 @@
       
         <!-- Position Column -->
         <ng-container matColumnDef="CE_Who">
-          <mat-header-cell *matHeaderCellDef>Chance Encounter</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Chance Encounter With</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.attributes?.CE_Who}} </mat-cell>
         </ng-container>
+       
+        <ng-container matColumnDef="Creator">
+          <mat-header-cell *matHeaderCellDef> Submitted By </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.attributes?.Creator}} </mat-cell>
+        </ng-container>
       
-        <!-- Weight Column -->
         <ng-container matColumnDef="CreationDate">
           <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.attributes?.CreationDate | date}} </mat-cell>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="Creator">
-          <mat-header-cell *matHeaderCellDef> Submited By </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.attributes?.Creator}} </mat-cell>
         </ng-container>
       
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

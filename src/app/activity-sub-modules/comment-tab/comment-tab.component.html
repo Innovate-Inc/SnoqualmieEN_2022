@@ -13,26 +13,26 @@
     </form>
     <mat-table class="tbox" [dataSource]="activityService.datasource">
 
-        <ng-container matColumnDef="Type_of_Comment">
-          <mat-header-cell *matHeaderCellDef>Comment Type</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.attributes?.Type_of_Comment}} </mat-cell>
+        <ng-container matColumnDef="Contact_Name">
+          <mat-header-cell *matHeaderCellDef> Comment Submitted to </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.attributes?.Contact_Name}} </mat-cell>
         </ng-container>
       
         <ng-container matColumnDef="Comm_Status">
-          <mat-header-cell *matHeaderCellDef> Comment Status </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.attributes?.Comm_Status}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{activityService.convertToDomainValue(element.attributes.Comm_Status, 'Comm_Status')}} </mat-cell>
         </ng-container>
       
         <ng-container matColumnDef="Creator">
-          <mat-header-cell *matHeaderCellDef> Submitted By </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Activity Submitted By </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.attributes?.Creator}} </mat-cell>
         </ng-container>
-
+      
         <ng-container matColumnDef="CreationDate">
-          <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Date Activity Submitted </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.attributes?.CreationDate | date}} </mat-cell>
         </ng-container>
-      
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDialog(row)"></mat-row>
       </mat-table>

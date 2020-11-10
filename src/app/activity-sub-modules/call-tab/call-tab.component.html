@@ -15,7 +15,7 @@
 
         
         <ng-container matColumnDef="Call_Who">
-          <mat-header-cell *matHeaderCellDef>Name of Caller</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Caller Name</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.attributes?.Call_Who}} </mat-cell>
         </ng-container>
       
@@ -25,7 +25,7 @@
         </ng-container>
       
         <ng-container matColumnDef="CreationDate">
-          <mat-header-cell *matHeaderCellDef> Date Submitted</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.attributes?.CreationDate | date}} </mat-cell>
         </ng-container>
       

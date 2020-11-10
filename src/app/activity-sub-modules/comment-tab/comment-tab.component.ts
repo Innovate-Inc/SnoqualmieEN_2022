@@ -16,7 +16,7 @@ import { CommentFormComponent } from '../comment-form/comment-form.component';
   styleUrls: ['./comment-tab.component.css']
 })
 export class CommentTabComponent implements OnInit {
-  displayedColumns: string[] = ['Type_of_Comment', 'Comm_Status', 'Creator', 'CreationDate' ];
+  displayedColumns: string[] = ['Contact_Name', 'Comm_Status', 'Creator', 'CreationDate' ];
   activityService: ArcBaseService;
   projectId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;

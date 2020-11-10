@@ -10,9 +10,9 @@
 
         <ng-container matColumnDef="Activity_Type">
           <mat-header-cell *matHeaderCellDef>Activity Type</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.attributes?.Activity_Type}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{activityService.convertToDomainValue(element.attributes.Activity_Type, 'Activity_Type')}} </mat-cell>
         </ng-container>
-      
+            
         <ng-container matColumnDef="Creator">
           <mat-header-cell *matHeaderCellDef> Submitted By </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.attributes?.Creator}} </mat-cell>

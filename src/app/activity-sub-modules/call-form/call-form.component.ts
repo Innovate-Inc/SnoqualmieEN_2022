@@ -70,7 +70,7 @@ export class CallFormComponent implements OnInit {
 
       if (this.isNew) {
 
-        this.data.activityTask.attributes.Activity_Type = "Call";
+        this.data.activityTask.attributes.Activity_Type = "call";
         this.data.activityTask.attributes.Activity_Date = new Date();
         //this.data.activityTask.attributes = this.activityForm.value;
 

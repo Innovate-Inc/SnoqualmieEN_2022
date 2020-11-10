@@ -54,4 +54,11 @@ export class AllActivitiesComponent implements OnInit {
       this.ngOnInit();
     });
   }
+  convertToDomainValue(val: string, field: string){
+    if(val){
+    return this.activityService.convertToDomainValue(val, field);
+
+    }
+  
+  }
 }
