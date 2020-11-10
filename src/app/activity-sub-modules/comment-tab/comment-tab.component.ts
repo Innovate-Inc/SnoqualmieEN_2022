@@ -20,6 +20,7 @@ export class CommentTabComponent implements OnInit {
   activityService: ArcBaseService;
   projectId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchItem: string = '';
 
   constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
     this.activityService = new ArcBaseService(environment.layers.call,  snackBar, loadingService);
@@ -32,7 +33,7 @@ export class CommentTabComponent implements OnInit {
         this.projectId = params.get('id');
         return this.activityService.layerIsLoaded.pipe(
           switchMap(() => {
-            this.activityService.filter.where = `parentglobalid = '${this.projectId}'`;
+            this.activityService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'comment'`;
             return this.activityService.getItems().pipe(finalize(() => {
               this.loadingService.hide();
             }));
@@ -49,6 +50,10 @@ export class CommentTabComponent implements OnInit {
     }).afterClosed().subscribe(confirmed => {
       this.ngOnInit();
     });
+  }
+  execute(){
+    this.activityService.filter.where = `(Activity_Date like '%${this.searchItem}%' or Activity_Staff like '%${this.searchItem}%' or Activity_Department like '%${this.searchItem}%' or Creator like '%${this.searchItem}%' or Comm_Status like '%${this.searchItem}%' or Communication_Type like '%${this.searchItem}%' or Type_of_Comment like '%${this.searchItem}%' or Contact_Name like '%${this.searchItem}%' or Contact_Phone like '%${this.searchItem}%' or Contact_Email like '%${this.searchItem}%') and parentglobalid = '${this.projectId}' and Activity_Type = 'comment'`;
+    this.activityService.getItems().subscribe();
   }
 
 }

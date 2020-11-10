@@ -19,6 +19,7 @@ export class ChanceEncounterTabComponent implements OnInit {
   activityService: ArcBaseService;
   projectId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchItem: string = '';
 
   constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
     this.activityService = new ArcBaseService(environment.layers.call,  snackBar, loadingService);
@@ -31,7 +32,7 @@ export class ChanceEncounterTabComponent implements OnInit {
         this.projectId = params.get('id');
         return this.activityService.layerIsLoaded.pipe(
           switchMap(() => {
-            this.activityService.filter.where = `parentglobalid = '${this.projectId}'`;
+            this.activityService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'chance'`;
             return this.activityService.getItems().pipe(finalize(() => {
               this.loadingService.hide();
             }));
@@ -47,5 +48,9 @@ export class ChanceEncounterTabComponent implements OnInit {
     }).afterClosed().subscribe(confirmed => {
       this.ngOnInit();
     });
+  }
+  execute(){
+    this.activityService.filter.where = `(Activity_Date like '%${this.searchItem}%' or Activity_Staff like '%${this.searchItem}%' or Activity_Department like '%${this.searchItem}%' or Creator like '%${this.searchItem}%' or CE_Doc_Note like '%${this.searchItem}%' or CE_Who like '%${this.searchItem}%' or CE_Notes like '%${this.searchItem}%') and parentglobalid = '${this.projectId}' and Activity_Type = 'chance'`;
+    this.activityService.getItems().subscribe();
   }
 }

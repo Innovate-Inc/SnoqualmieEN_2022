@@ -1,8 +1,9 @@
 <mat-card>
     <form>
         <mat-form-field style="padding: 30px; width: 40%;">
-            <input matInput placeholder="Search">
+          <input matInput [(ngModel)]="searchItem" name="search" placeholder="Search">
         </mat-form-field>
+        <button mat-raised-button color="accent" (click)="execute()">Execute</button>
         <span style="padding: 60px; float: right;">
             <button mat-mini-fab color="primary"
              (click)="openDialog({attributes: {'globalid': 'new', 'parentglobalid': this.projectId }})" 

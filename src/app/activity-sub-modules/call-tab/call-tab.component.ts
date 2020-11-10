@@ -21,6 +21,7 @@ export class CallTabComponent implements OnInit {
   activityService: ArcBaseService;
   projectId: string;  
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchItem: string = '';
 
 
   constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -34,7 +35,7 @@ export class CallTabComponent implements OnInit {
         this.projectId = params.get('id');
         return this.activityService.layerIsLoaded.pipe(
           switchMap(() => {
-            this.activityService.filter.where = `parentglobalid = '${this.projectId}'`;
+            this.activityService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'call'`;
             return this.activityService.getItems().pipe(finalize(() => {
               this.loadingService.hide();
             }));
@@ -50,5 +51,9 @@ export class CallTabComponent implements OnInit {
     }).afterClosed().subscribe(confirmed => {
       this.ngOnInit();
     });
+  }
+  execute(){
+    this.activityService.filter.where = `(Creator like '%${this.searchItem}%' or Call_Who like '%${this.searchItem}%' or Call_Number like '%${this.searchItem}%' or Call_Address = '${this.searchItem}' or Call_Email = '${this.searchItem}') and parentglobalid = '${this.projectId}' and Activity_Type = 'call'`;
+    this.activityService.getItems().subscribe();
   }
 }

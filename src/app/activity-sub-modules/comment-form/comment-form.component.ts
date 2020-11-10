@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Graphic from 'esri/Graphic';
+import { SaveChangesDialogComponent } from 'src/app/save-changes-dialog/save-changes-dialog.component';
 import { ArcBaseService } from 'src/app/services/arc-base.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -41,7 +42,8 @@ export class CommentFormComponent implements OnInit {
     objectid: new FormControl()
   });
   constructor(public dialog: MatDialog, public snackBar: MatSnackBar, 
-    public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any) {
+    public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<CommentFormComponent>) {
     this.dialogService = new DialogService(this.uploadService, this.dialog)
     this.activityService = new ArcBaseService(environment.layers.call, this.snackBar, this.loadingService);
     this.dialogService = new DialogService(this.activityService, this.dialog);
@@ -52,7 +54,6 @@ export class CommentFormComponent implements OnInit {
     this.meta = this.data.meta;
     this.activityForm.patchValue(this.data.activityTask.attributes);
     if(this.data.activityTask.attributes.globalid != "new"){
-      console.log(this.data.activityTask);
       this.isNew = false;
       this.dialogService.item = this.data.activityTask;
       this.loadingService.show();
@@ -62,33 +63,21 @@ export class CommentFormComponent implements OnInit {
     }
   }
 
-  save(): void {
+  async save(): Promise<void> {
 
     if(this.activityForm.valid){
 
       if (this.isNew) {
 
-        this.data.activityTask.attributes.Activity_Type = "call";
-        this.data.activityTask.attributes.Activity_Date = new Date();
-        //this.data.activityTask.attributes = this.activityForm.value;
-
-        this.data.activityTask.attributes.Call_Who = this.activityForm.controls['Call_Who'].value;
-        this.data.activityTask.attributes.Call_Number = this.activityForm.controls['Call_Number'].value;
-        this.data.activityTask.attributes.Call_Email = this.activityForm.controls['Call_Email'].value;
-        this.data.activityTask.attributes.Call_Address = this.activityForm.controls['Call_Address'].value;
-        this.data.activityTask.attributes.Call_Type = this.activityForm.controls['Call_Type'].value;
-        this.data.activityTask.attributes.Call_Doc_Note = this.activityForm.controls['Call_Doc_Note'].value;
+        this.data.activityTask.attributes = this.activityForm.value;
+        this.data.activityTask.attributes.Activity_Type = "comment";
 
         let feature = new Graphic(this.data.activityTask);
-        this.activityService.addFeature(feature).subscribe((res: Array<any>) =>{
-          this.dialogService.item = new Graphic(res[0]);
-          this.dialogService.item.attributes = {};
-          this.dialogService.item.attributes.objectid = res[0].objectId;
-          this.dialogService.item.attributes.globalid = res[0].globalId;
+        this.data.activityTask = feature;
+        this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) =>{
           this.data.activityTask.attributes.objectid = res[0].objectId;
           this.data.activityTask.attributes.globalid = res[0].globalId;
-          this.data.activityTask = new Graphic(this.data.activityTask.attributes);
-          console.log(this.data.activityTask);
+          this.activityForm.patchValue({'globalid': res[0].globalId, 'objectid': res[0].objectId});
         });
         this.isNew = false;
       }  
@@ -97,6 +86,36 @@ export class CommentFormComponent implements OnInit {
         this.activityService.updateFeature(this.data.activityTask).subscribe();
       }   
 
+      Object.keys(this.activityForm.controls).forEach((key) => {
+        this.activityForm.get(key).markAsPristine();
+      });    
+      await this.sleep(200) //allows the save to happen so that when this component is closed, the correct data loads
     }
-  }   
+  }    
+  showSaveChangesDialog(){
+    if(!this.activityForm.pristine){
+      this.dialog.open(SaveChangesDialogComponent, {
+        width: '550px',
+        height: '175px'
+      }).afterClosed().subscribe(async (res)=>{
+        if(res === 0){ //Don't save
+          this.dialogRef.close();
+        }
+        else if(res === 2){ //Save
+          this.save();
+          await this.sleep(600); //allows the save to happen so that when this component is closed, the correct data loads
+          this.dialogRef.close();
+        }
+        else { //Go back
+          return;
+        }
+      })
+    }
+    else {
+      this.dialogRef.close();
+    }
+  }
+  sleep(ms:any) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }

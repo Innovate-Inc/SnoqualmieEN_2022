@@ -67,6 +67,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AllActivitiesComponent } from './activity-sub-modules/all-activities/all-activities.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-dialog.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     AllActivitiesComponent,
     ConfirmDialogComponent,
     UploadDialogComponent,
+    SaveChangesDialogComponent,
     
   ],
   imports: [

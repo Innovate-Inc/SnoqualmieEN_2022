@@ -9,6 +9,11 @@ import { ArcBaseService } from 'src/app/services/arc-base.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { environment } from 'src/environments/environment';
 import { CallFormComponent } from '../call-form/call-form.component';
+import { ChanceEncounterFormComponent } from '../chance-encounter-form/chance-encounter-form.component';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
+import { HearingFormComponent } from '../hearing-form/hearing-form.component';
+import { MeetingFormComponent } from '../meeting-form/meeting-form.component';
+import { SiteVisitFormComponent } from '../site-visit-form/site-visit-form.component';
 
 
 @Component({
@@ -21,6 +26,7 @@ export class AllActivitiesComponent implements OnInit {
   activityService: ArcBaseService;
   projectId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchItem: string = '';
 
   constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
     this.activityService = new ArcBaseService(environment.layers.call,  snackBar, loadingService);
@@ -42,9 +48,24 @@ export class AllActivitiesComponent implements OnInit {
       })).subscribe(()=>this.loadingService.hide());
   }
   openForm(task: any){
-    var component: any;
-    if(task.attributes.Activity_Type === "Call"){
+    var component: any = CallFormComponent;
+    if(task.attributes.Activity_Type === "call"){
       component = CallFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "sitevisit"){
+      component = SiteVisitFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "comment"){
+      component = CommentFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "meeting"){
+      component = MeetingFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "hearing"){
+      component = HearingFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "chance"){
+      component = ChanceEncounterFormComponent;
     }
     this.dialog.open(component, {
       height: '700px',
@@ -54,11 +75,8 @@ export class AllActivitiesComponent implements OnInit {
       this.ngOnInit();
     });
   }
-  convertToDomainValue(val: string, field: string){
-    if(val){
-    return this.activityService.convertToDomainValue(val, field);
-
-    }
-  
+  execute(){
+    this.activityService.filter.where = `(Activity_Type like '%${this.searchItem}%' or Activity_Department like '%${this.searchItem}%' or Activity_Date like '%${this.searchItem}%' or Activity_Staff = '${this.searchItem}' or Creator = '${this.searchItem}') and parentglobalid = '${this.projectId}'`;
+    this.activityService.getItems().subscribe();
   }
 }

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Graphic from 'esri/Graphic';
+import { SaveChangesDialogComponent } from 'src/app/save-changes-dialog/save-changes-dialog.component';
 import { ArcBaseService } from 'src/app/services/arc-base.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -43,7 +44,8 @@ export class CallFormComponent implements OnInit {
   objectID: number;
 
   constructor(public dialog: MatDialog, public snackBar: MatSnackBar, 
-    public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any) {
+    public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<CallFormComponent>,) {
     this.dialogService = new DialogService(this.uploadService, this.dialog)
     this.activityService = new ArcBaseService(environment.layers.call, this.snackBar, this.loadingService);
     this.dialogService = new DialogService(this.activityService, this.dialog);
@@ -54,7 +56,6 @@ export class CallFormComponent implements OnInit {
     this.meta = this.data.meta;
     this.activityForm.patchValue(this.data.activityTask.attributes);
     if(this.data.activityTask.attributes.globalid != "new"){
-      console.log(this.data.activityTask);
       this.isNew = false;
       this.dialogService.item = this.data.activityTask;
       this.loadingService.show();
@@ -64,7 +65,7 @@ export class CallFormComponent implements OnInit {
     }
   }
 
-  save(): void {
+  async save(): Promise<void> {
 
     if(this.activityForm.valid){
 
@@ -87,8 +88,36 @@ export class CallFormComponent implements OnInit {
         this.data.activityTask.attributes = this.activityForm.value;
         this.activityService.updateFeature(this.data.activityTask).subscribe();
       }   
-
+      Object.keys(this.activityForm.controls).forEach((key) => {
+        this.activityForm.get(key).markAsPristine();
+      });    
+      await this.sleep(200) //allows the save to happen so that when this component is closed, the correct data loads
     }
   }    
-
+  showSaveChangesDialog(){
+    if(!this.activityForm.pristine){
+      this.dialog.open(SaveChangesDialogComponent, {
+        width: '550px',
+        height: '175px'
+      }).afterClosed().subscribe(async (res)=>{
+        if(res === 0){ //Don't save
+          this.dialogRef.close();
+        }
+        else if(res === 2){ //Save
+          this.save();
+          await this.sleep(600); //allows the save to happen so that when this component is closed, the correct data loads
+          this.dialogRef.close();
+        }
+        else { //Go back
+          return;
+        }
+      })
+    }
+    else {
+      this.dialogRef.close();
+    }
+  }
+  sleep(ms:any) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }

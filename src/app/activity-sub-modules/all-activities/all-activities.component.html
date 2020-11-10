@@ -1,8 +1,9 @@
 <mat-card>
     <form>
-        <mat-form-field style="padding: 30px; width: 40%;">
-            <input matInput placeholder="Search">
-        </mat-form-field>
+      <mat-form-field style="padding: 30px; width: 40%;">
+        <input matInput [(ngModel)]="searchItem" name="search" placeholder="Search">
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="execute()">Execute</button>
         
     </form>
 
