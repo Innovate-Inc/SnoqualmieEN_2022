@@ -17,7 +17,7 @@
       <mat-label>{{meta.Call_Address.alias}}</mat-label>
       <input formControlName="Call_Address" required matInput>
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="activityService.meta">
       <mat-label>{{meta.Call_Type.alias}}</mat-label>
       <mat-select required formControlName="Call_Type">
         <mat-option *ngFor="let option of activityService.meta.Call_Type.domain.codedValues"

@@ -75,11 +75,14 @@ export class DocPopupComponent implements OnInit {
       this.data.docTask.attributes.Docu_Note = this.featureForm.controls['Docu_Note'].value;
       this.data.docTask.attributes.Docu_Type = this.featureForm.controls['Docu_Type'].value;
       let feature = new Graphic(this.data.docTask);
+      this.data.docTask = feature;
       this.uploadService.addFeature(feature).subscribe((res: Array<any>) =>{
         this.dialogService.item = new Graphic(res[0]);
         this.dialogService.item.attributes = {};
         this.dialogService.item.attributes.objectid = res[0].objectId;
         this.dialogService.item.attributes.globalid = res[0].globalId;
+        this.featureForm.patchValue({"globalid": res[0].globalId, 'objectid': res[0].objectId});
+        this.data.docTask.attributes = this.featureForm.value;
       });
         
       this.saved = true;

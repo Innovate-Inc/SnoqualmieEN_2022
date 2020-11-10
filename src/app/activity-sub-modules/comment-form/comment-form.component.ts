@@ -27,6 +27,7 @@ export class CommentFormComponent implements OnInit {
     Activity_Staff: new FormControl(),
     Activity_Date: new FormControl(),
     Communication_Type: new FormControl(),
+    Comm_Status: new FormControl(),
     Contact_Name: new FormControl(),
     Contact_Email: new FormControl(),
     Contact_Phone: new FormControl(),

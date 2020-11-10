@@ -70,27 +70,16 @@ export class CallFormComponent implements OnInit {
 
       if (this.isNew) {
 
+        this.data.activityTask.attributes = this.activityForm.value;
         this.data.activityTask.attributes.Activity_Type = "call";
         this.data.activityTask.attributes.Activity_Date = new Date();
-        //this.data.activityTask.attributes = this.activityForm.value;
-
-        this.data.activityTask.attributes.Call_Who = this.activityForm.controls['Call_Who'].value;
-        this.data.activityTask.attributes.Call_Number = this.activityForm.controls['Call_Number'].value;
-        this.data.activityTask.attributes.Call_Email = this.activityForm.controls['Call_Email'].value;
-        this.data.activityTask.attributes.Call_Address = this.activityForm.controls['Call_Address'].value;
-        this.data.activityTask.attributes.Call_Type = this.activityForm.controls['Call_Type'].value;
-        this.data.activityTask.attributes.Call_Doc_Note = this.activityForm.controls['Call_Doc_Note'].value;
 
         let feature = new Graphic(this.data.activityTask);
-        this.activityService.addFeature(feature).subscribe((res: Array<any>) =>{
-          this.dialogService.item = new Graphic(res[0]);
-          this.dialogService.item.attributes = {};
-          this.dialogService.item.attributes.objectid = res[0].objectId;
-          this.dialogService.item.attributes.globalid = res[0].globalId;
+        this.data.activityTask = feature;
+        this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) =>{
           this.data.activityTask.attributes.objectid = res[0].objectId;
           this.data.activityTask.attributes.globalid = res[0].globalId;
-          this.data.activityTask = new Graphic(this.data.activityTask.attributes);
-          console.log(this.data.activityTask);
+          this.activityForm.patchValue({'globalid': res[0].globalId, 'objectid': res[0].objectId});
         });
         this.isNew = false;
       }  
