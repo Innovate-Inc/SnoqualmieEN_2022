@@ -1,5 +1,7 @@
 <mat-card >
-  <div class="list-header">
+  
+  <br><br>
+  <div>
     <mat-form-field class="searchField">
       <input #searchInput matInput (keyup.enter)="search($event.target.value)" placeholder="Search">
       <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="search('%');searchInput.value=''">

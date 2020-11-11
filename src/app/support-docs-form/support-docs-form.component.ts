@@ -61,7 +61,6 @@ export class SupportDocsFormComponent implements OnInit {
 
   }
   execute(){
-    console.log(this.searchItem);
     this.docService.filter.where = `(Creator like '%${this.searchItem}%' or Docu_Type like '%${this.searchItem}%' or Docu_Note like '%${this.searchItem}%') and parentglobalid = '${this.projectId}'`;
     this.docService.getItems().subscribe();
   }

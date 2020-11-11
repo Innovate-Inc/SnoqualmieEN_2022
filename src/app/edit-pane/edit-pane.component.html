@@ -1,9 +1,6 @@
-<!--<mat-divider></mat-divider>-->
 <mat-toolbar>{{data.currentMessage |async}}</mat-toolbar>
 <nav mat-tab-nav-bar *ngIf="route.paramMap | async as params">
-<!--  <mat-tab-group>-->
-<!--    <mat-tab>-->
-<!--      <ng-template mat-tab-label>-->
+
         <a mat-tab-link routerLink="review"
            routerLinkActive #review="routerLinkActive"
            [active]="review.isActive">
@@ -27,7 +24,7 @@
            *ngIf="params.get('id') !== 'new'">
           Impacts
         </a>
-        <a mat-tab-link routerLink="activity"
+        <a mat-tab-link routerLink="activity/allactivities"
            routerLinkActive #activity="routerLinkActive"
            [active]="activity.isActive"
            *ngIf="params.get('id') !== 'new'">

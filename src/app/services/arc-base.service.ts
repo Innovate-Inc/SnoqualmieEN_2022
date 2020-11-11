@@ -303,7 +303,22 @@ export class ArcBaseService {
       });
     });
   }
+  convertToDomainValue(val: any, field: string){
+    if(val && field){
+      let domain = this.meta[field].domain.codedValues.find((x:any) => x.code === val);
+      
+      if(domain){
+        return domain.name;
+      }
+      else {
+        return "";
+      }
 
+    }
+    else {
+      return "";
+    }
+  }
 
 }
 

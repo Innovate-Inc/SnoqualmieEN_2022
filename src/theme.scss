@@ -1,0 +1,92 @@
+
+// Custom Theming for Angular Material
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-custom-primary-color: (
+  50 : #C41230,
+  100 : #C41230,
+  200 : #C41230,
+  300 : #C41230,
+  400 : #C41230,
+  500 : #C41230,
+  600 : #C41230,
+  700 : #C41230,
+  800 : #C41230,
+  900 : #C41230,
+  A100 : #ffecec,
+  A200 : #ffb9b9,
+  A400 : #ff8686,
+  A700 : #ff6d6d,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+
+$my-custom-accent-color: (
+  50 : #c5cae9,
+  100 : #c5cae9,
+  200 : #c5cae9,
+  300 : #c5cae9,
+  400 : #c5cae9,
+  500 : #c5cae9,
+  600 : #c5cae9,
+  700 : #c5cae9,
+  800 : #c5cae9,
+  900 : #c5cae9,
+  A100 : #ffecec,
+  A200 : #ffb9b9,
+  A400 : #ff8686,
+  A700 : #ff6d6d,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+
+$app-primary: mat-palette($my-custom-primary-color);
+$app-accent:  mat-palette($mat-light-blue);
+$app-warn:    mat-palette($mat-red);
+$app-theme:   mat-light-theme($app-primary, $app-accent, $app-warn);
+@include angular-material-theme($app-theme);
+@include mat-slide-toggle-theme(mat-light-theme($app-primary, $app-accent));
+
+
+/* started this, might be easiest to just use styles.css as it may be hard to use two font families
+$custom-typography: mat-typography-config(
+  $font-family: 'Arvo',  
+  $headline: mat-typography-level(32px, 1.45, 700),
+  $title: mat-typography-level(24px, 1.45, 700),
+  $subheading-2: mat-typography-level(20.8px, 1.45, 500),
+  $subheading-1: mat-typography-level(16px, 1.45, 500),
+);
+
+@include angular-material-typography($custom-typography);
+*/

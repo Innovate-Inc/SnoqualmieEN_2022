@@ -1,6 +1,5 @@
 
 /*!*@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";*!*/
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 /*!*@import "https://js.arcgis.com/3.23/esri/css/esri.css";*!*/
 /*!*@import "https://js.arcgis.com/3.23/dijit/themes/claro/claro.css";*!*/
 
@@ -16,6 +15,20 @@
 /*  flex: 0 0 100px !important;*/
 /*}*/
 
+
+/* needs tweeking
+h1, h2, h3, h4, h5, span, div {
+  font-family: Arvo;
+}
+input, button, p {
+  font-family: ABeeZee;
+}
+*/
+
+ mat-raised-button.mat-red, mat-mini-fab.mat-red  {
+  color: rgb(196,18,48);
+ }
+ 
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   /*background-color: #00504f;*/
   height: 3px;
@@ -216,19 +229,6 @@ mat-row.active {
   background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z"/></svg>');
 }
 
-.mat-slide-toggle-bar {
-background-color: #cccccc;
-border-radius: 15px !important;
-height: 16px !important;
-}
-
-.mat-slide-toggle-thumb-container {
-top: -2px !important;
-}
-
-.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-background-color:#ffb45e;
-}
 
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
 background-color: #fff;

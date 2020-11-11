@@ -50,7 +50,6 @@ export class DialogService {
     const dialogRef = this.dialog.open(UploadDialogComponent, {
       width: '550px',
       height: '300px',
-      // height: '205px',
       data: { object: this.item, maxAttach: this.maxAttachments, 
         attached: this.attachments.length, uploadLayer: environment.layers.docu
       }
@@ -59,4 +58,5 @@ export class DialogService {
      this.getAttachments();
     });
   }
+
 }

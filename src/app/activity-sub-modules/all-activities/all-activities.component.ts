@@ -1,39 +1,82 @@
-import { Component, OnInit } from '@angular/core';
-export interface PeriodicElement {
-  attributes: {
-    Call_Who: string;
-    Call_Type: number;
-    Call_Email: string;
-    Call_Number: number;
-  }
-}
+import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap, finalize } from 'rxjs/operators';
+import { ArcBaseService } from 'src/app/services/arc-base.service';
+import { LoadingService } from 'src/app/services/loading.service';
+import { environment } from 'src/environments/environment';
+import { CallFormComponent } from '../call-form/call-form.component';
+import { ChanceEncounterFormComponent } from '../chance-encounter-form/chance-encounter-form.component';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
+import { HearingFormComponent } from '../hearing-form/hearing-form.component';
+import { MeetingFormComponent } from '../meeting-form/meeting-form.component';
+import { SiteVisitFormComponent } from '../site-visit-form/site-visit-form.component';
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {attributes: { Call_Type: 1, Call_Who: 'Hydrogen', Call_Number: 1.0079, Call_Email: 'H'}},
-  {attributes:{Call_Type: 2, Call_Who: 'Helium', Call_Number: 4.0026, Call_Email: 'He'}},
-  {attributes:{Call_Type: 3, Call_Who: 'Lithium', Call_Number: 6.941, Call_Email: 'Li'}},
-  {attributes:{Call_Type: 4, Call_Who: 'Beryllium', Call_Number: 9.0122, Call_Email: 'Be'}},
-  {attributes:{Call_Type: 5, Call_Who: 'Boron', Call_Number: 10.811, Call_Email: 'B'}},
-  {attributes:{Call_Type: 6, Call_Who: 'Carbon', Call_Number: 12.0107, Call_Email: 'C'}},
-  {attributes:{Call_Type: 7, Call_Who: 'Nitrogen', Call_Number: 14.0067, Call_Email: 'N'}},
-  {attributes:{Call_Type: 8, Call_Who: 'Oxygen', Call_Number: 15.9994, Call_Email: 'O'}},
-  {attributes:{Call_Type: 9, Call_Who: 'Fluorine', Call_Number: 18.9984, Call_Email: 'F'}},
-  {attributes:{Call_Type: 10, Call_Who: 'Neon', Call_Number: 20.1797, Call_Email: 'Ne'}},
-];
+
 @Component({
   selector: 'app-all-activities',
   templateUrl: './all-activities.component.html',
   styleUrls: ['./all-activities.component.css']
 })
 export class AllActivitiesComponent implements OnInit {
-  displayedColumnsc: string[] = ['nature', 'name', 'email', 'number'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['Activity_Type', 'Creator', 'CreationDate'];
+  activityService: ArcBaseService;
+  projectId: string;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchItem: string = '';
 
-
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
+    this.activityService = new ArcBaseService(environment.layers.call,  snackBar, loadingService);
   }
-
-
+ 
+  ngOnInit(): void {
+    this.loadingService.show();
+    this.route.parent.parent.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        this.projectId = params.get('id');
+        return this.activityService.layerIsLoaded.pipe(
+          switchMap(() => {
+            this.activityService.filter.where = `parentglobalid = '${this.projectId}'`;
+            return this.activityService.getItems().pipe(finalize(() => {
+              this.loadingService.hide();
+            }));
+          })
+        );
+      })).subscribe(()=>this.loadingService.hide());
+  }
+  openForm(task: any){
+    var component: any = CallFormComponent;
+    if(task.attributes.Activity_Type === "call"){
+      component = CallFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "sitevisit"){
+      component = SiteVisitFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "comment"){
+      component = CommentFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "meeting"){
+      component = MeetingFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "hearing"){
+      component = HearingFormComponent;
+    }
+    else if (task.attributes.Activity_Type === "chance"){
+      component = ChanceEncounterFormComponent;
+    }
+    this.dialog.open(component, {
+      height: '700px',
+      width: '600px',
+      data: {activityTask: task, meta: this.activityService.meta},
+    }).afterClosed().subscribe(confirmed => {
+      this.ngOnInit();
+    });
+  }
+  execute(){
+    this.activityService.filter.where = `(Activity_Type like '%${this.searchItem}%' or Activity_Department like '%${this.searchItem}%' or Activity_Date like '%${this.searchItem}%' or Activity_Staff = '${this.searchItem}' or Creator = '${this.searchItem}') and parentglobalid = '${this.projectId}'`;
+    this.activityService.getItems().subscribe();
+  }
 }
