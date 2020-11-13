@@ -1,24 +1,28 @@
 <!-- Here's the DIV that we inject the map into -->
 <div #mapViewNode></div>
 <div id='sketchPanel' class='sketchPanel' class='esri-widget'>
-  <button *ngIf="this.mode==='none'" (click)=enterSketchMode(); class='create' mat-mini-fab color="primary" matTooltip="Add Item">
+  <button *ngIf="this.mode==='none'" (click)=enterSketchMode(); class='create' mat-mini-fab color="primary" matTooltip="Add Site">
     <mat-icon>add</mat-icon>
   </button>
   <!-- <button class='edit' mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
     <mat-icon>create</mat-icon>
   </button> -->
-  <button *ngIf="this.mode==='complete'" (click)=saveNewFeature(); class='save' mat-mini-fab color="primary" matTooltip="Save">
+  <button *ngIf="this.mode==='complete' || this.mode==='edit'" (click)=saveNewFeature(); class='save' mat-mini-fab color="primary" matTooltip="Save">
     <mat-icon>save</mat-icon>
   </button>
 
-  <button *ngIf="this.mode==='complete'" (click)=cancelNewFeature(); class='cancel' mat-mini-fab color="primary" matTooltip="Cancel">
+  <button *ngIf="this.mode==='featureSelected'" (click)=editFeature(); class='edit' mat-mini-fab color="primary" matTooltip="Edit">
+    <mat-icon>edit</mat-icon>
+  </button>
+
+  <button *ngIf="this.mode==='complete' || this.mode==='add' || this.mode==='edit'" (click)=cancelNewFeature(); class='cancel' mat-mini-fab color="primary" matTooltip="Cancel">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
-<div id='instructions' class='instructions'>
+<!-- <div id='instructions' class='instructions'>
   <ul>
     <li>Click to start drawing a new item</li>
     <li>Double-click to complete</li>
   </ul>
-</div>
+</div> -->
