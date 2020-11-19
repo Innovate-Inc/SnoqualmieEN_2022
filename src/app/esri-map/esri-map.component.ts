@@ -154,7 +154,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.hasOwnProperty('highlightSelectFeature')) {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
         this.highlightFeature(changes.highlightSelectFeature.currentValue);
-        this.mode = 'featureSelected';
+        //this.mode = 'featureSelected';
       }
     }
   }
@@ -252,44 +252,15 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
           const tempGraphic = new Graphic();
           tempGraphic.geometry = geometry;
-          tempGraphic.attributes = { globalId: this._id };
+          tempGraphic.attributes = { ObjectId: this._selectedFeature.attributes.OBJECTID };
 
           this.editLyr.applyEdits({ updateFeatures: [tempGraphic] }).then((results: any) => {
             console.log(results);
-            if (results.addFeatureResults.length) {
-              // const objectId = results.addFeatureResults[0].objectId;
-              // const globalId = results.addFeatureResults[0].globalId;
-
-              if (this._highlightHandler) {
-                this._highlightHandler.remove();
-              }
-              // this._view.goTo(this.createGraphic);
-              // this.router.navigate(['/app/edit', globalId]);
-            }
+            this.mode = 'featureSelected';
           });
 
         });
       }
-      // else { // cancel
-      //   console.log(event);
-      //   graphicsLayer.removeAll();
-      //   featureLayer.visible = true;
-      //   this.cancel = false;
-      // }
-
-      // this.editLyr.applyEdits({ updateFeatures: [this.createGraphic] }).then((results: any) => {
-      //   console.log(results);
-      //   if (results.addFeatureResults.length) {
-      //     // const objectId = results.addFeatureResults[0].objectId;
-      //     // const globalId = results.addFeatureResults[0].globalId;
-
-      //     if (this._highlightHandler) {
-      //       this._highlightHandler.remove();
-      //     }
-      //     // this._view.goTo(this.createGraphic);
-      //     // this.router.navigate(['/app/edit', globalId]);
-      //   }
-      // });
     }
   }
 
@@ -306,6 +277,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     console.log(this._id);
     if (this._id) {
       this.highlightFeature(this._id);
+      this.mode = 'featureSelected';
     }
   }
 
@@ -329,6 +301,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
               this._highlightHandler.remove();
             }
             // this._view.goTo(graphic);
+            this.mode = 'featureSelected';
             this.router.navigate(['/app/edit', graphic.attributes.globalid]);
           }
         })
@@ -400,7 +373,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   enterSketchMode() {
     console.log('sketch mode');
     this.mode = 'add';
-    this.editLyr.visible = false;
+    this.editLyr.opacity = .2;
     this.sketchViewModel.create('polygon', { mode: 'hybrid' });
     // this._view.ui.add('instructions', 'top-right');
 
@@ -409,10 +382,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   saveNewFeature() {
     console.log('save new feature');
     // this._view.ui.remove('instructions');
-    this.editLyr.visible = true;
+    this.editLyr.opacity = .5;
     this.graphicsLayer.removeAll();
 
-    if (this.mode === 'add') {
+    if (this.mode === 'complete') {
       this.editLyr.applyEdits({ addFeatures: [this.createGraphic] }).then((results: any) => {
         console.log(results);
         if (results.addFeatureResults.length) {
@@ -422,6 +395,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           if (this._highlightHandler) {
             this._highlightHandler.remove();
           }
+          this.mode = 'featureSelected';
           this._view.goTo(this.createGraphic);
           this.router.navigate(['/app/edit', globalId]);
         }
@@ -429,13 +403,12 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.sketchViewModel.complete();
     }
-    this.mode = 'none';
   }
 
   editFeature() {
     console.log('edit feature');
     this.mode = 'edit';
-    this.editLyr.visible = false;
+    this.editLyr.opacity = .2;
     projection.load().then(() => {
       const geometry = projection.project(this._selectedFeature.geometry, this._view.spatialReference);
 
@@ -453,7 +426,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     console.log('cancel new feature');
     // this._view.ui.remove('instructions');
     this.sketchViewModel.cancel();
-    this.editLyr.visible = true;
+    this.editLyr.opacity = .5;
     this.graphicsLayer.removeAll();
     this.mode = 'none';
   }

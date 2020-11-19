@@ -3,14 +3,14 @@
   <form novalidate [formGroup]="featureForm">
     <div class="button-row">
       <div>
-        <button class="button-pad-right" *ngIf="mapMode === 'edit'" mat-fab (click)="addPolygon()" color="accent"
+        <!-- <button class="button-pad-right" *ngIf="mapMode === 'edit'" mat-fab (click)="addPolygon()" color="accent"
                 matTooltip="Click to add map feature">
           <mat-icon>add</mat-icon>
         </button>
         <button class="button-pad-right" *ngIf="mapMode === 'draw'" mat-fab (click)="editPolygon()" color="accent"
                 matTooltip="Click to edit map feature">
           <mat-icon>edit</mat-icon>
-        </button>
+        </button> -->
         <button class="button-pad-right" mat-fab (click)="save(p)" color="accent">
           <mat-icon>save</mat-icon>
         </button>
