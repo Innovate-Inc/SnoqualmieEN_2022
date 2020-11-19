@@ -23,6 +23,7 @@ import FeatureTable from 'esri/widgets/FeatureTable';
 import esriConfig from 'esri/config';
 import SketchViewModel from 'esri/widgets/Sketch/SketchViewModel';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
+import * as projection from 'esri/geometry/projection';
 import Graphic from 'esri/Graphic';
 // import {IdentityManagementService} from '../services/identity-management.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
@@ -31,7 +32,6 @@ import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
 
 // import {ProjectService} from '../services/project.service';
-
 
 @Component({
   selector: 'app-esri-map',
@@ -59,12 +59,14 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private _highLightLayer: any; // FeatureLayerView;
   private _highlightHandler: Handle;
   private _id: any;
+  private _selectedFeature: any;
   private sketchViewModel: any;
   private graphicsLayer: any;
   private cancel = false;
   private editLyr: any;
-  mode = 'none';
+  mode = 'none'; // options: none, add, complete, edit, featureSelected
   createGraphic: any;
+
 
   get mapLoaded(): boolean {
     return this._loaded;
@@ -115,9 +117,9 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       if (this._highlightHandler) {
         this._highlightHandler.remove();
       }
+      this.mode = 'none';
       this._view.goTo({ zoom: this._zoom, center: this._center });
     }
-
   }
 
   highlightFeature(id: string) {
@@ -134,6 +136,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
         } else {
           biskit = result.features[0].geometry;
+          this._selectedFeature = result.features[0];
         }
         console.log('biskit', biskit);
         this._view.goTo(biskit).catch((error: any) => {
@@ -151,6 +154,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.hasOwnProperty('highlightSelectFeature')) {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
         this.highlightFeature(changes.highlightSelectFeature.currentValue);
+        //this.mode = 'featureSelected';
       }
     }
   }
@@ -158,13 +162,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   async initializeMap() {
     try {
       esriConfig.portalUrl = environment.portalSetting.url;
-
-      // Configure the Map
-      // const mapProperties = {
-      //   basemap: this._basemap
-      // };
-
-      // const map: Map = new Map(mapProperties);
 
       const webMap = new WebMap({
         portalItem: { // autocasts as new PortalItem()
@@ -249,26 +246,21 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     if (event.state === 'complete') {
       console.log(event);
       // save
-      // if (this.cancel === false) {
-      //   let addGraphic = new Graphic({
-      //     attributes: { OBJECTID: event.graphics[0].attributes.OBJECTID },
-      //     geometry: event.graphics[0].geometry
-      //   });
-      //   environment.layers..applyEdits({
-      //     updateFeatures: [addGraphic]
-      //   }).then(function (results) {
-      //     graphicsLayer.removeAll();
-      //     featureLayer.refresh();
-      //     featureLayer.visible = true;
-      //   });
-      // }
-      // // cancel
-      // else {
-      //   console.log(event);
-      //   graphicsLayer.removeAll();
-      //   featureLayer.visible = true;
-      //   this.cancel = false;
-      // }
+      if (this.cancel === false) {
+        projection.load().then(() => {
+          const geometry = projection.project(event.graphics[0].geometry, this.editLyr.spatialReference);
+
+          const tempGraphic = new Graphic();
+          tempGraphic.geometry = geometry;
+          tempGraphic.attributes = { ObjectId: this._selectedFeature.attributes.OBJECTID };
+
+          this.editLyr.applyEdits({ updateFeatures: [tempGraphic] }).then((results: any) => {
+            console.log(results);
+            this.mode = 'featureSelected';
+          });
+
+        });
+      }
     }
   }
 
@@ -285,6 +277,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     console.log(this._id);
     if (this._id) {
       this.highlightFeature(this._id);
+      this.mode = 'featureSelected';
     }
   }
 
@@ -308,6 +301,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
               this._highlightHandler.remove();
             }
             // this._view.goTo(graphic);
+            this.mode = 'featureSelected';
             this.router.navigate(['/app/edit', graphic.attributes.globalid]);
           }
         })
@@ -379,38 +373,60 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   enterSketchMode() {
     console.log('sketch mode');
     this.mode = 'add';
-    this.editLyr.visible = false;
+    this.editLyr.opacity = .2;
     this.sketchViewModel.create('polygon', { mode: 'hybrid' });
-    this._view.ui.add('instructions', 'top-right');
+    // this._view.ui.add('instructions', 'top-right');
 
   }
 
   saveNewFeature() {
     console.log('save new feature');
-    this._view.ui.remove('instructions');
-    this.editLyr.visible = true;
+    // this._view.ui.remove('instructions');
+    this.editLyr.opacity = .5;
     this.graphicsLayer.removeAll();
-    this.mode = 'none';
 
-    this.editLyr.applyEdits({ addFeatures: [this.createGraphic] }).then((results: any) => {
-      console.log(results);
-      if (results.length) {
-        const objectId = results.addFeatureResults[0].objectId;
+    if (this.mode === 'complete') {
+      this.editLyr.applyEdits({ addFeatures: [this.createGraphic] }).then((results: any) => {
+        console.log(results);
+        if (results.addFeatureResults.length) {
+          const objectId = results.addFeatureResults[0].objectId;
+          const globalId = results.addFeatureResults[0].globalId;
 
-        if (this._highlightHandler) {
-          this._highlightHandler.remove();
+          if (this._highlightHandler) {
+            this._highlightHandler.remove();
+          }
+          this.mode = 'featureSelected';
+          this._view.goTo(this.createGraphic);
+          this.router.navigate(['/app/edit', globalId]);
         }
-        // this._view.goTo(graphic);
-        // this.router.navigate(['/app/edit', graphic.attributes.globalid]);
-      }
-    });
+      });
+    } else {
+      this.sketchViewModel.complete();
+    }
+  }
 
+  editFeature() {
+    console.log('edit feature');
+    this.mode = 'edit';
+    this.editLyr.opacity = .2;
+    projection.load().then(() => {
+      const geometry = projection.project(this._selectedFeature.geometry, this._view.spatialReference);
+
+      const tempGraphic = new Graphic();
+      tempGraphic.geometry = geometry;
+
+      this.graphicsLayer.add(tempGraphic);
+      this.sketchViewModel.update([tempGraphic], { tool: 'reshape' });
+
+
+    });
   }
 
   cancelNewFeature() {
     console.log('cancel new feature');
-    this._view.ui.remove('instructions');
-    this.editLyr.visible = true;
+    // this._view.ui.remove('instructions');
+    this.sketchViewModel.cancel();
+    this.editLyr.opacity = .5;
     this.graphicsLayer.removeAll();
     this.mode = 'none';
   }

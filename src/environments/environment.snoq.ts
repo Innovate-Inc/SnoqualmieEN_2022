@@ -2,7 +2,7 @@ export const url = 'https://maps.snoqualmietribe.us/server/rest/services/Assert/
 
 export const environment = {
   production: true,
-  jsapiConfig: {url: 'https://js.arcgis.com/4.15/'},
+  jsapiConfig: {url: 'https://js.arcgis.com/4.17/'},
   maxAttachments: 4,
   name: 'Assert',
   portalSetting : {
