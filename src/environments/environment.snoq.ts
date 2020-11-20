@@ -20,7 +20,8 @@ export const environment = {
     hearing: `${url}/6`,
     meet: `${url}/7`,
     site: `${url}/8`,
-    violation: `${url}/9`
+    violation: `${url}/9`,
+    activities: `${url}/11`
   },
   mapLayerName: 'Assert_Review_Tracking'
 };

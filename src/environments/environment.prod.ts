@@ -20,7 +20,8 @@ export const environment = {
     hearing: `${url}/7`,
     meet: `${url}/8`,
     site: `${url}/9`,
-    violation: `${url}/10`
+    violation: `${url}/10`,
+    activities: `${url}/11`
   },
   mapLayerName: 'Snoq_Survey - Review Tracking'
 };

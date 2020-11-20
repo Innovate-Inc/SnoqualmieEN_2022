@@ -67,6 +67,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AllActivitiesComponent } from './activity-sub-modules/all-activities/all-activities.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-dialog.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-d
     MatSlideToggleModule,
     MatDialogModule,
     MatGridListModule,
+    MatSidenavModule,
 
   ],
   providers: [IdentityManagementService,

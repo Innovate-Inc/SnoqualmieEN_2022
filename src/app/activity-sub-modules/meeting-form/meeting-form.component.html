@@ -1,31 +1,21 @@
 <h2 mat-dialog-title>Add or view a meeting activity</h2>
-<form class="activity-form" [formGroup]="activityForm">
+<form class="activity-form" [formGroup]="activityForm" *ngIf="activityService.meta && meta">
     <mat-dialog-content>
+
         <mat-form-field appearance="fill">
             <mat-label>{{meta.Activity_Staff.alias}}</mat-label>
             <mat-select formControlName="Activity_Staff">
-                <mat-option value="option">
-                    Option
-                </mat-option>
-                <mat-option value="option2">
-                    Option
-                </mat-option>
-                <mat-option value="option3">
-                    Option
+                <mat-option *ngFor="let option of activityService.meta.Activity_Staff.domain.codedValues"
+                    [value]="option.code">{{ option.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+       
         <mat-form-field appearance="fill">
             <mat-label>{{meta.Activity_Department.alias}}</mat-label>
             <mat-select formControlName="Activity_Department">
-                <mat-option value="option">
-                    Option
-                </mat-option>
-                <mat-option value="option2">
-                    Option
-                </mat-option>
-                <mat-option value="option3">
-                    Option
+                <mat-option *ngFor="let option of activityService.meta.Activity_Department.domain.codedValues"
+                    [value]="option.code">{{ option.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -41,8 +31,8 @@
             <input formControlName="Meet_Who" matInput>
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Meeting Notes</mat-label>
-            <input matInput>
+            <mat-label>{{meta.Meet_Notes.alias}}</mat-label>
+            <input formControlName="Meet_Notes" matInput>
         </mat-form-field>
         <br>
         <h2 *ngIf="isNew">Save Activity to Upload Photos</h2>

@@ -34,7 +34,7 @@ export class FieldWorkFormComponent implements OnInit {
 
   constructor(public projectService: ProjectService, private route: ActivatedRoute,
     public  loadingService: LoadingService, public snackBar: MatSnackBar) {
-      this.fieldWorkService = new ArcBaseService(environment.layers.field, this.snackBar, this.loadingService);
+      this.fieldWorkService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);
      }
 
   ngOnInit(): void { 

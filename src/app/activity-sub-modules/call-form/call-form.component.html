@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Add or view a call activity</h2>
-<form class="activity-form" [formGroup]="activityForm">
+<form class="activity-form" [formGroup]="activityForm"  *ngIf="activityService.meta && meta">
   <mat-dialog-content>
     <mat-form-field>
       <mat-label>{{meta.Call_Who.alias}}</mat-label>
@@ -25,17 +25,11 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Action Taken</mat-label>
-      <mat-select>
-        <mat-option value="option">
-          Option
-        </mat-option>
-        <mat-option value="option2">
-          Option
-        </mat-option>
-        <mat-option value="option3">
-          Option
+    <mat-form-field appearance="fill" *ngIf="activityService.meta">
+      <mat-label>{{meta.Call_Action_Taken.alias}}</mat-label>
+      <mat-select required formControlName="Call_Action_Taken">
+        <mat-option *ngFor="let option of activityService.meta.Call_Action_Taken.domain.codedValues"
+          [value]="option.code">{{ option.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
