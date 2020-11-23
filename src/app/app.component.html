@@ -17,12 +17,34 @@
 
 
 </mat-toolbar>
-<mat-drawer-container hasBackdrop="false" style="z-index: 100000;" autosize>
+<mat-drawer-container hasBackdrop="false" autosize>
 
 <div class="main-content">
-  <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
-    <p>Hey how is it going?</p>
-  </mat-drawer>
+  <mat-drawer #drawer class="example-sidenav" mode="over" opened="false" position="end">
+    <form [formGroup]="filterForm" class="filterForm">
+      <br><br>
+          <h3>Specify filters:</h3>
+          <mat-form-field appearance="fill">
+              <mat-label>From Date:</mat-label>
+              <input matInput formControlName="fromDate" [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+              <mat-label>
+                To Date:
+              </mat-label>
+              <input matInput formControlName="toDate" [matDatepicker]="picker2">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+          </form>
+          <br>
+          <div style="text-align: left; padding-left: 10%;">
+            <button mat-raised-button color="accent" (click)="applyFilter(0); drawer.toggle()">Apply Filter</button>
+            <button mat-button color="accent" (click)="applyFilter(1); drawer.toggle()">Clear Filter</button>
+          </div>
+        </mat-drawer>
   <router-outlet></router-outlet>
 
   </div>

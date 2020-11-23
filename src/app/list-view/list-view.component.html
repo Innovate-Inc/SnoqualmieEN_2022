@@ -3,16 +3,16 @@
   <br><br>
   <div>
     <mat-form-field class="searchField">
-      <input #searchInput matInput (keyup.enter)="search($event.target.value)" placeholder="Search">
-      <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="search('%');searchInput.value=''">
+      <input #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText" placeholder="Search">
+      <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="loadAll(); searchInput.value=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
 
-    <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
+    <button mat-raised-button color="primary" (click)="search();">
       <!-- <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']" (click)="addFeature()"> -->
-        <mat-icon>add</mat-icon>
-    </button>
+        Execute
+      </button>
 
 
   </div>

@@ -26,3 +26,16 @@ app-impacts-form {
   padding: 0px;
   width: 400px;
 }
+.filterForm{
+  text-align: center;
+}
+  mat-form-field {
+    width: 80%;
+  }
+
+  mat-drawer {
+    z-index: 10000;
+  }
+  router-outlet {
+    z-index: 1000;
+  }
