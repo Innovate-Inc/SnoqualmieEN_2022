@@ -62,7 +62,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private _selectedFeature: any;
   private sketchViewModel: any;
   private graphicsLayer: any;
-  private cancel = false;
   private editLyr: any;
   mode = 'none'; // options: none, add, complete, edit, featureSelected
   createGraphic: any;
@@ -117,8 +116,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       if (this._highlightHandler) {
         this._highlightHandler.remove();
       }
+      this.cancelFeature();
       this.mode = 'none';
       this._view.goTo({ zoom: this._zoom, center: this._center });
+
     }
   }
 
@@ -142,6 +143,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         this._view.goTo(biskit).catch((error: any) => {
           console.log(error);
         });
+        this.mode = 'featureSelected';
       });
     });
   }
@@ -154,7 +156,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.hasOwnProperty('highlightSelectFeature')) {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
         this.highlightFeature(changes.highlightSelectFeature.currentValue);
-        //this.mode = 'featureSelected';
       }
     }
   }
@@ -179,19 +180,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       };
 
       this._view = new MapView(mapViewProperties);
-      // BaseMap Gallery
-      /*
-      const basemapGalleryWidget = new BasemapGallery({
-        view: this._view
-      });
-      const baseMapExpand = new Expand({
-       expandIconClass: 'esri-icon-basemap',
-       view: this._view,
-       expandTooltip: 'Basemap Gallery',
-       content: basemapGalleryWidget
-      });
-      this._view.ui.add(baseMapExpand, 'top-left');
-      */
 
       webMap.load()
         .then(() => {
@@ -243,24 +231,21 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onGraphicUpdate(event: any) {
-    if (event.state === 'complete') {
+    if (event.state === 'complete' && !event.aborted) {
       console.log(event);
       // save
-      if (this.cancel === false) {
-        projection.load().then(() => {
-          const geometry = projection.project(event.graphics[0].geometry, this.editLyr.spatialReference);
-
-          const tempGraphic = new Graphic();
-          tempGraphic.geometry = geometry;
-          tempGraphic.attributes = { ObjectId: this._selectedFeature.attributes.OBJECTID };
-
-          this.editLyr.applyEdits({ updateFeatures: [tempGraphic] }).then((results: any) => {
-            console.log(results);
-            this.mode = 'featureSelected';
-          });
-
+      projection.load().then(() => {
+        const geometry = projection.project(event.graphics[0].geometry, this.editLyr.spatialReference);
+        const tempGraphic = new Graphic();
+        tempGraphic.geometry = geometry;
+        tempGraphic.attributes = { ObjectId: this._selectedFeature.attributes.OBJECTID };
+        this._selectedFeature.geometry = geometry;
+        this.editLyr.applyEdits({ updateFeatures: [tempGraphic] }).then((results: any) => {
+          console.log(results);
+          this.mode = 'featureSelected';
         });
-      }
+      });
+      this.mode = 'featureSelected';
     }
   }
 
@@ -280,7 +265,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       this.mode = 'featureSelected';
     }
   }
-
 
   ngOnInit() {
     // Initialize MapView and return an instance of MapView
@@ -326,7 +310,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   addEditing() {
     const sketchViewModel = new SketchViewModel({
       view: this._view,
-      // layer: graphicsLayer,
       updateOnGraphicClick: false,
       defaultUpdateOptions: {
         // set the default options for the update operations
@@ -376,7 +359,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.editLyr.opacity = .2;
     this.sketchViewModel.create('polygon', { mode: 'hybrid' });
     // this._view.ui.add('instructions', 'top-right');
-
   }
 
   saveNewFeature() {
@@ -414,21 +396,22 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
       const tempGraphic = new Graphic();
       tempGraphic.geometry = geometry;
-
       this.graphicsLayer.add(tempGraphic);
       this.sketchViewModel.update([tempGraphic], { tool: 'reshape' });
-
-
     });
   }
 
-  cancelNewFeature() {
-    console.log('cancel new feature');
+  cancelFeature() {
+    console.log('cancel feature');
     // this._view.ui.remove('instructions');
     this.sketchViewModel.cancel();
     this.editLyr.opacity = .5;
     this.graphicsLayer.removeAll();
-    this.mode = 'none';
+    if (this.mode === 'edit') {
+      this.mode = 'featureSelected';
+    } else {
+      this.mode = 'none';
+    }
   }
 
   ngOnDestroy() {
