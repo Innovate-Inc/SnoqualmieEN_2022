@@ -2,7 +2,7 @@ export const url = 'https://arcserver.innovateteam.com/arcgis/rest/services/Snoq
 
 export const environment = {
   production: false,
-  jsapiConfig: { url: 'https://js.arcgis.com/4.15/' },
+  jsapiConfig: { url: 'https://js.arcgis.com/4.17/' },
   maxAttachments: 4,
   name: 'Innovate!',
   portalSetting: {
