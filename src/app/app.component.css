@@ -14,3 +14,28 @@ mat-toolbar {
 app-impacts-form {
   overflow: hidden;
 }
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 0px;
+  width: 400px;
+}
+.filterForm{
+  text-align: center;
+}
+  mat-form-field {
+    width: 80%;
+  }
+
+  mat-drawer {
+    z-index: 10000;
+  }
+  router-outlet {
+    z-index: 1000;
+  }

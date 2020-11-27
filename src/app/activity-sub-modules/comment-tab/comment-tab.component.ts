@@ -23,7 +23,7 @@ export class CommentTabComponent implements OnInit {
   searchItem: string = '';
 
   constructor(public  loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
-    this.activityService = new ArcBaseService(environment.layers.call,  snackBar, loadingService);
+    this.activityService = new ArcBaseService(environment.layers.activities,  snackBar, loadingService);
   }
 
   ngOnInit(): void {

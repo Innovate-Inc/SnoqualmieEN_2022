@@ -98,37 +98,6 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     ).subscribe(() => this.loadingService.hide());
   }
 
-  addPolygon() {
-    this.mapMode = 'draw';
-    if (this.editObs !== undefined) {
-      this.editObs.unsubscribe();
-    }
-    this.review.pipe(
-      takeWhile(() => this.mapMode === 'draw')
-    ).subscribe(
-      //   review => {
-      //   this.editObs = this.editService.add_polygon().subscribe(geometry => {
-      //     review.geometry.addRing(geometry.rings[0]);
-      //     review.setGeometry(review.geometry);
-      //     this.mapService.redrawGraphics();
-      //   });
-      // }
-    );
-  }
-
-  editPolygon() {
-    this.mapMode = 'edit';
-    if (this.editObs !== undefined) {
-      this.editObs.unsubscribe();
-    }
-    this.review.subscribe(
-      //   review => {
-      //   this.editObs = this.editService.edit_verticies(review).subscribe(feature => {
-      //     // this.review.next(feature);
-      //   });
-      // }
-    );
-  }
 
   ngOnDestroy() {
     //  this.editObs.unsubscribe();

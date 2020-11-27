@@ -1,4 +1,17 @@
-<mat-toolbar>{{data.currentMessage |async}}</mat-toolbar>
+<mat-toolbar>
+  <span style="display: flex; width: 100%;">
+    <span style="flex: 40%; min-width: 40%;">
+      <button mat-mini-fab color="primary" routerLink="/app/projects"><mat-icon>keyboard_backspace</mat-icon></button>
+    </span>
+    <span style="flex: 20%; min-width: 20%; text-align: center;">
+  
+      {{data.currentMessage | async}}
+    </span>
+    <span style="flex: 40%; min-width: 40%;">
+
+    </span>
+  </span>
+</mat-toolbar>
 <nav mat-tab-nav-bar *ngIf="route.paramMap | async as params">
 
         <a mat-tab-link routerLink="review"

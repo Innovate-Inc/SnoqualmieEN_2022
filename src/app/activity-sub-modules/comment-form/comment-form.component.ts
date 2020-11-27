@@ -29,15 +29,17 @@ export class CommentFormComponent implements OnInit {
     Activity_Date: new FormControl(),
     Communication_Type: new FormControl(),
     Comm_Status: new FormControl(),
+    Comm_Doc_Note: new FormControl(),
     Contact_Name: new FormControl(),
     Contact_Email: new FormControl(),
+    Comm_Email_Text: new FormControl(),
     Contact_Phone: new FormControl(),
     Type_of_Comment: new FormControl(),
     parentglobalid: new FormControl(),
-    CreationDate: new FormControl(),
-    Creator: new FormControl({ value: '', disabled: true }),
-    EditDate: new FormControl(),
-    Editor: new FormControl(),
+    created_date: new FormControl(),
+    created_user: new FormControl({ value: '', disabled: true }),
+    last_edited_date: new FormControl(),
+    last_edited_user: new FormControl(),
     globalid: new FormControl(),
     objectid: new FormControl()
   });
@@ -45,7 +47,7 @@ export class CommentFormComponent implements OnInit {
     public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CommentFormComponent>) {
     this.dialogService = new DialogService(this.uploadService, this.dialog)
-    this.activityService = new ArcBaseService(environment.layers.call, this.snackBar, this.loadingService);
+    this.activityService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);
     this.dialogService = new DialogService(this.activityService, this.dialog);
  
   }
@@ -78,8 +80,8 @@ export class CommentFormComponent implements OnInit {
           this.data.activityTask.attributes.objectid = res[0].objectId;
           this.data.activityTask.attributes.globalid = res[0].globalId;
           this.activityForm.patchValue({'globalid': res[0].globalId, 'objectid': res[0].objectId});
+          this.isNew = false;
         });
-        this.isNew = false;
       }  
       else {
         this.data.activityTask.attributes = this.activityForm.value;

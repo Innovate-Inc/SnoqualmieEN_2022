@@ -3,16 +3,16 @@
   <br><br>
   <div>
     <mat-form-field class="searchField">
-      <input #searchInput matInput (keyup.enter)="search($event.target.value)" placeholder="Search">
-      <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="search('%');searchInput.value=''">
+      <input #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText" placeholder="Search">
+      <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="loadAll(); searchInput.value=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
 
-    <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']" matTooltip="Search">
+    <button mat-raised-button color="primary" (click)="search();">
       <!-- <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']" (click)="addFeature()"> -->
-        <mat-icon>search</mat-icon>
-    </button>
+        Execute
+      </button>
 
 
   </div>
@@ -36,7 +36,7 @@
 
     </mat-header-row>
 
-    <mat-row  *matRowDef="let row; columns: displayColumns"
+    <mat-row  *matRowDef="let row; columns: displayColumns" (click)="data.showToggle = false;"
              [routerLink]="['/app/edit', row.attributes.globalid]"></mat-row>
   </mat-table>
   <div class = "paginator-div" >
