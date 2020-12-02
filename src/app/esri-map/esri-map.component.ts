@@ -30,6 +30,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import LayerView = __esri.LayerView;
 import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
+import Geometry from 'esri/geometry/Geometry';
 
 // import {ProjectService} from '../services/project.service';
 
@@ -235,7 +236,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       console.log(event);
       // save
       projection.load().then(() => {
-        const geometry = projection.project(event.graphics[0].geometry, this.editLyr.spatialReference);
+        const geometry = projection.project(event.graphics[0].geometry, this.editLyr.spatialReference) as Geometry;
         const tempGraphic = new Graphic();
         tempGraphic.geometry = geometry;
         tempGraphic.attributes = { ObjectId: this._selectedFeature.attributes.OBJECTID };
