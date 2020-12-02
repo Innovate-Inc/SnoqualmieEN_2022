@@ -393,7 +393,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.mode = 'edit';
     this.editLyr.opacity = .2;
     projection.load().then(() => {
-      const geometry = projection.project(this._selectedFeature.geometry, this._view.spatialReference);
+      const geometry = projection.project(this._selectedFeature.geometry, this._view.spatialReference) as Geometry;
 
       const tempGraphic = new Graphic();
       tempGraphic.geometry = geometry;
