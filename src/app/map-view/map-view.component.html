@@ -4,6 +4,8 @@
         [zoom]="mapZoomLevel"
         (mapLoadedEvent)="mapLoadedEvent($event)"
         [highlightSelectFeature]="highlightId | async"
+        [selectMode]="geomSelect | async"
+
       >
       </app-esri-map>
 

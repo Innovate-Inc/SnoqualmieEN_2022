@@ -1,9 +1,12 @@
 <!-- Here's the DIV that we inject the map into -->
 <div #mapViewNode></div>
 <div id='sketchPanel' class='sketchPanel' class='esri-widget'>
-  <button *ngIf="this.mode==='none'" (click)=enterSketchMode(); class='create' mat-mini-fab color="primary" matTooltip="Add Site">
+  <button *ngIf="this.mode==='none'" (click)="enterSketchMode({mode:'sketch'});" class='create' mat-mini-fab color="primary" matTooltip="Add Site">
     <mat-icon>add</mat-icon>
   </button>
+
+
+
   <!-- <button class='edit' mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
     <mat-icon>create</mat-icon>
   </button> -->
@@ -13,6 +16,10 @@
 
   <button *ngIf="this.mode==='featureSelected'" (click)=editFeature(); class='edit' mat-mini-fab color="primary" matTooltip="Edit">
     <mat-icon>edit</mat-icon>
+  </button>
+
+  <button *ngIf="this.mode==='featureSelected'" (click)=enterDeleteMode(); class='edit' mat-mini-fab color="primary" matTooltip="Delete Site">
+    <mat-icon>delete</mat-icon>
   </button>
 
   <button *ngIf="this.mode==='complete' || this.mode==='add' || this.mode==='edit'" (click)=cancelFeature(); class='cancel' mat-mini-fab color="primary" matTooltip="Cancel">

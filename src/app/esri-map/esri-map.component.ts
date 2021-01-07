@@ -7,7 +7,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy, OnChanges, SimpleChanges
+  OnDestroy, OnChanges, SimpleChanges, Inject
 
 } from '@angular/core';
 
@@ -17,6 +17,8 @@ import MapView from 'esri/views/MapView'; // 2D view of a Map instance
 import WebMap from 'esri/WebMap';
 import Home from 'esri/widgets/Home'; // Home button
 import BasemapGallery from 'esri/widgets/BasemapGallery'; // Basemap Gallery
+import Search from 'esri/widgets/Search';
+
 import Expand from 'esri/widgets/Expand'; // clickable button for opening a widget
 import LayerList from 'esri/widgets/LayerList';
 import FeatureTable from 'esri/widgets/FeatureTable';
@@ -26,11 +28,15 @@ import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import * as projection from 'esri/geometry/projection';
 import Graphic from 'esri/Graphic';
 // import {IdentityManagementService} from '../services/identity-management.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, ParamMap, Params } from '@angular/router';
 import LayerView = __esri.LayerView;
 import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
 import Geometry from 'esri/geometry/Geometry';
+import { ProjectService } from '../services/project.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { first, switchMap, tap } from 'rxjs/operators';
+import { zip } from 'rxjs';
 
 // import {ProjectService} from '../services/project.service';
 
@@ -74,6 +80,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() highlightSelectFeature: string;
 
+  @Input() selectMode: boolean;
+
   @Input()
   set zoom(zoom: number) {
     this._zoom = zoom;
@@ -101,7 +109,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     return this._basemap;
   }
 
-  constructor(public router: Router, public route: ActivatedRoute) {
+  constructor(public router: Router, public route: ActivatedRoute, public projectService: ProjectService, public dialog: MatDialog) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -158,7 +166,15 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
         this.highlightFeature(changes.highlightSelectFeature.currentValue);
       }
+    } else if (changes.hasOwnProperty('selectMode')) {
+      if (changes.selectMode.currentValue === true) {
+        this.turnOnSelect();
+      }
     }
+  }
+
+  turnOnSelect() {
+    console.log('turnOnSelect');
   }
 
   async initializeMap() {
@@ -276,6 +292,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       this.mapLoadedEvent.emit(true);
       this.addHome();  // Home button
       this.addBasemapGallery();  // Basemap Gallery
+      this.addSearch();
       this._view.on('click', event => {
         this._view.hitTest(event).then((response: any) => {
           if (response.results.length) {
@@ -293,19 +310,147 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           .catch(e => {
           });
       });
+
+      // this._view.on('pointer-move', evt => {
+      //   if (this.mode === 'delete') {
+      //     const screenPoint = {
+      //       x: evt.x,
+      //       y: evt.y
+      //     };
+
+      //     this._view.hitTest(screenPoint)
+      //       .then(response => {
+      //         // this.changeCursor(response);
+      //         this.getGraphics(response);
+      //       });
+      //   }
+      // });
+
     }).then(() => {
       this.zngDoCheck();
       this._center = [this._view.center.longitude, this._view.center.latitude];
       this._zoom = this._view.zoom;
-    }
-    );
+
+
+      this.route.queryParamMap.pipe(
+        first(),
+        switchMap((params: ParamMap) => {
+          this.applyQueryParams(params);
+          const relevantKeys = params.keys.filter(key => !['page', 'page_size', 'ordering', 'table_visible'].includes(key));
+          // if (relevant_keys.length > 0) {
+          //   this.apply_next_extent = true;
+          //   this.apply_highlighting = true;
+          // }
+          return zip (
+          //   this.projectService.fullResponse.pipe(
+          //     filter(() => {
+          //       const proceed = this.applyNextExtent;
+          //       this.applyNextExtent = true;
+          //       return proceed;
+          //     }),
+          //     tap(results => {
+          //       //this.extent = results['extent'];
+          //       //this.tableVisibility(true);
+          //     }),
+          //     filter(() => {
+          //       const proceed = this.applyHighlighting;
+          //       this.applyHighlighting = true;
+          //       return proceed;
+          //     }),
+          //     tap(results => this.setHighlighting(results['pks']))
+          //   ),
+          //   this.runSearch()
+          );
+        })
+      ).subscribe();
+      this.projectService.dataChange.pipe(tap(() => {
+        this.updateQueryParams(this.projectService.filter);
+      })).subscribe();
+    });
   }
+
+  updateQueryParams(queryParam: Params) {
+    if (queryParam.hasOwnProperty('mine_globalid_in')) {
+      queryParam = { ...queryParam };
+      delete queryParam.mine_globalid_in;
+    }
+    // queryParam.select = this.selectMode;
+    this.router.navigate([], { queryParams: queryParam, queryParamsHandling: 'merge' });
+  }
+
+  applyQueryParams(params: ParamMap) {
+    for (const key of params.keys) {
+      if (!['table_visible', 'mine_globalid_in', 'chapter'].includes(key)) {
+        this.projectService.filter[key] = params.get(key);
+        if (params.get(key) === 'true') { this.projectService.filter[key] = true; }
+        if (params.get(key) === 'false') { this.projectService.filter[key] = false; }
+      }
+    }
+  }
+
+
+  // changeCursor(response: any) {
+  //   if (response.results.length > 0) {
+  //     response.results.forEach((graphic: { graphic: { layer: { url: any; }; }; }) => {
+  //       if (graphic.graphic.layer === this.editLyr) {
+  //         this.mapViewEl.nativeElement.style.cursor = 'pointer';
+  //       }
+  //     });
+  //   } else {
+  //     this.mapViewEl.nativeElement.style.cursor = 'default';
+  //   }
+  // }
+
+  // getGraphics(response: any) {
+  //   // let highlightSelect: any;
+  //   if (response.results.length > 0) {
+  //     response.results.forEach((graphic: any) => {
+  //       const selectedGraphic = graphic.graphic;
+
+  //       if (selectedGraphic.layer === this.editLyr) {
+  //         this.mapViewEl.nativeElement.style.cursor = 'pointer';
+
+  //         // symbolize all line segments with the given
+  //         // storm name with the same symbol
+  //         const highlightSymbol = new SimpleFillSymbol({
+  //           outline: { width: 1.5, color: [253, 18, 18, 1] },
+  //           color: [0, 0, 0, 0]
+  //         });
+
+  //         // this._view.whenLayerView(selectedGraphic.layer).then(layerView => {
+  //         //   highlightSelect = layerView.highlight(selectedGraphic);
+  //         // });
+
+
+  //         const highlightGraphic = new Graphic({geometry: selectedGraphic.geometry, symbol: highlightSymbol});
+
+  //         this.graphicsLayer.add(highlightGraphic);
+  //       }
+  //     });
+  //   } else {
+  //     this._view.whenLayerView(this.editLyr).then(layerView => {
+  //       // if (highlightSelect) {
+  //       //   highlightSelect.remove();
+  //       // }
+  //       this.mapViewEl.nativeElement.style.cursor = 'default';
+
+  //       this.graphicsLayer.removeAll();
+  //     });
+  //   }
+  // }
 
   addHome() {
     const homeBtn = new Home({  // Home button
       view: this._view
     });
     this._view.ui.add(homeBtn, 'top-left');  // Add to top left corner of view
+  }
+
+  addSearch() {
+    const search = new Search({
+      view: this._view
+    });
+    this._view.ui.add(search, 'top-right');  // Add to top left corner of view
   }
 
   addEditing() {
@@ -354,8 +499,16 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this._view.ui.add('sketchPanel', 'top-right');
   }
 
-  enterSketchMode() {
+  enterDeleteMode() {
+    console.log('delete dialog');
+    // this.mode = 'delete';
+    this.delete();
+  }
+
+  enterSketchMode(params: Params) {
     console.log('sketch mode');
+    this.updateQueryParams(params);
+
     this.mode = 'add';
     this.editLyr.opacity = .2;
     this.sketchViewModel.create('polygon', { mode: 'hybrid' });
@@ -379,6 +532,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
             this._highlightHandler.remove();
           }
           this.mode = 'featureSelected';
+          this.projectService.editing = false;
           this._view.goTo(this.createGraphic);
           this.router.navigate(['/app/edit', globalId]);
         }
@@ -422,5 +576,35 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     if (this._view) {
       this._view.container = null;  // destroy the map view
     }
+  }
+
+  delete() {
+    const dialogRef = this.dialog.open(DeleteSiteComponent, {
+      width: '400px',
+      height: '330px' // ,
+      // data: {date: element.attributes?.INV_InvoiceDate, invoiceID: element.attributes?.OBJECTID,
+      //       encroachmentID: element.attributes?.INV_EncID, permitID: element.attributes?.INV_PermitID}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'true') {
+        this.projectService.delete(this._selectedFeature);
+      }
+    });
+  }
+}
+
+@Component({
+  selector: 'app-delete-site',
+  templateUrl: 'delete-site.html',
+})
+export class DeleteSiteComponent {
+
+  constructor(public dialogRef: MatDialogRef<DeleteSiteComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  close(ret: string) {
+    this.dialogRef.close(ret);
+
+    // routerLink="/app/projects"
   }
 }

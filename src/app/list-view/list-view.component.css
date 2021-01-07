@@ -32,3 +32,7 @@ mat-row {
   overflow-y: scroll;
   max-height: calc(100vh - 240px);
 }
+
+button {
+  margin-right: 10px;
+}

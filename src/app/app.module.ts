@@ -37,7 +37,7 @@ import { ReviewFormComponent } from './review-form/review-form.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { AbstractFormComponent } from './abstract-form/abstract-form.component';
 import { SupportDocsFormComponent } from './support-docs-form/support-docs-form.component';
 import { ImpactsFormComponent } from './impacts-form/impacts-form.component';
@@ -65,9 +65,9 @@ import { SiteVisitTabComponent } from './activity-sub-modules/site-visit-tab/sit
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AllActivitiesComponent } from './activity-sub-modules/all-activities/all-activities.component';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-dialog.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -101,7 +101,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     ConfirmDialogComponent,
     UploadDialogComponent,
     SaveChangesDialogComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -133,6 +133,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatDialogModule,
     MatGridListModule,
     MatSidenavModule,
+    MatRippleModule
 
   ],
   providers: [IdentityManagementService,
