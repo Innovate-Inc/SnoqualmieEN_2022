@@ -22,7 +22,7 @@
             <br><br>
              
             <div *ngIf="Impact_Enviro_var === 'Yes'">
-                <br><br>
+                <!-- <br><br>
                 <mat-label for="">{{this.projectService.meta.Enviro_Impact_Type.alias}}</mat-label>
                 <br><br>
                 <mat-form-field appearance="fill">
@@ -32,7 +32,7 @@
                         <mat-option value="option">Option</mat-option>
                         <mat-option value="option">Option</mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <br><br>
                  
@@ -40,35 +40,35 @@
                 <mat-label>{{this.projectService.meta.Wetland_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Wetland_Likert" thumbLabel
-                    tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                    tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
                 <br><br>
                  
                 <br><br>
                 <mat-label>{{this.projectService.meta.Aquatic_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Aquatic_Likert" thumbLabel
-                    tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
                 <br><br>
                  
                 <br><br>
                 <mat-label>{{this.projectService.meta.Storm_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Storm_Likert" thumbLabel
-                    tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
                 <br><br>
                  
                 <br><br>
                 <mat-label>{{this.projectService.meta.Veg_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Veg_Likert" thumbLabel
-                    tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
                 <br><br>
                  
                 <br><br>
                 <mat-label>{{this.projectService.meta.Watertype_Likert.alias}}</mat-label>
                 <br><br>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Watertype_Likert" thumbLabel
-                    tickInterval="1" min="0" max="10" step="1" value="5"></mat-slider>
+                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
                 <br><br>
                  
                 <br><br>
@@ -93,7 +93,7 @@
             <br><br>
             <div *ngIf="Culture_Impact_var === 'Yes'">
                  
-                <br><br>
+                <!-- <br><br>
                 <mat-label for="">{{this.projectService.meta.Culture_Type.alias}}</mat-label>
                 <br><br>
                 <mat-form-field appearance="fill">
@@ -104,7 +104,7 @@
                         <mat-option value="option">Option</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <br><br>
+                <br><br> -->
                  
                 <br><br>
                 <mat-label for="">{{this.projectService.meta.Culture_Note.alias}}</mat-label>

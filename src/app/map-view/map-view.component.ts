@@ -14,6 +14,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
   basemapType = 'streets-relief-vector';
   mapZoomLevel = 15;
   highlightId: Observable<string>;
+  geomSelect: Observable<boolean>;
 
   constructor(public route: ActivatedRoute, private router: Router) {
   }

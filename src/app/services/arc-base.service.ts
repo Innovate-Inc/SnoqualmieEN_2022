@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataSource } from '@angular/cdk/collections';
 import AttachmentInfo from 'esri/layers/support/AttachmentInfo';
 import { LoadingService } from './loading.service';
+import Polygon from 'esri/geometry/Polygon';
 
 export class ArcBaseService {
   loading: boolean;
@@ -18,16 +19,16 @@ export class ArcBaseService {
   listenerActive: boolean;
   listener: any;
   meta: any;
-  filter: any;
+  public filter: any;
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   currentPage = 0;
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   datasource: BaseDataSource;
-
+  geometry: Polygon;
 
   constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
     this.datasource = new BaseDataSource(this);
-    this.filter = { num: 25, start: 0, outFields: ['*'] };
+    this.filter = { num: 25, start: 0, outFields: ['*'], returnIdsOnly: false };
     this.layer = new FeatureLayer({
       url,
       outFields: ['*'],
@@ -101,7 +102,16 @@ export class ArcBaseService {
 
         this.loading = true;
 
-        this.layer.queryFeatures(this.filter).then(featureSet => {
+        let clonedFilter = { ...this.filter };
+        if (this.geometry) {
+          // const polyJSON = JSON.parse(this.geometry);
+          // filter.geometry = Polygon.fromJSON(JSON.parse(this.geometry));
+          clonedFilter.geometry = this.geometry; // Polygon.fromJSON(polyJSON);
+        }
+
+
+
+        this.layer.queryFeatures(clonedFilter).then(featureSet => {
           // featureSet.features.forEach(function (feature, i) {
           //   featureSet.features[i] =
           // })
@@ -110,7 +120,7 @@ export class ArcBaseService {
           // featureSet.features.fields = this.prep_fields_meta();
           featureSet.features = this.convertFromEpoch(featureSet.features);
           observer.next(featureSet.features);
-          this.layer.queryFeatureCount(this.filter).then(count => {
+          this.layer.queryFeatureCount(clonedFilter).then(count => {
             this.count.next(count);
           });
           observer.complete();
@@ -221,23 +231,16 @@ export class ArcBaseService {
 
   delete(feature: __esri.Graphic) {
     return new Observable(obs => {
-      this.layer.applyEdits({ deleteFeatures: [feature] }).then(result => {
-        obs.next(result.deleteFeaturesResult);
+      this.layer.applyEdits({ deleteFeatures: [feature] }).then(results => {
+        obs.next(results.deleteFeaturesResult);
+        this.openSnackBar('Item deleted', '');
       }).catch(e => {
-        this.openSnackBar(e.toString() + ' ' + e.details[0], '');
+        const details = e.details !== undefined ? e.details[0] : '';
+        this.openSnackBar(`${e.toString()} ${details}`, '');
         obs.error(e);
       });
     });
   }
-
-  // addClickListener(callback: any) {
-  //   this.listener = this.layer.on('click', callback);
-  //   this.listenerActive = true;
-  // }
-  //
-  // removeClickListener() {
-  //   this.listener.remove();
-  // }
 
   get data(): any[] {
     return this.dataChange.value;
@@ -303,11 +306,11 @@ export class ArcBaseService {
       });
     });
   }
-  convertToDomainValue(val: any, field: string){
-    if(val && field){
-      let domain = this.meta[field].domain.codedValues.find((x:any) => x.code === val);
-      
-      if(domain){
+  convertToDomainValue(val: any, field: string) {
+    if (val && field) {
+      let domain = this.meta[field].domain.codedValues.find((x: any) => x.code === val);
+
+      if (domain) {
         return domain.name;
       }
       else {

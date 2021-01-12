@@ -1,6 +1,4 @@
-<mat-card >
-  
-  <br><br>
+<mat-card>
   <div>
     <mat-form-field class="searchField">
       <input #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText" placeholder="Search">
@@ -9,16 +7,36 @@
       </button>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="search();">
-      <!-- <button mat-mini-fab color="primary" [routerLink]="['/edit', 'new']" (click)="addFeature()"> -->
-        Execute
-      </button>
 
+
+    <button (click)=search(); class='search' mat-mini-fab color="primary" matTooltip="Search">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button (click)="spatialSelectClick({mode:'select',spatialSelect:true});" class='search' mat-mini-fab color="primary" matTooltip="Spatial Select">
+      <!-- <button (click)="spatialSelect({mode:'select',spatialSelect:true});" class='search' mat-mini-fab [color]="paletteColor" [matTooltip]="selectTooltip"> -->
+        <mat-icon>crop_free</mat-icon>
+    </button>
+
+    <button *ngIf="this.spatialSelect==='true'" (click)="spatialSelectClick({mode:'none',spatialSelect:false});" class='search' mat-mini-fab color="accent" matTooltip="Clear Spatial Select">
+      <mat-icon>close</mat-icon>
+  </button>
+
+
+    
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date">
+        <input matEndDate placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field> -->
 
   </div>
-<!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
-<!--                      ></mat-progress-bar>-->
-  <mat-table class="tbox" #table [dataSource]="projectService.datasource" >
+  <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
+  <!--                      ></mat-progress-bar>-->
+  <mat-table class="tbox" #table [dataSource]="projectService.datasource">
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.attributes.Notification_ID}}</mat-cell>
@@ -27,21 +45,39 @@
       <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.attributes.Project_Name}}</mat-cell>
     </ng-container>
-    <!--    <ng-container matColumnDef="date">-->
-    <!--      <mat-header-cell *matHeaderCellDef>Date Received</mat-header-cell>-->
-    <!--      <mat-cell *matCellDef="let element">{{element.attributes.Date_Received | date:short }}</mat-cell>-->
-    <!--    </ng-container>-->
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef>Date Received</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.attributes.Date_Received | date:short }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="jurisdiction">
+      <mat-header-cell *matHeaderCellDef>Jurisdiction</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.attributes.Jurisdiction}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="user">
+      <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.attributes.created_user}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+      <td *matCellDef="let element; let i = index" (click)="delete(element, i)">
+        <mat-icon style="color: red;">delete_forever</mat-icon>
+      </td>
+    </ng-container>
+    <!-- <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Jurisdiction</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.attributes.Jurisdiction}}</mat-cell>
+    </ng-container> -->
 
     <mat-header-row *matHeaderRowDef="displayColumns">
 
     </mat-header-row>
 
-    <mat-row  *matRowDef="let row; columns: displayColumns" (click)="data.showToggle = false;"
-             [routerLink]="['/app/edit', row.attributes.globalid]"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayColumns" (click)="data.showToggle = false;"
+      [routerLink]="['/app/edit', row.attributes.globalid]"></mat-row>
   </mat-table>
-  <div class = "paginator-div" >
+  <div class="paginator-div">
     <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
-                   (page)="projectService.getPage($event)"></mat-paginator>
+      (page)="projectService.getPage($event)"></mat-paginator>
 
   </div>
 </mat-card>
