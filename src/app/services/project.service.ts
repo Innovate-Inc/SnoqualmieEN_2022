@@ -62,7 +62,7 @@ export class Project {
 
 @Injectable()
 export class ProjectService extends ArcBaseService {
-  editing: boolean = false;
+  editing = false;
 
   constructor(snackBar: MatSnackBar, loadingService: LoadingService) {
    super(environment.layers.review, snackBar, loadingService);

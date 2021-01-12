@@ -1,3 +1,6 @@
+import Polygon from 'esri/geometry/Polygon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoadingService } from './../services/loading.service';
 import { environment, url } from './../../environments/environment.prod';
 import {
   Component,
@@ -37,6 +40,7 @@ import { ProjectService } from '../services/project.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { first, switchMap, tap } from 'rxjs/operators';
 import { zip } from 'rxjs';
+import { ArcBaseService } from '../services/arc-base.service';
 
 // import {ProjectService} from '../services/project.service';
 
@@ -70,8 +74,11 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private sketchViewModel: any;
   private graphicsLayer: any;
   private editLyr: any;
-  mode = 'none'; // options: none, add, complete, edit, featureSelected
+  mode = 'none'; // options: none, add, complete, edit, featureSelected, select
+  spatialSelect = false;
+  private params: Params;
   createGraphic: any;
+  private dupProjService: ArcBaseService;
 
 
   get mapLoaded(): boolean {
@@ -79,8 +86,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   @Input() highlightSelectFeature: string;
-
-  @Input() selectMode: boolean;
 
   @Input()
   set zoom(zoom: number) {
@@ -109,7 +114,9 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     return this._basemap;
   }
 
-  constructor(public router: Router, public route: ActivatedRoute, public projectService: ProjectService, public dialog: MatDialog) {
+  constructor(public router: Router, public route: ActivatedRoute, public projectService: ProjectService, public dialog: MatDialog, public loadingService: LoadingService, public snackBar: MatSnackBar) {
+    this.dupProjService = new ArcBaseService(environment.layers.review, snackBar, loadingService);
+
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -125,8 +132,12 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       if (this._highlightHandler) {
         this._highlightHandler.remove();
       }
-      this.cancelFeature();
-      this.mode = 'none';
+      // if this.mode
+      // const defaultParams: Params;
+      // defaultParams = { mode: 'none' };
+      // this.updateQueryParams(defaultParams);
+      // this.cancelFeature();
+      // this.mode = 'none';
       this._view.goTo({ zoom: this._zoom, center: this._center });
 
     }
@@ -153,6 +164,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           console.log(error);
         });
         this.mode = 'featureSelected';
+        this.updateQueryParams({ mode: this.mode });
       });
     });
   }
@@ -166,15 +178,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       if (changes.highlightSelectFeature.previousValue !== changes.highlightSelectFeature.currentValue && changes.highlightSelectFeature.currentValue !== null) {
         this.highlightFeature(changes.highlightSelectFeature.currentValue);
       }
-    } else if (changes.hasOwnProperty('selectMode')) {
-      if (changes.selectMode.currentValue === true) {
-        this.turnOnSelect();
-      }
     }
-  }
-
-  turnOnSelect() {
-    console.log('turnOnSelect');
   }
 
   async initializeMap() {
@@ -232,7 +236,11 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           this.onGraphicUpdate(evt);
         });
         this.sketchViewModel.on('create', (evt: any) => {
-          this.onGraphicCreate(evt);
+          if (this.mode === 'add') {
+            this.onGraphicCreate(evt);
+          } else {
+            this.onCompleteSelection(evt);
+          }
         });
 
         this.editLyr = this._view.map.allLayers.find((layer: any) => {
@@ -260,9 +268,11 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         this.editLyr.applyEdits({ updateFeatures: [tempGraphic] }).then((results: any) => {
           console.log(results);
           this.mode = 'featureSelected';
+          this.updateQueryParams({ mode: this.mode });
         });
       });
       this.mode = 'featureSelected';
+      this.updateQueryParams({ mode: this.mode });
     }
   }
 
@@ -270,7 +280,29 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     if (event.state === 'complete') {
       console.log('create complete', event);
       this.mode = 'complete';
+      this.updateQueryParams({ mode: this.mode });
       this.createGraphic = event.graphic;
+    }
+  }
+
+  onCompleteSelection(event: any) {
+    if (event.state === 'complete') {
+      console.log('select complete', event);
+      this.mode = 'complete';
+      this.updateQueryParams({ mode: this.mode });
+      // this.projectService.filter.geometry = this.filter.geometry.fromJSON();
+
+      // this.projectService.geometry = JSON.stringify(event.graphic.geometry.toJSON());
+      this.projectService.geometry = event.graphic.geometry as Polygon;
+
+
+      // this.projectService.filter.geometry = Polygon.fromJSON(event.graphic.geometry.toJSON());
+      // this.dupProjService.filter.returnIdsOnly = true;
+      // this.dupProjService.filter.outFields = 'OBJECTID';
+      this.updateQueryParams({ mode: 'none' });
+      this.sketchViewModel.complete();
+
+      this.projectService.getItems().subscribe();
     }
   }
 
@@ -280,6 +312,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     if (this._id) {
       this.highlightFeature(this._id);
       this.mode = 'featureSelected';
+      this.updateQueryParams({ mode: this.mode });
     }
   }
 
@@ -304,6 +337,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
             }
             // this._view.goTo(graphic);
             this.mode = 'featureSelected';
+            this.updateQueryParams({ mode: this.mode });
             this.router.navigate(['/app/edit', graphic.attributes.globalid]);
           }
         })
@@ -333,7 +367,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
 
       this.route.queryParamMap.pipe(
-        first(),
+        // first(),
         switchMap((params: ParamMap) => {
           this.applyQueryParams(params);
           const relevantKeys = params.keys.filter(key => !['page', 'page_size', 'ordering', 'table_visible'].includes(key));
@@ -341,103 +375,81 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           //   this.apply_next_extent = true;
           //   this.apply_highlighting = true;
           // }
-          return zip (
-          //   this.projectService.fullResponse.pipe(
-          //     filter(() => {
-          //       const proceed = this.applyNextExtent;
-          //       this.applyNextExtent = true;
-          //       return proceed;
-          //     }),
-          //     tap(results => {
-          //       //this.extent = results['extent'];
-          //       //this.tableVisibility(true);
-          //     }),
-          //     filter(() => {
-          //       const proceed = this.applyHighlighting;
-          //       this.applyHighlighting = true;
-          //       return proceed;
-          //     }),
-          //     tap(results => this.setHighlighting(results['pks']))
-          //   ),
-          //   this.runSearch()
+          return zip(
+            //   this.projectService.fullResponse.pipe(
+            //     filter(() => {
+            //       const proceed = this.applyNextExtent;
+            //       this.applyNextExtent = true;
+            //       return proceed;
+            //     }),
+            //     tap(results => {
+            //       //this.extent = results['extent'];
+            //       //this.tableVisibility(true);
+            //     }),
+            //     filter(() => {
+            //       const proceed = this.applyHighlighting;
+            //       this.applyHighlighting = true;
+            //       return proceed;
+            //     }),
+            //     tap(results => this.setHighlighting(results['pks']))
+            //   ),
+            //   this.runSearch()
           );
         })
       ).subscribe();
       this.projectService.dataChange.pipe(tap(() => {
         this.updateQueryParams(this.projectService.filter);
       })).subscribe();
+      // this.dupProjService.dataChange.pipe(tap(() => {
+      //   if (this.dupProjService.data.length > 0) {
+      //     console.log(this.dupProjService);
+      //     console.log(this.projectService.filter);
+
+      //   }
+      //   // this.updateQueryParams(this.projectService.filter);
+      // })).subscribe();
     });
   }
 
   updateQueryParams(queryParam: Params) {
-    if (queryParam.hasOwnProperty('mine_globalid_in')) {
-      queryParam = { ...queryParam };
-      delete queryParam.mine_globalid_in;
-    }
-    // queryParam.select = this.selectMode;
+    // if (queryParam.hasOwnProperty('mine_globalid_in')) {
+    //   queryParam = { ...queryParam };
+    //   delete queryParam.mine_globalid_in;
+    // }
+
+    if (queryParam.hasOwnProperty('mode')) { this.mode = queryParam.mode; }
+
     this.router.navigate([], { queryParams: queryParam, queryParamsHandling: 'merge' });
   }
 
   applyQueryParams(params: ParamMap) {
+    if (params.has('mode')) { this.mode = params.get('mode'); }
     for (const key of params.keys) {
       if (!['table_visible', 'mine_globalid_in', 'chapter'].includes(key)) {
         this.projectService.filter[key] = params.get(key);
         if (params.get(key) === 'true') { this.projectService.filter[key] = true; }
         if (params.get(key) === 'false') { this.projectService.filter[key] = false; }
       }
+      if (['mode'].includes(key)) {
+        if (params.get(key) === 'select') { this.enterSelectMode(); }
+      }
+      if (['spatialSelect'].includes(key)) {
+        if (params.get(key) === 'false') { this.exitSelectMode(); }
+      }
     }
   }
 
+  enterSelectMode() {
+    console.log('enable select');
+    this.graphicsLayer.removeAll();
+    this.sketchViewModel.create('rectangle');
+  }
 
-  // changeCursor(response: any) {
-  //   if (response.results.length > 0) {
-  //     response.results.forEach((graphic: { graphic: { layer: { url: any; }; }; }) => {
-  //       if (graphic.graphic.layer === this.editLyr) {
-  //         this.mapViewEl.nativeElement.style.cursor = 'pointer';
-  //       }
-  //     });
-  //   } else {
-  //     this.mapViewEl.nativeElement.style.cursor = 'default';
-  //   }
-  // }
-
-  // getGraphics(response: any) {
-  //   // let highlightSelect: any;
-  //   if (response.results.length > 0) {
-  //     response.results.forEach((graphic: any) => {
-  //       const selectedGraphic = graphic.graphic;
-
-  //       if (selectedGraphic.layer === this.editLyr) {
-  //         this.mapViewEl.nativeElement.style.cursor = 'pointer';
-
-  //         // symbolize all line segments with the given
-  //         // storm name with the same symbol
-  //         const highlightSymbol = new SimpleFillSymbol({
-  //           outline: { width: 1.5, color: [253, 18, 18, 1] },
-  //           color: [0, 0, 0, 0]
-  //         });
-
-  //         // this._view.whenLayerView(selectedGraphic.layer).then(layerView => {
-  //         //   highlightSelect = layerView.highlight(selectedGraphic);
-  //         // });
-
-
-  //         const highlightGraphic = new Graphic({geometry: selectedGraphic.geometry, symbol: highlightSymbol});
-
-  //         this.graphicsLayer.add(highlightGraphic);
-  //       }
-  //     });
-  //   } else {
-  //     this._view.whenLayerView(this.editLyr).then(layerView => {
-  //       // if (highlightSelect) {
-  //       //   highlightSelect.remove();
-  //       // }
-  //       this.mapViewEl.nativeElement.style.cursor = 'default';
-
-  //       this.graphicsLayer.removeAll();
-  //     });
-  //   }
-  // }
+  exitSelectMode() {
+    console.log('exit select');
+    this.graphicsLayer.removeAll();
+    this.sketchViewModel.complete();
+  }
 
   addHome() {
     const homeBtn = new Home({  // Home button
@@ -451,17 +463,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       view: this._view
     });
     this._view.ui.add(search, 'top-right');  // Add to top left corner of view
-  }
-
-  addEditing() {
-    const sketchViewModel = new SketchViewModel({
-      view: this._view,
-      updateOnGraphicClick: false,
-      defaultUpdateOptions: {
-        // set the default options for the update operations
-        toggleToolOnClick: false // only reshape operation will be enabled
-      }
-    });
   }
 
   addBasemapGallery() {
@@ -505,13 +506,22 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.delete();
   }
 
-  enterSketchMode(params: Params) {
+  enterAddMode(params: Params) {
     console.log('sketch mode');
     this.updateQueryParams(params);
 
-    this.mode = 'add';
+    // this.mode = 'add';
     this.editLyr.opacity = .2;
     this.sketchViewModel.create('polygon', { mode: 'hybrid' });
+
+    // const sketchViewModel = new SketchViewModel({
+    //   view: this._view,
+    //   updateOnGraphicClick: false,
+    //   defaultUpdateOptions: {
+    //     // set the default options for the update operations
+    //     toggleToolOnClick: false // only reshape operation will be enabled
+    //   }
+    // });
     // this._view.ui.add('instructions', 'top-right');
   }
 
@@ -532,7 +542,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
             this._highlightHandler.remove();
           }
           this.mode = 'featureSelected';
-          this.projectService.editing = false;
+          this.updateQueryParams({ mode: this.mode });
+          this.projectService.editing = true;
           this._view.goTo(this.createGraphic);
           this.router.navigate(['/app/edit', globalId]);
         }
@@ -545,6 +556,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   editFeature() {
     console.log('edit feature');
     this.mode = 'edit';
+    this.updateQueryParams({ mode: this.mode });
     this.editLyr.opacity = .2;
     projection.load().then(() => {
       const geometry = projection.project(this._selectedFeature.geometry, this._view.spatialReference) as Geometry;
@@ -564,8 +576,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.graphicsLayer.removeAll();
     if (this.mode === 'edit') {
       this.mode = 'featureSelected';
+      this.updateQueryParams({ mode: this.mode });
     } else {
       this.mode = 'none';
+      this.updateQueryParams({ mode: this.mode });
     }
   }
 

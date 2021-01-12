@@ -36,3 +36,11 @@ mat-row {
 button {
   margin-right: 10px;
 }
+
+.mat-column-delete {
+  width: 20px;
+}
+
+.mat-column {
+  width: 100%;
+}

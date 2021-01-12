@@ -12,9 +12,14 @@
     <button (click)=search(); class='search' mat-mini-fab color="primary" matTooltip="Search">
       <mat-icon>search</mat-icon>
     </button>
-    <button (click)=spatialSelect({selectMode:true}); class='search' mat-mini-fab color="primary" matTooltip="Spatial Select">
-      <mat-icon>crop_free</mat-icon>
+    <button (click)="spatialSelectClick({mode:'select',spatialSelect:true});" class='search' mat-mini-fab color="primary" matTooltip="Spatial Select">
+      <!-- <button (click)="spatialSelect({mode:'select',spatialSelect:true});" class='search' mat-mini-fab [color]="paletteColor" [matTooltip]="selectTooltip"> -->
+        <mat-icon>crop_free</mat-icon>
     </button>
+
+    <button *ngIf="this.spatialSelect==='true'" (click)="spatialSelectClick({mode:'none',spatialSelect:false});" class='search' mat-mini-fab color="accent" matTooltip="Clear Spatial Select">
+      <mat-icon>close</mat-icon>
+  </button>
 
 
     
@@ -52,11 +57,11 @@
       <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.attributes.created_user}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="DELETE">
+    <ng-container matColumnDef="delete">
       <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
-      <div *matCellDef="let element; let i = index" (click)="delete(element, i)">
+      <td *matCellDef="let element; let i = index" (click)="delete(element, i)">
         <mat-icon style="color: red;">delete_forever</mat-icon>
-      </div>
+      </td>
     </ng-container>
     <!-- <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Jurisdiction</mat-header-cell>

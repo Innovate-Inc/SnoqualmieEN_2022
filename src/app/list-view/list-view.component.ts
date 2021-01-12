@@ -1,5 +1,5 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, SimpleChanges, ViewChild, OnChanges } from '@angular/core';
 import { Project, ProjectService } from '../services/project.service';
 import { filter, finalize, first, map, switchMap, tap } from 'rxjs/operators';
 // import {isNumeric} from 'rxjs/util/isNumeric';
@@ -18,13 +18,15 @@ import { zip } from 'rxjs';
   templateUrl: './list-view.component.html',
   styleUrls: ['./list-view.component.css']
 })
-export class ListViewComponent implements OnInit {
+export class ListViewComponent implements OnInit, OnChanges {
   // displayColumns = ['id', 'name', 'date', 'jurisdiction', 'user'];
-  displayColumns = ['id', 'name', 'date', 'jurisdiction', 'user', 'DELETE'];
+  displayColumns = ['id', 'name', 'date', 'jurisdiction', 'user', 'delete'];
   searchText = '';
   applyNextExtent = false;
   applyHighlighting = false;
   props: Params;
+  palateColor = 'primary';
+  spatialSelect = 'false';
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // prefixname = environment.name;
@@ -38,7 +40,7 @@ export class ListViewComponent implements OnInit {
     this.loadAll();
 
     this.route.queryParamMap.pipe(
-      first(),
+      // first(),
       switchMap((params: ParamMap) => {
         this.applyQueryParams(params);
         const relevantKeys = params.keys.filter(key => !['page', 'page_size', 'ordering', 'table_visible'].includes(key));
@@ -46,31 +48,38 @@ export class ListViewComponent implements OnInit {
         //   this.apply_next_extent = true;
         //   this.apply_highlighting = true;
         // }
-        return zip (
-        //   this.projectService.fullResponse.pipe(
-        //     filter(() => {
-        //       const proceed = this.applyNextExtent;
-        //       this.applyNextExtent = true;
-        //       return proceed;
-        //     }),
-        //     tap(results => {
-        //       //this.extent = results['extent'];
-        //       //this.tableVisibility(true);
-        //     }),
-        //     filter(() => {
-        //       const proceed = this.applyHighlighting;
-        //       this.applyHighlighting = true;
-        //       return proceed;
-        //     }),
-        //     tap(results => this.setHighlighting(results['pks']))
-        //   ),
-        //   this.runSearch()
+        return zip(
+          //   this.projectService.fullResponse.pipe(
+          //     filter(() => {
+          //       const proceed = this.applyNextExtent;
+          //       this.applyNextExtent = true;
+          //       return proceed;
+          //     }),
+          //     tap(results => {
+          //       //this.extent = results['extent'];
+          //       //this.tableVisibility(true);
+          //     }),
+          //     filter(() => {
+          //       const proceed = this.applyHighlighting;
+          //       this.applyHighlighting = true;
+          //       return proceed;
+          //     }),
+          //     tap(results => this.setHighlighting(results['pks']))
+          //   ),
+          //   this.runSearch()
         );
       })
     ).subscribe();
     this.projectService.dataChange.pipe(tap(() => {
       this.updateQueryParams(this.projectService.filter);
     })).subscribe();
+    // this.projectService.mapMode.pipe(tap(() => {
+    //   this.updateQueryParams(this.projectService.filter);
+    // })).subscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
 
   updateQueryParams(queryParam: Params) {
@@ -78,19 +87,27 @@ export class ListViewComponent implements OnInit {
       queryParam = { ...queryParam };
       delete queryParam.mine_globalid_in;
     }
-    // queryParam.select = this.selectMode;
     this.router.navigate([], { queryParams: queryParam, queryParamsHandling: 'merge' });
   }
 
   applyQueryParams(params: ParamMap) {
+    if (params.get('spatialSelect')) { this.spatialSelect = params.get('spatialSelect'); }
     for (const key of params.keys) {
       if (!['table_visible', 'mine_globalid_in', 'chapter'].includes(key)) {
         this.projectService.filter[key] = params.get(key);
         if (params.get(key) === 'true') { this.projectService.filter[key] = true; }
         if (params.get(key) === 'false') { this.projectService.filter[key] = false; }
       }
+      // if (['spatialSelect'].includes(key)) {
+      //   if (params.get(key) === 'true') {
+      //     this.paletteColor = 'primary';
+      //   } else {
+      //     this.paletteColor = 'warn';
+      //   }
+      // }
     }
   }
+
 
   search() {
     this.projectService.filter.where = `Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}' or Jurisdiction like '%${this.searchText}' or created_user like '%${this.searchText}'`;
@@ -103,11 +120,16 @@ export class ListViewComponent implements OnInit {
     this.projectService.getItems().subscribe();
   }
 
-  spatialSelect(params: Params) {
+  spatialSelectClick(params: Params) {
     console.log('spatial select');
-    // this.props.selectMode = true;
+    this.projectService.geometry = null;
     this.updateQueryParams(params);
+    this.projectService.getItems().subscribe();
+
   }
+
+
+
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
       this.projectService.filter.where = `Project_Name like '%'`;
