@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { ProjectService } from '../services/project.service';
 import { environment } from '../../environments/environment';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-edit-pane',
@@ -14,7 +15,7 @@ import { environment } from '../../environments/environment';
 export class EditPaneComponent implements OnInit {
   message: string;
   projectId: any;
-  prefixName = environment.name
+  prefixName = environment.name;
   myFill = this.prefixName + '-0000'
   constructor(public router: Router, public projectService: ProjectService, public route: ActivatedRoute, public loadingService: LoadingService,
               public data: DataService) {
