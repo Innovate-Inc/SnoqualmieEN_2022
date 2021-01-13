@@ -10,6 +10,7 @@ import { DataSource } from '@angular/cdk/collections';
 import AttachmentInfo from 'esri/layers/support/AttachmentInfo';
 import { LoadingService } from './loading.service';
 import Polygon from 'esri/geometry/Polygon';
+import Graphic from 'esri/Graphic';
 
 export class ArcBaseService {
   loading: boolean;
@@ -41,7 +42,7 @@ export class ArcBaseService {
     });
   }
 
-  private save(feature: __esri.Graphic, type: string, quiet = false) {
+  private save(feature: Graphic, type: string, quiet = false) {
     return new Observable(obs => {
       // @ts-ignore
       if (feature.geometry !== null && feature.geometry !== undefined && feature.geometry.type === 'polygon' && feature.geometry.isSelfIntersecting) {
@@ -136,7 +137,7 @@ export class ArcBaseService {
     const vm = this;
     return new Observable<any>(observer => {
       this.layerIsLoaded.subscribe(() => {
-        const q = {} as __esri.Query;
+        const q = {} as Query;
         const statDef = new StatisticDefinition();
         this.loading = true;
         statDef.statisticType = 'max';
@@ -157,7 +158,7 @@ export class ArcBaseService {
     });
   }
 
-  projectPoint(point: __esri.Geometry, outSR = { wkid: 4326 }) {
+  projectPoint(point: Geometry, outSR = { wkid: 4326 }) {
     return new Observable<any>(observer => {
       projection.load().then(() => {
         const projectedPoint = projection.project(point, outSR);
@@ -192,7 +193,7 @@ export class ArcBaseService {
     });
   }
 
-  convertFromEpoch(features: __esri.Graphic[]) {
+  convertFromEpoch(features: Graphic[]) {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
@@ -208,7 +209,7 @@ export class ArcBaseService {
     return features;
   }
 
-  prepForServer(features: __esri.Graphic[]) {
+  prepForServer(features: Graphic[]) {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
@@ -221,15 +222,15 @@ export class ArcBaseService {
     return features;
   }
 
-  addFeature(feature: __esri.Graphic, quiet = false) {
+  addFeature(feature: Graphic, quiet = false) {
     return this.save(feature, 'add', quiet);
   }
 
-  updateFeature(feature: __esri.Graphic) {
+  updateFeature(feature: Graphic) {
     return this.save(feature, 'update');
   }
 
-  delete(feature: __esri.Graphic) {
+  delete(feature: Graphic) {
     return new Observable(obs => {
       this.layer.applyEdits({ deleteFeatures: [feature] }).then(results => {
         obs.next(results.deleteFeaturesResult);
@@ -282,7 +283,7 @@ export class ArcBaseService {
     });
   }
 
-  uploadAttachments(graphic: __esri.Graphic, data: any) {
+  uploadAttachments(graphic: Graphic, data: any) {
     return new Observable(obs => {
       this.layer.addAttachment(graphic, data).then(result => {
         obs.next(result.objectId);
@@ -295,7 +296,7 @@ export class ArcBaseService {
   }
 
 
-  deleteAttachments(graphic: __esri.Graphic, attachmentId: number) {
+  deleteAttachments(graphic: Graphic, attachmentId: number) {
     return new Observable(obs => {
       this.layer.deleteAttachments(graphic, [attachmentId]).then(response => {
         obs.next(response);

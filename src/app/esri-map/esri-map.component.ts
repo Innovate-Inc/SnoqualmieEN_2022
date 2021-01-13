@@ -42,6 +42,7 @@ import { first, switchMap, tap } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { ArcBaseService } from '../services/arc-base.service';
 import Zoom from 'esri/widgets/Zoom';
+import FeatureLayer from 'esri/layers/FeatureLayer';
 
 // import {ProjectService} from '../services/project.service';
 
@@ -208,7 +209,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           webMap.layers
             .filter(layer => layer.type === 'feature')
             .map(layer => {
-              const featLayer = layer as __esri.FeatureLayer;
+              const featLayer = layer as FeatureLayer;
               featLayer.outFields = ['*'];
               return featLayer;
             });

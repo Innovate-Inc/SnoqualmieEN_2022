@@ -1,13 +1,14 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Graphic from 'esri/Graphic';
 import { ArcBaseService } from '../services/arc-base.service';
 import { DialogService } from '../services/dialog.service';
 import { LoadingService } from '../services/loading.service';
 
 
 export interface UploadDialogData {
-  object: __esri.Graphic;
+  object: Graphic;
   maxAttach: number;
   attached: number;
   uploadLayer: string;

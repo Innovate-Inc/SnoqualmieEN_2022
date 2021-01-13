@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import Graphic from 'esri/Graphic';
 import { environment } from 'src/environments/environment';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
@@ -12,7 +13,7 @@ export class DialogService {
   newlyAddedFeatureId: number;
   attachments: Array<any> = [];
   maxAttachments: number;
-  item: __esri.Graphic;
+  item: Graphic;
 
   constructor(public uploadService: ArcBaseService, public dialog: MatDialog) { 
     this.maxAttachments = environment.maxAttachments;
