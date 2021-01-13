@@ -11,6 +11,7 @@ import AttachmentInfo from 'esri/layers/support/AttachmentInfo';
 import { LoadingService } from './loading.service';
 import Polygon from 'esri/geometry/Polygon';
 import Graphic from 'esri/Graphic';
+import Geometry from 'esri/geometry/Geometry';
 
 export class ArcBaseService {
   loading: boolean;

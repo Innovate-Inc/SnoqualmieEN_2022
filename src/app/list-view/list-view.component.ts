@@ -1,5 +1,5 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component, OnInit, SimpleChanges, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, SimpleChanges, ViewChild, OnChanges, Inject } from '@angular/core';
 import { Project, ProjectService } from '../services/project.service';
 import { filter, finalize, first, map, switchMap, tap } from 'rxjs/operators';
 // import {isNumeric} from 'rxjs/util/isNumeric';
@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { zip } from 'rxjs';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ListViewComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // prefixname = environment.name;
-  constructor(public loadingService: LoadingService, private data: DataService, snackBar: MatSnackBar, public projectService: ProjectService, public route: ActivatedRoute, public router: Router) {
+  constructor(public loadingService: LoadingService, private data: DataService, public dialog: MatDialog, snackBar: MatSnackBar, public projectService: ProjectService, public route: ActivatedRoute, public router: Router) {
   }
 
   ngOnInit() {
@@ -143,5 +144,55 @@ export class ListViewComponent implements OnInit, OnChanges {
       this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
       this.projectService.getItems().subscribe();
     });
+  }
+
+  // delete_old(element: any, i: number){
+  //   const dialogRef = this.dialog.open(DeleteInvoiceComponent, {
+  //     width: '400px',
+  //     height: '330px',
+  //     data: {date: element.attributes?.INV_InvoiceDate, invoiceID: element.attributes?.OBJECTID,
+  //           encroachmentID: element.attributes?.INV_EncID, permitID: element.attributes?.INV_PermitID}
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if(result === "true"){
+  //       this.queryInvoiceService.delete(element).subscribe();
+  //       this.queryInvoiceService.datasource.data.splice(i, 1);
+  //       this.queryInvoiceService.datasource.data = this.queryInvoiceService.datasource.data; //forces table to refresh
+  //     }
+  //   });
+  // }
+
+  delete(feature: any, i: number) {
+    const dialogRef = this.dialog.open(DeleteSiteComponent, {
+      width: '400px',
+      height: '330px' // ,
+      // data: {date: element.attributes?.INV_InvoiceDate, invoiceID: element.attributes?.OBJECTID,
+      //       encroachmentID: element.attributes?.INV_EncID, permitID: element.attributes?.INV_PermitID}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'true') {
+        this.projectService.delete(feature).subscribe(() => {
+          this.updateQueryParams({ mode: 'none' });
+          this.router.navigate(['/app/projects']);
+        });
+      }
+    });
+  }
+}
+
+@Component({
+  selector: 'app-delete-site',
+  templateUrl: 'delete-site.html',
+})
+export class DeleteSiteComponent {
+
+  constructor(public dialogRef: MatDialogRef<DeleteSiteComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  close(ret: string) {
+    this.dialogRef.close(ret);
+
+    // routerLink="/app/projects"
   }
 }
