@@ -41,6 +41,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { first, switchMap, tap } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { ArcBaseService } from '../services/arc-base.service';
+import Zoom from 'esri/widgets/Zoom';
 
 // import {ProjectService} from '../services/project.service';
 
@@ -323,9 +324,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       console.log('_highlight ready: ', this._highLightLayer);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
-      this.addHome();  // Home button
-      this.addBasemapGallery();  // Basemap Gallery
-      this.addSearch();
+      this._view.ui.components = [ 'attribution' ]; // prevent zoom from loading so it can be placed lower
+      this.addWidgets();
       this._view.on('click', event => {
         this._view.hitTest(event).then((response: any) => {
           if (response.results.length) {
@@ -423,7 +423,12 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   applyQueryParams(params: ParamMap) {
-    if (params.has('mode')) { this.mode = params.get('mode'); }
+    if (params.has('mode')) {
+      this.mode = params.get('mode');
+    } else {
+      this.mode = 'none';
+      this.updateQueryParams({ mode: this.mode });
+    }
     for (const key of params.keys) {
       if (!['table_visible', 'mine_globalid_in', 'chapter'].includes(key)) {
         this.projectService.filter[key] = params.get(key);
@@ -451,21 +456,22 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.sketchViewModel.complete();
   }
 
-  addHome() {
+  addWidgets() {
+    const search = new Search({
+      view: this._view
+    });
+    this._view.ui.add(search, 'top-left');
+
+    const zoom = new Zoom({
+      view: this._view
+    });
+    this._view.ui.add(zoom, 'top-left');
+
     const homeBtn = new Home({  // Home button
       view: this._view
     });
     this._view.ui.add(homeBtn, 'top-left');  // Add to top left corner of view
-  }
 
-  addSearch() {
-    const search = new Search({
-      view: this._view
-    });
-    this._view.ui.add(search, 'top-right');  // Add to top left corner of view
-  }
-
-  addBasemapGallery() {
     const basemapGalleryWidget = new BasemapGallery({
       view: this._view
     });
@@ -497,7 +503,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       content: layerList
     });
     this._view.ui.add(layerListExpand, 'top-left');
-    this._view.ui.add('sketchPanel', 'top-right');
+
+    this._view.ui.add('sketchPanel', 'top-right'); // used for map icons
   }
 
   enterDeleteMode() {
