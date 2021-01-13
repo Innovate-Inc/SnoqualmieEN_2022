@@ -59,9 +59,9 @@
     </ng-container>
     <ng-container matColumnDef="delete">
       <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
-      <td *matCellDef="let element; let i = index" (click)="delete(element, i)">
+      <mat-cell *matCellDef="let element; let i = index" (click)="delete(element, i); disableRoute = true">
         <mat-icon style="color: red;">delete_forever</mat-icon>
-      </td>
+      </mat-cell>
     </ng-container>
     <!-- <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>Jurisdiction</mat-header-cell>
@@ -73,7 +73,7 @@
     </mat-header-row>
 
     <mat-row *matRowDef="let row; columns: displayColumns" (click)="data.showToggle = false;"
-      [routerLink]="['/app/edit', row.attributes.globalid]"></mat-row>
+      [routerLink]="disableRoute ? [] : ['/app/edit', row.attributes.globalid]"></mat-row>
   </mat-table>
   <div class="paginator-div">
     <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"

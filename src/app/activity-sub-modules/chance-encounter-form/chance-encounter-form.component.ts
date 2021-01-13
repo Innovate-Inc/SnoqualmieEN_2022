@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import Graphic from 'esri/Graphic';
+import Graphic from '@arcgis/core/Graphic';
 import { SaveChangesDialogComponent } from 'src/app/save-changes-dialog/save-changes-dialog.component';
 import { ArcBaseService } from 'src/app/services/arc-base.service';
 import { DialogService } from 'src/app/services/dialog.service';

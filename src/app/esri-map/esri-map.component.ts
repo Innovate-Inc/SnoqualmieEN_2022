@@ -1,4 +1,4 @@
-import Polygon from 'esri/geometry/Polygon';
+import Polygon from '@arcgis/core/geometry/Polygon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from './../services/loading.service';
 import { environment, url } from './../../environments/environment.prod';
@@ -15,34 +15,34 @@ import {
 } from '@angular/core';
 
 // Load modules from the Esri ArcGIS API for JavaScript
-import Map from 'esri/Map'; // Map instance
-import MapView from 'esri/views/MapView'; // 2D view of a Map instance
-import WebMap from 'esri/WebMap';
-import Home from 'esri/widgets/Home'; // Home button
-import BasemapGallery from 'esri/widgets/BasemapGallery'; // Basemap Gallery
-import Search from 'esri/widgets/Search';
+import Map from '@arcgis/core/Map'; // Map instance
+import MapView from '@arcgis/core/views/MapView'; // 2D view of a Map instance
+import WebMap from '@arcgis/core/WebMap';
+import Home from '@arcgis/core/widgets/Home'; // Home button
+import BasemapGallery from '@arcgis/core/widgets/BasemapGallery'; // Basemap Gallery
+import Search from '@arcgis/core/widgets/Search';
 
-import Expand from 'esri/widgets/Expand'; // clickable button for opening a widget
-import LayerList from 'esri/widgets/LayerList';
-import FeatureTable from 'esri/widgets/FeatureTable';
-import esriConfig from 'esri/config';
-import SketchViewModel from 'esri/widgets/Sketch/SketchViewModel';
-import GraphicsLayer from 'esri/layers/GraphicsLayer';
-import * as projection from 'esri/geometry/projection';
-import Graphic from 'esri/Graphic';
+import Expand from '@arcgis/core/widgets/Expand'; // clickable button for opening a widget
+import LayerList from '@arcgis/core/widgets/LayerList';
+import FeatureTable from '@arcgis/core/widgets/FeatureTable';
+import esriConfig from '@arcgis/core/config';
+import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
+import * as projection from '@arcgis/core/geometry/projection';
+import Graphic from '@arcgis/core/Graphic';
 // import {IdentityManagementService} from '../services/identity-management.service';
 import { ActivatedRoute, Router, NavigationEnd, ParamMap, Params } from '@angular/router';
 import LayerView = __esri.LayerView;
 import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
-import Geometry from 'esri/geometry/Geometry';
+import Geometry from '@arcgis/core/geometry/Geometry';
 import { ProjectService } from '../services/project.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { first, switchMap, tap } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { ArcBaseService } from '../services/arc-base.service';
-import Zoom from 'esri/widgets/Zoom';
-import FeatureLayer from 'esri/layers/FeatureLayer';
+import Zoom from '@arcgis/core/widgets/Zoom';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 // import {ProjectService} from '../services/project.service';
 
@@ -267,7 +267,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         tempGraphic.geometry = geometry;
         tempGraphic.attributes = { ObjectId: this._selectedFeature.attributes.OBJECTID };
         this._selectedFeature.geometry = geometry;
-        this.editLyr.applyEdits({ updateFeatures: [tempGraphic] }).then((results: any) => {
+        this.projectService.updateFeature(this.createGraphic).subscribe((results: Array<any>) => {
           console.log(results);
           this.mode = 'featureSelected';
           this.updateQueryParams({ mode: this.mode });
@@ -517,44 +517,26 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   enterAddMode(params: Params) {
     console.log('sketch mode');
     this.updateQueryParams(params);
-
-    // this.mode = 'add';
     this.editLyr.opacity = .2;
     this.sketchViewModel.create('polygon', { mode: 'hybrid' });
-
-    // const sketchViewModel = new SketchViewModel({
-    //   view: this._view,
-    //   updateOnGraphicClick: false,
-    //   defaultUpdateOptions: {
-    //     // set the default options for the update operations
-    //     toggleToolOnClick: false // only reshape operation will be enabled
-    //   }
-    // });
-    // this._view.ui.add('instructions', 'top-right');
   }
 
   saveNewFeature() {
     console.log('save new feature');
-    // this._view.ui.remove('instructions');
     this.editLyr.opacity = .5;
     this.graphicsLayer.removeAll();
 
     if (this.mode === 'complete') {
-      this.editLyr.applyEdits({ addFeatures: [this.createGraphic] }).then((results: any) => {
-        console.log(results);
-        if (results.addFeatureResults.length) {
-          const objectId = results.addFeatureResults[0].objectId;
-          const globalId = results.addFeatureResults[0].globalId;
-
-          if (this._highlightHandler) {
-            this._highlightHandler.remove();
-          }
-          this.mode = 'featureSelected';
-          this.updateQueryParams({ mode: this.mode });
-          this.projectService.editing = true;
-          this._view.goTo(this.createGraphic);
-          this.router.navigate(['/app/edit', globalId]);
+      this.projectService.addFeature(this.createGraphic).subscribe((results: Array<any>) => {
+        const globalId = results[0].globalId;
+        if (this._highlightHandler) {
+          this._highlightHandler.remove();
         }
+        this.mode = 'featureSelected';
+        this.updateQueryParams({ mode: this.mode });
+        this.projectService.editing = true;
+        this._view.goTo(this.createGraphic);
+        this.router.navigate(['/app/edit', globalId]);
       });
     } else {
       this.sketchViewModel.complete();

@@ -12,7 +12,7 @@ import { ArcBaseService } from '../services/arc-base.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 import { DialogService } from '../services/dialog.service';
-import Graphic from 'esri/Graphic';
+import Graphic from '@arcgis/core/Graphic';
 
 
 @Component({

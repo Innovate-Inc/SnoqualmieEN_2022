@@ -12,10 +12,5 @@ module.exports = {
         root: "./"
       }
     })
-  ],
-  node: {
-    process: false,
-    global: false,
-    fs: "empty"
-  }
+  ]
 };

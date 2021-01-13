@@ -12,6 +12,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { zip } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DeleteSiteComponent } from '../esri-map/esri-map.component';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ListViewComponent implements OnInit, OnChanges {
   props: Params;
   palateColor = 'primary';
   spatialSelect = 'false';
+  disableRoute = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // prefixname = environment.name;
@@ -134,9 +136,6 @@ export class ListViewComponent implements OnInit, OnChanges {
     this.projectService.getItems().subscribe();
 
   }
-
-
-
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
       this.updateQueryParams({searchText: null});
@@ -145,23 +144,6 @@ export class ListViewComponent implements OnInit, OnChanges {
       this.projectService.getItems().subscribe();
     });
   }
-
-  // delete_old(element: any, i: number){
-  //   const dialogRef = this.dialog.open(DeleteInvoiceComponent, {
-  //     width: '400px',
-  //     height: '330px',
-  //     data: {date: element.attributes?.INV_InvoiceDate, invoiceID: element.attributes?.OBJECTID,
-  //           encroachmentID: element.attributes?.INV_EncID, permitID: element.attributes?.INV_PermitID}
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if(result === "true"){
-  //       this.queryInvoiceService.delete(element).subscribe();
-  //       this.queryInvoiceService.datasource.data.splice(i, 1);
-  //       this.queryInvoiceService.datasource.data = this.queryInvoiceService.datasource.data; //forces table to refresh
-  //     }
-  //   });
-  // }
 
   delete(feature: any, i: number) {
     const dialogRef = this.dialog.open(DeleteSiteComponent, {
@@ -172,6 +154,7 @@ export class ListViewComponent implements OnInit, OnChanges {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.disableRoute = false;
       if (result === 'true') {
         this.projectService.delete(feature).subscribe(() => {
           this.updateQueryParams({ mode: 'none' });
@@ -179,20 +162,5 @@ export class ListViewComponent implements OnInit, OnChanges {
         });
       }
     });
-  }
-}
-
-@Component({
-  selector: 'app-delete-site',
-  templateUrl: 'delete-site.html',
-})
-export class DeleteSiteComponent {
-
-  constructor(public dialogRef: MatDialogRef<DeleteSiteComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  close(ret: string) {
-    this.dialogRef.close(ret);
-
-    // routerLink="/app/projects"
   }
 }
