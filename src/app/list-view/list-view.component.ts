@@ -92,6 +92,8 @@ export class ListViewComponent implements OnInit, OnChanges {
 
   applyQueryParams(params: ParamMap) {
     if (params.get('spatialSelect')) { this.spatialSelect = params.get('spatialSelect'); }
+    if (params.get('searchText')) { this.searchText = params.get('searchText'); }
+
     for (const key of params.keys) {
       if (!['table_visible', 'mine_globalid_in', 'chapter'].includes(key)) {
         this.projectService.filter[key] = params.get(key);
@@ -110,6 +112,7 @@ export class ListViewComponent implements OnInit, OnChanges {
 
 
   search() {
+    this.updateQueryParams({searchText: this.searchText});
     this.projectService.filter.where = `Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}' or Jurisdiction like '%${this.searchText}' or created_user like '%${this.searchText}'`;
     this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
     //   if (isNumeric(searchText)) {
@@ -132,6 +135,7 @@ export class ListViewComponent implements OnInit, OnChanges {
 
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
+      this.updateQueryParams({searchText: null});
       this.projectService.filter.where = '1=1';
       this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
       this.projectService.getItems().subscribe();
