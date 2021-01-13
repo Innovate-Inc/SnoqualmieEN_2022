@@ -92,7 +92,10 @@ export class ListViewComponent implements OnInit, OnChanges {
 
   applyQueryParams(params: ParamMap) {
     if (params.get('spatialSelect')) { this.spatialSelect = params.get('spatialSelect'); }
-    if (params.get('searchText')) { this.searchText = params.get('searchText'); }
+    if (params.get('searchText')) {
+      this.searchText = params.get('searchText');
+      this.search();
+    }
 
     for (const key of params.keys) {
       if (!['table_visible', 'mine_globalid_in', 'chapter'].includes(key)) {

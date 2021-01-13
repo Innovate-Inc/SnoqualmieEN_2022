@@ -66,5 +66,6 @@ export class EditPaneComponent implements OnInit {
 
   goHome() {
     this.updateQueryParams({ mode: 'none' });
+    this.router.navigate(['/app/projects']);
   }
 }
