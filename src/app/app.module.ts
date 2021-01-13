@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EsriMapComponent } from './esri-map/esri-map.component';
+import { EsriMapComponent, DeleteSiteComponent } from './esri-map/esri-map.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -73,6 +73,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   declarations: [
     AppComponent,
     EsriMapComponent,
+    DeleteSiteComponent,
     MapViewComponent,
     ListViewComponent,
     WelcomeComponent,

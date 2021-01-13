@@ -12,21 +12,19 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es5",
+    "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
       "dom",
-      "es2015.promise",
-      "es5",
-      "es6",
-      "es7"
+      "es2018"
     ]
-  }
+  },
   // [NOTE: these options simply haven't been tested yet with the angular-cli-esri-map components]
-  // "angularCompilerOptions": {
-  //   "fullTemplateTypeCheck": true,
-  //   "strictInjectionParameters": true
-  // }
+  "angularCompilerOptions": {
+    "enableIvy": true
+    // "fullTemplateTypeCheck": true,
+    // "strictInjectionParameters": true
+  }
 }

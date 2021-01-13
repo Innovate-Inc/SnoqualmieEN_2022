@@ -1,4 +1,4 @@
-import Polygon from 'esri/geometry/Polygon';
+import Polygon from '@arcgis/core/geometry/Polygon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from './../services/loading.service';
 import { environment, url } from './../../environments/environment.prod';
@@ -15,34 +15,34 @@ import {
 } from '@angular/core';
 
 // Load modules from the Esri ArcGIS API for JavaScript
-import Map from 'esri/Map'; // Map instance
-import MapView from 'esri/views/MapView'; // 2D view of a Map instance
-import WebMap from 'esri/WebMap';
-import Home from 'esri/widgets/Home'; // Home button
-import BasemapGallery from 'esri/widgets/BasemapGallery'; // Basemap Gallery
-import Search from 'esri/widgets/Search';
+import Map from '@arcgis/core/Map'; // Map instance
+import MapView from '@arcgis/core/views/MapView'; // 2D view of a Map instance
+import WebMap from '@arcgis/core/WebMap';
+import Home from '@arcgis/core/widgets/Home'; // Home button
+import BasemapGallery from '@arcgis/core/widgets/BasemapGallery'; // Basemap Gallery
+import Search from '@arcgis/core/widgets/Search';
 
-import Expand from 'esri/widgets/Expand'; // clickable button for opening a widget
-import LayerList from 'esri/widgets/LayerList';
-import FeatureTable from 'esri/widgets/FeatureTable';
-import esriConfig from 'esri/config';
-import SketchViewModel from 'esri/widgets/Sketch/SketchViewModel';
-import GraphicsLayer from 'esri/layers/GraphicsLayer';
-import * as projection from 'esri/geometry/projection';
-import Graphic from 'esri/Graphic';
+import Expand from '@arcgis/core/widgets/Expand'; // clickable button for opening a widget
+import LayerList from '@arcgis/core/widgets/LayerList';
+import FeatureTable from '@arcgis/core/widgets/FeatureTable';
+import esriConfig from '@arcgis/core/config';
+import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
+import * as projection from '@arcgis/core/geometry/projection';
+import Graphic from '@arcgis/core/Graphic';
 // import {IdentityManagementService} from '../services/identity-management.service';
 import { ActivatedRoute, Router, NavigationEnd, ParamMap, Params } from '@angular/router';
 import LayerView = __esri.LayerView;
 import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
-import Geometry from 'esri/geometry/Geometry';
+import Geometry from '@arcgis/core/geometry/Geometry';
 import { ProjectService } from '../services/project.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { first, switchMap, tap } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { ArcBaseService } from '../services/arc-base.service';
-import Zoom from 'esri/widgets/Zoom';
-import FeatureLayer from 'esri/layers/FeatureLayer';
+import Zoom from '@arcgis/core/widgets/Zoom';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 // import {ProjectService} from '../services/project.service';
 

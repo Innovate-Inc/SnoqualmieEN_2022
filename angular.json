@@ -23,6 +23,11 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/@arcgis/core/assets",
+                "output": "/app/assets/"
+              },
               "src/favicon.ico",
               "src/assets",
               "src/web.config"
@@ -100,9 +105,7 @@
               "src/assets"
             ],
             "styles": [
-          
               "src/styles.css",
-              
               "src/theme.scss"
             ],
             "scripts": []
