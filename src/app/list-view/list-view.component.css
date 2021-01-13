@@ -32,3 +32,15 @@ mat-row {
   overflow-y: scroll;
   max-height: calc(100vh - 240px);
 }
+
+button {
+  margin-right: 10px;
+}
+
+.mat-column-delete {
+  width: 20px;
+}
+
+.mat-column {
+  width: 100%;
+}

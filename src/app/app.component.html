@@ -1,52 +1,28 @@
-
-<mat-toolbar><img height="100%" src="assets/images/tribe-logo.png"><span class="top_item" routerLink="/app">Assert - Snoqualmie
+<mat-toolbar><img height="100%" src="assets/images/tribe-logo.png"><span class="top_item" routerLink="/app">Assert -
+    Snoqualmie
     Indian Tribe Spatial Manager</span>
-  <span class="fill-remaining-space"> 
-     <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" style="padding-left: 40%;"><mat-slide-toggle color="accent" [(ngModel)]="projectService.editing"><span *ngIf="projectService.editing">Editing On</span><span *ngIf="!projectService.editing">Editing Off</span></mat-slide-toggle></span>
+  <span class="fill-remaining-space">
+    <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" style="padding-left: 40%;">
+      <mat-slide-toggle color="accent" [(ngModel)]="projectService.editing"><span *ngIf="projectService.editing">Editing
+          On</span><span *ngIf="!projectService.editing">Editing Off</span></mat-slide-toggle>
+    </span>
   </span>
-  <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" ><button  mat-raised-button [routerLink]="['/export']" matTooltip="Export Sites to Spreadsheet">Export Sites to Spreadsheet</button></span>
-  <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" ><button *ngIf="data.showToggle" (click)="drawer.toggle()" mat-raised-button [routerLink]="['/filter']" matTooltip="Toggle Filter">Toggle Filter</button></span>
+  <!-- <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button"><button mat-raised-button [routerLink]="['/export']"
+      matTooltip="Export Sites to Spreadsheet">Export Sites to Spreadsheet</button></span>
+  <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button"><button *ngIf="data.showToggle"
+      (click)="drawer.toggle()" mat-raised-button [routerLink]="['/filter']" matTooltip="Toggle Filter">Toggle
+      Filter</button></span> -->
 
 
   <span class="tb-mat-button logout-btn ">
-      <button mat-mini-fab color="primary" mat-raised-button (click)="logMeOut();" matTooltip="Logout">
-        <mat-icon>person_outline</mat-icon>
-      </button>
-    </span>
-
-
+    <button mat-mini-fab color="primary" mat-raised-button (click)="logMeOut();" matTooltip="Logout">
+      <mat-icon>person_outline</mat-icon>
+    </button>
+  </span>
 
 </mat-toolbar>
 <mat-drawer-container hasBackdrop="false" autosize>
-
-<div class="main-content">
-  <mat-drawer #drawer class="example-sidenav" mode="over" opened="false" position="end">
-    <form [formGroup]="filterForm" class="filterForm">
-      <br><br>
-          <h3>Specify filters:</h3>
-          <mat-form-field appearance="fill">
-              <mat-label>From Date:</mat-label>
-              <input matInput formControlName="fromDate" [matDatepicker]="picker">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-              <mat-label>
-                To Date:
-              </mat-label>
-              <input matInput formControlName="toDate" [matDatepicker]="picker2">
-              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-          </mat-form-field>
-          </form>
-          <br>
-          <div style="text-align: left; padding-left: 10%;">
-            <button mat-raised-button color="accent" (click)="applyFilter(0); drawer.toggle()">Apply Filter</button>
-            <button mat-button color="accent" (click)="applyFilter(1); drawer.toggle()">Clear Filter</button>
-          </div>
-        </mat-drawer>
-  <router-outlet></router-outlet>
-
+  <div class="main-content">
+    <router-outlet></router-outlet>
   </div>
 </mat-drawer-container>
-

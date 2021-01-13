@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataSource } from '@angular/cdk/collections';
 import AttachmentInfo from 'esri/layers/support/AttachmentInfo';
 import { LoadingService } from './loading.service';
+import Polygon from 'esri/geometry/Polygon';
+import Graphic from 'esri/Graphic';
 
 export class ArcBaseService {
   loading: boolean;
@@ -18,16 +20,16 @@ export class ArcBaseService {
   listenerActive: boolean;
   listener: any;
   meta: any;
-  filter: any;
+  public filter: any;
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   currentPage = 0;
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   datasource: BaseDataSource;
-
+  geometry: Polygon;
 
   constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
     this.datasource = new BaseDataSource(this);
-    this.filter = { num: 25, start: 0, outFields: ['*'] };
+    this.filter = { num: 25, start: 0, outFields: ['*'], returnIdsOnly: false };
     this.layer = new FeatureLayer({
       url,
       outFields: ['*'],
@@ -40,7 +42,7 @@ export class ArcBaseService {
     });
   }
 
-  private save(feature: __esri.Graphic, type: string, quiet = false) {
+  private save(feature: Graphic, type: string, quiet = false) {
     return new Observable(obs => {
       // @ts-ignore
       if (feature.geometry !== null && feature.geometry !== undefined && feature.geometry.type === 'polygon' && feature.geometry.isSelfIntersecting) {
@@ -101,7 +103,16 @@ export class ArcBaseService {
 
         this.loading = true;
 
-        this.layer.queryFeatures(this.filter).then(featureSet => {
+        let clonedFilter = { ...this.filter };
+        if (this.geometry) {
+          // const polyJSON = JSON.parse(this.geometry);
+          // filter.geometry = Polygon.fromJSON(JSON.parse(this.geometry));
+          clonedFilter.geometry = this.geometry; // Polygon.fromJSON(polyJSON);
+        }
+
+
+
+        this.layer.queryFeatures(clonedFilter).then(featureSet => {
           // featureSet.features.forEach(function (feature, i) {
           //   featureSet.features[i] =
           // })
@@ -110,7 +121,7 @@ export class ArcBaseService {
           // featureSet.features.fields = this.prep_fields_meta();
           featureSet.features = this.convertFromEpoch(featureSet.features);
           observer.next(featureSet.features);
-          this.layer.queryFeatureCount(this.filter).then(count => {
+          this.layer.queryFeatureCount(clonedFilter).then(count => {
             this.count.next(count);
           });
           observer.complete();
@@ -126,7 +137,7 @@ export class ArcBaseService {
     const vm = this;
     return new Observable<any>(observer => {
       this.layerIsLoaded.subscribe(() => {
-        const q = {} as __esri.Query;
+        const q = {} as Query;
         const statDef = new StatisticDefinition();
         this.loading = true;
         statDef.statisticType = 'max';
@@ -147,7 +158,7 @@ export class ArcBaseService {
     });
   }
 
-  projectPoint(point: __esri.Geometry, outSR = { wkid: 4326 }) {
+  projectPoint(point: Geometry, outSR = { wkid: 4326 }) {
     return new Observable<any>(observer => {
       projection.load().then(() => {
         const projectedPoint = projection.project(point, outSR);
@@ -182,7 +193,7 @@ export class ArcBaseService {
     });
   }
 
-  convertFromEpoch(features: __esri.Graphic[]) {
+  convertFromEpoch(features: Graphic[]) {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
@@ -198,7 +209,7 @@ export class ArcBaseService {
     return features;
   }
 
-  prepForServer(features: __esri.Graphic[]) {
+  prepForServer(features: Graphic[]) {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
@@ -211,33 +222,26 @@ export class ArcBaseService {
     return features;
   }
 
-  addFeature(feature: __esri.Graphic, quiet = false) {
+  addFeature(feature: Graphic, quiet = false) {
     return this.save(feature, 'add', quiet);
   }
 
-  updateFeature(feature: __esri.Graphic) {
+  updateFeature(feature: Graphic) {
     return this.save(feature, 'update');
   }
 
-  delete(feature: __esri.Graphic) {
+  delete(feature: Graphic) {
     return new Observable(obs => {
-      this.layer.applyEdits({ deleteFeatures: [feature] }).then(result => {
-        obs.next(result.deleteFeaturesResult);
+      this.layer.applyEdits({ deleteFeatures: [feature] }).then(results => {
+        obs.next(results.deleteFeaturesResult);
+        this.openSnackBar('Item deleted', '');
       }).catch(e => {
-        this.openSnackBar(e.toString() + ' ' + e.details[0], '');
+        const details = e.details !== undefined ? e.details[0] : '';
+        this.openSnackBar(`${e.toString()} ${details}`, '');
         obs.error(e);
       });
     });
   }
-
-  // addClickListener(callback: any) {
-  //   this.listener = this.layer.on('click', callback);
-  //   this.listenerActive = true;
-  // }
-  //
-  // removeClickListener() {
-  //   this.listener.remove();
-  // }
 
   get data(): any[] {
     return this.dataChange.value;
@@ -279,7 +283,7 @@ export class ArcBaseService {
     });
   }
 
-  uploadAttachments(graphic: __esri.Graphic, data: any) {
+  uploadAttachments(graphic: Graphic, data: any) {
     return new Observable(obs => {
       this.layer.addAttachment(graphic, data).then(result => {
         obs.next(result.objectId);
@@ -292,7 +296,7 @@ export class ArcBaseService {
   }
 
 
-  deleteAttachments(graphic: __esri.Graphic, attachmentId: number) {
+  deleteAttachments(graphic: Graphic, attachmentId: number) {
     return new Observable(obs => {
       this.layer.deleteAttachments(graphic, [attachmentId]).then(response => {
         obs.next(response);
@@ -303,11 +307,11 @@ export class ArcBaseService {
       });
     });
   }
-  convertToDomainValue(val: any, field: string){
-    if(val && field){
-      let domain = this.meta[field].domain.codedValues.find((x:any) => x.code === val);
-      
-      if(domain){
+  convertToDomainValue(val: any, field: string) {
+    if (val && field) {
+      let domain = this.meta[field].domain.codedValues.find((x: any) => x.code === val);
+
+      if (domain) {
         return domain.name;
       }
       else {
