@@ -16,7 +16,7 @@ export class EditPaneComponent implements OnInit {
   message: string;
   projectId: any;
   prefixName = environment.name;
-  myFill = this.prefixName + '-0000'
+  myFill = this.prefixName + '-0000';
   constructor(public router: Router, public projectService: ProjectService, public route: ActivatedRoute, public loadingService: LoadingService,
               public data: DataService) {
   }

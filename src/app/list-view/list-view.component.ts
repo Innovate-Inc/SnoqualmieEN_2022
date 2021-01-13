@@ -132,7 +132,7 @@ export class ListViewComponent implements OnInit, OnChanges {
 
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
-      this.projectService.filter.where = `Project_Name like '%'`;
+      this.projectService.filter.where = '1=1';
       this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
       this.projectService.getItems().subscribe();
     });

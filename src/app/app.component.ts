@@ -45,7 +45,7 @@ export class AppComponent {
         this.projectService.filter.where = `created_date < '${toDate}'`;
       }
       else {
-        this.projectService.filter.where = `Project_Name like '%'`;
+        this.projectService.filter.where = `Project_Name like '%' or ID_DAHP_full like '%' or Jurisdiction like '%' or created_user like '%'`;
       }
       this.projectService.layerIsLoaded.subscribe(() =>{
         this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
@@ -55,7 +55,7 @@ export class AppComponent {
     else { //clear all filters
       this.filterForm.setValue({"fromDate": "", "toDate": ""})
       this.projectService.layerIsLoaded.subscribe(() => {
-        this.projectService.filter.where = `Project_Name like '%'`;
+        this.projectService.filter.where = `Project_Name like '%' or ID_DAHP_full like '%' or Jurisdiction like '%' or created_user like '%'`;
         this.projectService.getItems().subscribe();
       });
     }
