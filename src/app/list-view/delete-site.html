@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Are you sure you want to delete this site?</h1>  
+<div mat-dialog-content>
+  <!-- Invoice information:
+      <br>
+      <br>
+      Date: <b>{{data.date | date}}</b>  <br>
+      Invoice ID: <b>{{data.invoiceID}}</b>  <br>
+      Encroachment ID: <b>{{data.encroachmentID}}</b>  <br>
+      Permit ID: <b>{{data.permitID}}</b>
+   -->
+
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="close('true')" cdkFocusInitial>Yes</button>
+  <button mat-button color="accent" (click)="close('false')" cdkFocusInitial>No</button>
+</div>

@@ -325,7 +325,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       console.log('_highlight ready: ', this._highLightLayer);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
-      this._view.ui.components = [ 'attribution' ]; // prevent zoom from loading so it can be placed lower
+      this._view.ui.components = ['attribution']; // prevent zoom from loading so it can be placed lower
       this.addWidgets();
       this._view.on('click', event => {
         this._view.hitTest(event).then((response: any) => {
@@ -610,7 +610,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'true') {
-        this.projectService.delete(this._selectedFeature);
+        this.projectService.delete(this._selectedFeature).subscribe(() => {
+          this.updateQueryParams({ mode: 'none' });
+          this.router.navigate(['/app/projects']);
+        });
       }
     });
   }
