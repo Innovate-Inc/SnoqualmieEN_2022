@@ -134,9 +134,6 @@ export class ListViewComponent implements OnInit, OnChanges {
     this.projectService.getItems().subscribe();
 
   }
-
-
-
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
       this.updateQueryParams({searchText: null});
@@ -145,23 +142,6 @@ export class ListViewComponent implements OnInit, OnChanges {
       this.projectService.getItems().subscribe();
     });
   }
-
-  // delete_old(element: any, i: number){
-  //   const dialogRef = this.dialog.open(DeleteInvoiceComponent, {
-  //     width: '400px',
-  //     height: '330px',
-  //     data: {date: element.attributes?.INV_InvoiceDate, invoiceID: element.attributes?.OBJECTID,
-  //           encroachmentID: element.attributes?.INV_EncID, permitID: element.attributes?.INV_PermitID}
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if(result === "true"){
-  //       this.queryInvoiceService.delete(element).subscribe();
-  //       this.queryInvoiceService.datasource.data.splice(i, 1);
-  //       this.queryInvoiceService.datasource.data = this.queryInvoiceService.datasource.data; //forces table to refresh
-  //     }
-  //   });
-  // }
 
   delete(feature: any, i: number) {
     const dialogRef = this.dialog.open(DeleteSiteComponent, {
