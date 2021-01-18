@@ -50,9 +50,9 @@ export class EditPaneComponent implements OnInit {
         );
       })
     ).subscribe();
-    this.projectService.dataChange.pipe(tap(() => {
-      this.updateQueryParams(this.projectService.filter);
-    })).subscribe();
+    // this.projectService.dataChange.pipe(tap(() => {
+    //   this.updateQueryParams(this.projectService.filter);
+    // })).subscribe();
   }
 
   updateQueryParams(queryParam: Params) {

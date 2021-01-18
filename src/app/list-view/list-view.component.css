@@ -38,8 +38,7 @@ button {
 }
 
 .mat-column-delete {
-  width: 20px;
-}
+  max-width: 20px;}
 
 .mat-column {
   width: 100%;

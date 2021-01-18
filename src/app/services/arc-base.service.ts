@@ -22,6 +22,7 @@ export class ArcBaseService {
   listener: any;
   meta: any;
   public filter: any;
+  public params: any;
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   currentPage = 0;
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -31,6 +32,7 @@ export class ArcBaseService {
   constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
     this.datasource = new BaseDataSource(this);
     this.filter = { num: 25, start: 0, outFields: ['*'], returnIdsOnly: false };
+    this.params = { num: 25, start: 0, searchText: '', dateStart: '', dateEnd: ''};
     this.layer = new FeatureLayer({
       url,
       outFields: ['*'],

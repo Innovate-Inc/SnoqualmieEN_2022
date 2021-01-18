@@ -399,16 +399,9 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         })
       ).subscribe();
       this.projectService.dataChange.pipe(tap(() => {
-        this.updateQueryParams(this.projectService.filter);
+        // this.updateQueryParams(this.projectService.filter);
+        
       })).subscribe();
-      // this.dupProjService.dataChange.pipe(tap(() => {
-      //   if (this.dupProjService.data.length > 0) {
-      //     console.log(this.dupProjService);
-      //     console.log(this.projectService.filter);
-
-      //   }
-      //   // this.updateQueryParams(this.projectService.filter);
-      // })).subscribe();
     });
   }
 

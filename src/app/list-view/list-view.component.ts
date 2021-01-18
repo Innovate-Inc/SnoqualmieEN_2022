@@ -13,6 +13,7 @@ import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { zip } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DeleteSiteComponent } from '../esri-map/esri-map.component';
+import moment from 'moment';
 
 
 @Component({
@@ -30,6 +31,13 @@ export class ListViewComponent implements OnInit, OnChanges {
   palateColor = 'primary';
   spatialSelect = 'false';
   disableRoute = false;
+  dateEnd: string;
+  dateStart: string;
+  dateRangePicker = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // prefixname = environment.name;
@@ -74,7 +82,9 @@ export class ListViewComponent implements OnInit, OnChanges {
       })
     ).subscribe();
     this.projectService.dataChange.pipe(tap(() => {
-      this.updateQueryParams(this.projectService.filter);
+      this.updateQueryParams({ searchText: this.searchText, dateStart: this.dateStart, dateEnd: this.dateEnd, start: this.projectService.filter.start, num: this.projectService.filter.num });
+
+      // this.updateQueryParams(this.projectService.filter);
     })).subscribe();
     // this.projectService.mapMode.pipe(tap(() => {
     //   this.updateQueryParams(this.projectService.filter);
@@ -118,7 +128,7 @@ export class ListViewComponent implements OnInit, OnChanges {
 
 
   search() {
-    this.updateQueryParams({searchText: this.searchText});
+    this.updateQueryParams({ searchText: this.searchText, start: 0, num: 0 });
     this.projectService.filter.where = `Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}' or Jurisdiction like '%${this.searchText}' or created_user like '%${this.searchText}'`;
     this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
     //   if (isNumeric(searchText)) {
@@ -129,6 +139,26 @@ export class ListViewComponent implements OnInit, OnChanges {
     this.projectService.getItems().subscribe();
   }
 
+  dateChange(type: any, event: any) {
+    if (event.target.ngControl.name === 'start') {
+      this.dateStart = moment(event.value).format('MM-DD-YYYY');
+      this.updateQueryParams({ dateStart: this.dateStart });
+    } else {
+      this.dateEnd = moment(event.value).format('DD-MM-YYYY');
+      this.updateQueryParams({ dateEnd: this.dateEnd });
+    }
+  }
+
+  // dateEndChange(type: any, event: any) {
+  //   // if (event.target.ngControl.name === 'start') {
+  //     // this.dateStart = moment(event.value).format('DD-MM-YYYY');
+  //     // this.updateQueryParams({ dateStart: this.dateStart });
+  //   // } else {
+  //     this.dateEnd = moment(event.value).format('DD-MM-YYYY');
+  //     this.updateQueryParams({ dateEnd: this.dateEnd });
+  //   // }
+  // }
+
   spatialSelectClick(params: Params) {
     console.log('spatial select');
     this.projectService.geometry = null;
@@ -138,7 +168,7 @@ export class ListViewComponent implements OnInit, OnChanges {
   }
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
-      this.updateQueryParams({searchText: null});
+      this.updateQueryParams({ searchText: null });
       this.projectService.filter.where = '1=1';
       this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
       this.projectService.getItems().subscribe();
