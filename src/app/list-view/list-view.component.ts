@@ -217,15 +217,18 @@ export class ListViewComponent implements OnInit, OnChanges {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.projectService.count.value;
+    let numRows;
+    if (this.projectService.count.value < this.projectService.filter.num) {
+      numRows = this.projectService.count.value;
+    } else {
+      numRows = parseInt(this.projectService.filter.num);
+    }
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.deselectAll() :
-      this.selectAll();
+    this.isAllSelected() ? this.deselectAll() : this.selectAll();
   }
 
   selectAll() {

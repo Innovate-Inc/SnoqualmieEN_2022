@@ -41,6 +41,8 @@
   </div>
   <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
   <!--                      ></mat-progress-bar>-->
+
+  
   <mat-table class="tbox" #table [dataSource]="projectService.datasource">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
