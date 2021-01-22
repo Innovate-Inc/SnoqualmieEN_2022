@@ -53,6 +53,8 @@ export class ListViewComponent implements OnInit, OnChanges {
     this.route.queryParamMap.pipe(
       // first(),
       switchMap((params: ParamMap) => {
+        // this.loadAll();
+
         this.applyQueryParams(params);
         const relevantKeys = params.keys.filter(key => !['page', 'page_size', 'ordering', 'table_visible'].includes(key));
         // if (relevant_keys.length > 0) {
@@ -129,7 +131,15 @@ export class ListViewComponent implements OnInit, OnChanges {
 
   search() {
     this.updateQueryParams({ searchText: this.searchText, start: 0, num: 0 });
-    this.projectService.filter.where = `Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}' or Jurisdiction like '%${this.searchText}' or created_user like '%${this.searchText}'`;
+    this.projectService.filter.where = `(Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}' or Jurisdiction like '%${this.searchText}' or created_user like '%${this.searchText}')`;
+    if (this.dateStart && moment(this.dateStart).isValid())  {
+      this.projectService.filter.where += ` AND Date_Received >= '${this.dateStart}'`;
+    }
+    if (this.dateEnd && moment(this.dateEnd).isValid())  {
+      this.projectService.filter.where += ` AND Date_Received <= '${this.dateEnd}'`;
+    }
+
+
     this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
     //   if (isNumeric(searchText)) {
     //     this.projectService.filter.where = this.projectService.filter.where.concat(` OR ProjectNumber = ${searchText}`);
@@ -141,12 +151,14 @@ export class ListViewComponent implements OnInit, OnChanges {
 
   dateChange(type: any, event: any) {
     if (event.target.ngControl.name === 'start') {
-      this.dateStart = moment(event.value).format('MM-DD-YYYY');
+      this.dateStart = moment(event.value).format('YYYY-MM-DD');
       this.updateQueryParams({ dateStart: this.dateStart });
+      this.projectService.dateStart = this.dateStart;
     } else {
-      this.dateEnd = moment(event.value).format('DD-MM-YYYY');
+      this.dateEnd = moment(event.value).format('YYYY-MM-DD');
       this.updateQueryParams({ dateEnd: this.dateEnd });
     }
+    this.search();
   }
 
   // dateEndChange(type: any, event: any) {
@@ -168,7 +180,9 @@ export class ListViewComponent implements OnInit, OnChanges {
   }
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
-      this.updateQueryParams({ searchText: null });
+      // if (this.route.snapshot.queryParams.
+      //   this.route.snapshot.queryParams
+      this.updateQueryParams({ searchText: '' });
       this.projectService.filter.where = '1=1';
       this.projectService.filter.orderByFields = [`ID_DAHP_full DESC`];
       this.projectService.getItems().subscribe();

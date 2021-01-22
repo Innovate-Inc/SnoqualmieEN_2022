@@ -147,7 +147,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
   highlightFeature(id: string) {
     console.log('highlight run');
-    let biskit: any;
+    let biskit: Geometry;
     this._view.whenLayerView(this._highLightLayer).then((layerView: any) => {
       this._highLightLayer.queryFeatures({ where: `globalid='${id}'`, outFields: '*', returnGeometry: true }).then((result: any) => {
         if (this._highlightHandler) {
@@ -399,7 +399,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         })
       ).subscribe();
       this.projectService.dataChange.pipe(tap(() => {
-        // this.updateQueryParams(this.projectService.filter);
+        this.updateQueryParams(this.projectService.filter);
         
       })).subscribe();
     });
@@ -509,6 +509,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
   enterAddMode(params: Params) {
     console.log('sketch mode');
+    this.graphicsLayer.removeAll();
     this.updateQueryParams(params);
     this.editLyr.opacity = .2;
     this.sketchViewModel.create('polygon', { mode: 'hybrid' });

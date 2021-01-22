@@ -32,8 +32,11 @@
         <mat-datepicker #DateReceivedPicker></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
-        <mat-placeholder>
+        <!-- <mat-placeholder>
           {{projectService.meta.Project_Phase.alias}}
+        </mat-placeholder> -->
+        <mat-placeholder>
+          Project Type
         </mat-placeholder>
         <mat-select [disabled]="!projectService.editing" formControlName="Project_Phase">
           <mat-option *ngFor="let option of projectService.meta.Project_Phase.domain.codedValues"
@@ -48,7 +51,8 @@
                formControlName="Project_Name">
       </mat-form-field>
       <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Jurisdiction.alias}}</mat-placeholder>
+        <!-- <mat-placeholder>{{projectService.meta.Jurisdiction.alias}}</mat-placeholder> -->
+        <mat-placeholder>Primary Jurisdiction</mat-placeholder>
         <mat-select [disabled]="!projectService.editing" formControlName="Jurisdiction">
           <mat-option *ngFor="let option of projectService.meta.Jurisdiction.domain.codedValues"
                       [value]="option.code">{{ option.name }}
@@ -104,14 +108,14 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field >
+      <!-- <mat-form-field >
         <mat-placeholder>{{projectService.meta.Location_Type.alias}}</mat-placeholder>
         <mat-select [disabled]="!projectService.editing" formControlName="Location_Type">
           <mat-option *ngFor="let option of projectService.meta.Location_Type.domain.codedValues"
                       [value]="option.code">{{ option.name }}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
   </form>
 </mat-card>

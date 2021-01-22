@@ -16,15 +16,17 @@
     <div class="supportDocsTable">
       <mat-table #docu_table [dataSource]="docService.datasource">
         <ng-container matColumnDef="type">
-          <mat-header-cell *matHeaderCellDef>{{docService.meta.Docu_Type.alias}}</mat-header-cell>
+          <!-- <mat-header-cell *matHeaderCellDef>{{docService.meta.Docu_Type.alias}}</mat-header-cell> -->
+          <mat-header-cell *matHeaderCellDef>Document Type</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.Docu_Type}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef>{{docService.meta.CreationDate.alias}}</mat-header-cell>
+          <!-- <mat-header-cell *matHeaderCellDef>{{docService.meta.CreationDate.alias}}</mat-header-cell> -->
+          <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.CreationDate | date:'mediumDate'}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Creator">
-          <mat-header-cell *matHeaderCellDef>{{docService.meta.Creator.alias}}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Uploaded By</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.attributes.Creator}} </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>

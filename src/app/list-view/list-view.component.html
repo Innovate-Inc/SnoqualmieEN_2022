@@ -1,37 +1,42 @@
 <mat-card>
   <div>
-    <mat-form-field class="searchField">
+    <mat-form-field class="searchField" appearance="fill">
       <input #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText" placeholder="Search">
-      <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="loadAll(); searchInput.value=''">
-        <mat-icon>close</mat-icon>
-      </button>
+      <span matSuffix class="flex-container">
+        <button *ngIf="searchInput.value" mat-icon-button (click)="loadAll(); searchInput.value=''" matTooltip="Clear">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button mat-mini-fab mat-icon-button color="primary" (click)=search(); class='search' matTooltip="Search">
+          <mat-icon>search</mat-icon>
+        </button>
+      </span>
+
     </mat-form-field>
 
 
-
-    <button (click)=search(); class='search' mat-mini-fab color="primary" matTooltip="Search">
-      <mat-icon>search</mat-icon>
-    </button>
-    <br/>
-    <button (click)="spatialSelectClick({mode:'select',spatialSelect:true});" class='search' mat-mini-fab color="primary" matTooltip="Spatial Select">
-      <!-- <button (click)="spatialSelect({mode:'select',spatialSelect:true});" class='search' mat-mini-fab [color]="paletteColor" [matTooltip]="selectTooltip"> -->
-        <mat-icon>crop_free</mat-icon>
-    </button>
-
-    <button *ngIf="this.spatialSelect==='true'" (click)="spatialSelectClick({mode:'none',spatialSelect:false});" class='search' mat-mini-fab color="accent" matTooltip="Clear Spatial Select">
-      <mat-icon>close</mat-icon>
-  </button>
-    
     <mat-form-field appearance="fill">
       <mat-label>Filter by date range</mat-label>
       <mat-date-range-input [formGroup]="dateRangePicker" [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" formControlName="start" (dateInput)="dateChange('input', $event)" (dateChange)="dateChange('change', $event)">
-        <input matEndDate placeholder="End date" formControlName="end" (dateInput)="dateChange('input', $event)" (dateChange)="dateChange('change', $event)">
+        <input matStartDate placeholder="Start date" formControlName="start" (dateInput)="dateChange('input', $event)"
+          (dateChange)="dateChange('change', $event)">
+        <input matEndDate placeholder="End date" formControlName="end" (dateInput)="dateChange('input', $event)"
+          (dateChange)="dateChange('change', $event)">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
 
+    <br />
+    <button (click)="spatialSelectClick({mode:'select',spatialSelect:true});" class='search' mat-mini-fab
+      color="primary" matTooltip="Spatial Select">
+      <!-- <button (click)="spatialSelect({mode:'select',spatialSelect:true});" class='search' mat-mini-fab [color]="paletteColor" [matTooltip]="selectTooltip"> -->
+      <mat-icon>crop_free</mat-icon>
+    </button>
+    <button *ngIf="this.spatialSelect==='true'" (click)="spatialSelectClick({mode:'none',spatialSelect:false});"
+      class='search' mat-mini-fab color="accent" matTooltip="Clear Spatial Select">
+      <mat-icon>close</mat-icon>
+    </button>
+    <br />
   </div>
   <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
   <!--                      ></mat-progress-bar>-->
@@ -50,7 +55,9 @@
     </ng-container>
     <ng-container matColumnDef="jurisdiction">
       <mat-header-cell *matHeaderCellDef>Jurisdiction</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.attributes.Jurisdiction}}</mat-cell>
+      <mat-cell *matCellDef="let element">
+        {{projectService.convertToDomainValue(element.attributes.Jurisdiction, 'Jurisdiction')}}
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="user">
       <mat-header-cell *matHeaderCellDef>User</mat-header-cell>

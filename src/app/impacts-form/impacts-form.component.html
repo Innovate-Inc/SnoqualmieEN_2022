@@ -12,7 +12,7 @@
         <br />
         <div class="fColumnn">
             <br><br>
-            <mat-label>{{this.projectService.meta.Enviro_Impact.alias}}</mat-label>
+            <h2>{{this.projectService.meta.Enviro_Impact.alias}}</h2>
             <br><br>
             <mat-radio-group [disabled]="!projectService.editing" formControlName="Enviro_Impact"
                 aria-label="Are there anticipated environmental resource impacts?">
@@ -20,7 +20,7 @@
                 <mat-radio-button (click)="enviroClick(2)" value="No">No</mat-radio-button>
             </mat-radio-group>
             <br><br>
-             
+
             <div *ngIf="Impact_Enviro_var === 'Yes'">
                 <!-- <br><br>
                 <mat-label for="">{{this.projectService.meta.Enviro_Impact_Type.alias}}</mat-label>
@@ -35,42 +35,54 @@
                 </mat-form-field> -->
 
                 <br><br>
-                 
+
                 <br><br>
+
+
                 <mat-label>{{this.projectService.meta.Wetland_Likert.alias}}</mat-label>
                 <br><br>
+                <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Wetland_Likert" thumbLabel
-                    tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
+                    tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
+                <span class="text-small">2 (Significant)</span>
                 <br><br>
-                 
-                <br><br>
+
+
                 <mat-label>{{this.projectService.meta.Aquatic_Likert.alias}}</mat-label>
                 <br><br>
+                <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Aquatic_Likert" thumbLabel
-                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
+                    tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
+                <span class="text-small">2 (Significant)</span>
                 <br><br>
-                 
+
                 <br><br>
                 <mat-label>{{this.projectService.meta.Storm_Likert.alias}}</mat-label>
                 <br><br>
+                <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Storm_Likert" thumbLabel
-                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
+                    tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
+                <span class="text-small">2 (Significant)</span>
                 <br><br>
-                 
+
                 <br><br>
                 <mat-label>{{this.projectService.meta.Veg_Likert.alias}}</mat-label>
                 <br><br>
+                <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Veg_Likert" thumbLabel
-                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
+                    tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
+                <span class="text-small">2 (Significant)</span>
                 <br><br>
-                 
+
                 <br><br>
                 <mat-label>{{this.projectService.meta.Watertype_Likert.alias}}</mat-label>
                 <br><br>
+                <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Watertype_Likert" thumbLabel
-                tickInterval="1" min="1" max="3" step="1" value="2"></mat-slider>
+                    tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
+                <span class="text-small">2 (Significant)</span>
                 <br><br>
-                 
+
                 <br><br>
                 <label>{{this.projectService.meta.Mitigation.alias}}</label>
                 <br><br>
@@ -78,21 +90,30 @@
                     aria-label="Is mitigation provided?">
                     <mat-radio-button value="Yes">Fully mitigated</mat-radio-button>
                     <mat-radio-button value="Partially">Partially mitigated</mat-radio-button>
+                    <mat-radio-button value="No">Not mitigated</mat-radio-button>
                 </mat-radio-group>
                 <br><br>
-                 
+                <mat-label>{{this.projectService.meta.Watertype_Likert.alias}}</mat-label>
+                <br><br>
+
             </div>
+
             <br><br>
-            <mat-label for="">{{this.projectService.meta.Impact_Culture.alias}}</mat-label>
+            <mat-form-field appearance="fill">
+                <input [readonly]="!projectService.editing" formControlName="Type_of_mitigation" matInput>
+            </mat-form-field><br><br>
+
+            <h2 for="">{{this.projectService.meta.Impact_Culture.alias}}</h2>
             <br><br>
             <mat-radio-group [disabled]="!projectService.editing" formControlName="Impact_Culture"
                 aria-label="Are there anticipated culural impacts?">
                 <mat-radio-button (click)="impactCulture(1)" value="Yes">Yes</mat-radio-button>
                 <mat-radio-button (click)="impactCulture(2)" value="No">No</mat-radio-button>
             </mat-radio-group>
+
             <br><br>
             <div *ngIf="Culture_Impact_var === 'Yes'">
-                 
+
                 <!-- <br><br>
                 <mat-label for="">{{this.projectService.meta.Culture_Type.alias}}</mat-label>
                 <br><br>
@@ -105,7 +126,7 @@
                     </mat-select>
                 </mat-form-field>
                 <br><br> -->
-                 
+
                 <br><br>
                 <mat-label for="">{{this.projectService.meta.Culture_Note.alias}}</mat-label>
                 <br><br>
@@ -113,7 +134,7 @@
                     <input [readonly]="!projectService.editing" matInput formControlName="Culture_Note">
                 </mat-form-field>
                 <br><br>
-                 
+
                 <br><br>
                 <mat-label for="">{{this.projectService.meta.Archeology.alias}}</mat-label>
                 <br><br>
@@ -125,7 +146,7 @@
 
                 <div *ngIf="archeologySite == 'Yes'">
                     <br><br>
-                     
+
                     <br><br>
                     <mat-label for="">{{this.projectService.meta.Mitigation_Desc.alias}}</mat-label>
                     <br><br>
@@ -134,7 +155,7 @@
                     </mat-form-field>
                 </div>
                 <br><br>
-                 
+
                 <br><br>
                 <label for="">{{this.projectService.meta.Ethnographic.alias}}</label>
                 <br><br>
@@ -147,7 +168,7 @@
 
                 <div *ngIf="ethographicSite == 'Yes'">
                     <br><br>
-                     
+
                     <br><br>
                     <mat-label for="">{{this.projectService.meta.Ethno_Name.alias}}</mat-label>
                     <br><br>
@@ -155,7 +176,7 @@
                         <input [readonly]="!projectService.editing" formControlName="Ethno_Name" matInput>
                     </mat-form-field>
                     <br><br>
-                     
+
                     <br><br>
                     <mat-label for="">{{this.projectService.meta.Arch_YN_study.alias}}</mat-label>
                     <br><br>
@@ -163,7 +184,7 @@
                         <input [readonly]="!projectService.editing" formControlName="Arch_YN_study" matInput>
                     </mat-form-field>
                     <br><br>
-                     
+
                     <br><br>
                     <mat-label for="">{{this.projectService.meta.Arch_Resources.alias}}</mat-label>
                     <br><br>

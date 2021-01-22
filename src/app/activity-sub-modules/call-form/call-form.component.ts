@@ -36,6 +36,7 @@ export class CallFormComponent implements OnInit {
     created_user: new FormControl({ value: '', disabled: true }),
     last_edited_date: new FormControl(),
     last_edited_user: new FormControl(),
+    Call_Note: new FormControl(),
     globalid: new FormControl(),
     objectid: new FormControl()
   });

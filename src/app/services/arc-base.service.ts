@@ -28,6 +28,8 @@ export class ArcBaseService {
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   datasource: BaseDataSource;
   geometry: Polygon;
+  dateStart: string;
+  dateEnd: string;
 
   constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
     this.datasource = new BaseDataSource(this);
@@ -110,12 +112,11 @@ export class ArcBaseService {
         if (this.geometry) {
           // const polyJSON = JSON.parse(this.geometry);
           // filter.geometry = Polygon.fromJSON(JSON.parse(this.geometry));
-          clonedFilter.geometry = this.geometry; // Polygon.fromJSON(polyJSON);
+          this.filter.geometry = this.geometry; // Polygon.fromJSON(polyJSON);
         }
 
 
-
-        this.layer.queryFeatures(clonedFilter).then(featureSet => {
+        this.layer.queryFeatures(this.filter).then(featureSet => {
           // featureSet.features.forEach(function (feature, i) {
           //   featureSet.features[i] =
           // })
@@ -124,7 +125,7 @@ export class ArcBaseService {
           // featureSet.features.fields = this.prep_fields_meta();
           featureSet.features = this.convertFromEpoch(featureSet.features);
           observer.next(featureSet.features);
-          this.layer.queryFeatureCount(clonedFilter).then(count => {
+          this.layer.queryFeatureCount(this.filter).then(count => {
             this.count.next(count);
           });
           observer.complete();
@@ -318,12 +319,12 @@ export class ArcBaseService {
         return domain.name;
       }
       else {
-        return "";
+        return '';
       }
 
     }
     else {
-      return "";
+      return '';
     }
   }
 

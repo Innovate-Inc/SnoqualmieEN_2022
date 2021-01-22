@@ -19,6 +19,16 @@
       </mat-form-field>
 
       <mat-form-field>
+        <mat-placeholder>Document Type</mat-placeholder>
+        <!-- <mat-select [disabled]="!dialogService.editing" formControlName="Docu_Type"> -->
+          <mat-select formControlName="Docu_Type">
+            <mat-option *ngFor="let option of meta.Docu_Type.domain.codedValues"
+                      [value]="option.code">{{ option.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
         <mat-placeholder>{{meta.Docu_Note.alias}}</mat-placeholder>
         <input matInput type="text" name="Docu_Note" formControlName="Docu_Note">
       </mat-form-field>
