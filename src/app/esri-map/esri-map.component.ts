@@ -228,10 +228,11 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           defaultUpdateOptions: {
             // set the default options for the update operations
             toggleToolOnClick: false // only reshape operation will be enabled
-          },
-          defaultCreateOptions: {
-            mode: 'hybrid'
           }
+          // ,
+          // defaultCreateOptions: {
+          //   mode: 'hybrid'
+          // }
         });
 
         this.sketchViewModel.on('update', (evt: any) => {
@@ -302,7 +303,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       // this.dupProjService.filter.returnIdsOnly = true;
       // this.dupProjService.filter.outFields = 'OBJECTID';
       this.updateQueryParams({ mode: 'none' });
-      this.sketchViewModel.complete();
+      //this.sketchViewModel.complete();
 
       this.projectService.getItems().subscribe();
     }
@@ -399,7 +400,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         })
       ).subscribe();
       this.projectService.dataChange.pipe(tap(() => {
-        this.updateQueryParams(this.projectService.filter);
+        // this.updateQueryParams(this.projectService.filter);
         
       })).subscribe();
     });
@@ -512,7 +513,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.graphicsLayer.removeAll();
     this.updateQueryParams(params);
     this.editLyr.opacity = .2;
-    this.sketchViewModel.create('polygon', { mode: 'hybrid' });
+    this.sketchViewModel.create('polygon');
   }
 
   saveNewFeature() {

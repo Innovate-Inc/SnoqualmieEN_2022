@@ -30,6 +30,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ProjectService } from './services/project.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EditPaneComponent } from './edit-pane/edit-pane.component';
 import { MatDividerModule } from '@angular/material/divider';
@@ -134,7 +135,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatDialogModule,
     MatGridListModule,
     MatSidenavModule,
-    MatRippleModule
+    MatRippleModule,
+    MatCheckboxModule
 
   ],
   providers: [IdentityManagementService,

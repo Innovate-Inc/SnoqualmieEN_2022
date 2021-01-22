@@ -1,7 +1,8 @@
 <mat-card>
   <div>
     <mat-form-field class="searchField" appearance="fill">
-      <input #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText" placeholder="Search">
+      <mat-label>Search</mat-label>
+      <input type="text" #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText">
       <span matSuffix class="flex-container">
         <button *ngIf="searchInput.value" mat-icon-button (click)="loadAll(); searchInput.value=''" matTooltip="Clear">
           <mat-icon>close</mat-icon>
@@ -41,6 +42,20 @@
   <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
   <!--                      ></mat-progress-bar>-->
   <mat-table class="tbox" #table [dataSource]="projectService.datasource">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(element) : null; toggleCheckbox(element, selection)"
+          [checked]="selection.isSelected(element)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.attributes.Notification_ID}}</mat-cell>

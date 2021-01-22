@@ -14,6 +14,7 @@ import { zip } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DeleteSiteComponent } from '../esri-map/esri-map.component';
 import moment from 'moment';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -23,7 +24,7 @@ import moment from 'moment';
 })
 export class ListViewComponent implements OnInit, OnChanges {
   // displayColumns = ['id', 'name', 'date', 'jurisdiction', 'user'];
-  displayColumns = ['id', 'name', 'date', 'jurisdiction', 'user', 'delete'];
+  displayColumns = ['select', 'id', 'name', 'date', 'jurisdiction', 'user', 'delete'];
   searchText = '';
   applyNextExtent = false;
   applyHighlighting = false;
@@ -37,11 +38,16 @@ export class ListViewComponent implements OnInit, OnChanges {
     start: new FormControl(),
     end: new FormControl()
   });
+  selection = new SelectionModel<Element>(true, []);
+  numSelected = Number(0);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // prefixname = environment.name;
   constructor(public loadingService: LoadingService, private data: DataService, public dialog: MatDialog, snackBar: MatSnackBar, public projectService: ProjectService, public route: ActivatedRoute, public router: Router) {
+    const initialSelection: any = [];
+    const allowMultiSelect = true;
+    this.selection = new SelectionModel<Element>(allowMultiSelect, initialSelection);
   }
 
   ngOnInit() {
@@ -132,10 +138,10 @@ export class ListViewComponent implements OnInit, OnChanges {
   search() {
     this.updateQueryParams({ searchText: this.searchText, start: 0, num: 0 });
     this.projectService.filter.where = `(Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}' or Jurisdiction like '%${this.searchText}' or created_user like '%${this.searchText}')`;
-    if (this.dateStart && moment(this.dateStart).isValid())  {
+    if (this.dateStart && moment(this.dateStart).isValid()) {
       this.projectService.filter.where += ` AND Date_Received >= '${this.dateStart}'`;
     }
-    if (this.dateEnd && moment(this.dateEnd).isValid())  {
+    if (this.dateEnd && moment(this.dateEnd).isValid()) {
       this.projectService.filter.where += ` AND Date_Received <= '${this.dateEnd}'`;
     }
 
@@ -206,5 +212,44 @@ export class ListViewComponent implements OnInit, OnChanges {
         });
       }
     });
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.projectService.count.value;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.deselectAll() :
+      this.selectAll();
+  }
+
+  selectAll() {
+    this.projectService.data.forEach((row: any) => this.selection.select(row));
+    this.numSelected = this.projectService.count.value;
+
+  }
+
+  deselectAll() {
+    this.selection.clear();
+    this.numSelected = 0;
+
+  }
+
+  toggleCheckbox(element: any, selection: any) {
+    if (selection.isSelected(element)) {
+      this.numSelected = this.numSelected + 1;
+    } else {
+      this.numSelected = this.numSelected - 1;
+    }
+    if (this.numSelected < 0) {
+      this.numSelected = 0;
+    }
+
+    // console.log(this.selection.selected);
   }
 }
