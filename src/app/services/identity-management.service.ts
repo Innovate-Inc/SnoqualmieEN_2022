@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {environment} from '../../environments/environment';
-import Portal from '@arcgis/core/portal/Portal';
-import OAuthInfo from '@arcgis/core/identity/OAuthInfo';
-import IdentityManager from '@arcgis/core/identity/IdentityManager';
+import Portal from 'esri/portal/Portal';
+import OAuthInfo from 'esri/identity/OAuthInfo';
+import IdentityManager from 'esri/identity/IdentityManager';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree} from '@angular/router';
 
 @Injectable()

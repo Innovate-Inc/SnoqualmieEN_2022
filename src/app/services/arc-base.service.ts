@@ -1,17 +1,16 @@
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
-import Query from '@arcgis/core/tasks/support/Query';
-import StatisticDefinition from '@arcgis/core/tasks/support/StatisticDefinition';
-import { load, project} from '@arcgis/core/geometry/projection';
 import { finalize, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataSource } from '@angular/cdk/collections';
-import AttachmentInfo from '@arcgis/core/layers/support/AttachmentInfo';
 import { LoadingService } from './loading.service';
-import Polygon from '@arcgis/core/geometry/Polygon';
-import Graphic from '@arcgis/core/Graphic';
-import Geometry from '@arcgis/core/geometry/Geometry';
+import FeatureLayer from 'esri/layers/FeatureLayer';
+import StatisticDefinition from 'esri/tasks/support/StatisticDefinition';
+import Polygon from 'esri/geometry/Polygon';
+import Point from 'esri/geometry/Point';
+import Query from 'esri/tasks/support/Query';
+import {load, project} from 'esri/geometry/projection';
+import Graphic from 'esri/Graphic';
 
 export class ArcBaseService {
   loading: boolean;
@@ -162,7 +161,7 @@ export class ArcBaseService {
     });
   }
 
-  projectPoint(point: Geometry, outSR = { wkid: 4326 }) {
+  projectPoint(point: Point, outSR = { wkid: 4326 }) {
     return new Observable<any>(observer => {
       load().then(() => {
         const projectedPoint = project(point, outSR);
