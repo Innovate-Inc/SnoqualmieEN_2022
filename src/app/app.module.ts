@@ -69,6 +69,7 @@ import { AllActivitiesComponent } from './activity-sub-modules/all-activities/al
 import { MatGridListModule } from '@angular/material/grid-list';
 import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-dialog.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @NgModule({
   declarations: [
@@ -136,7 +137,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatGridListModule,
     MatSidenavModule,
     MatRippleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableExporterModule
 
   ],
   providers: [IdentityManagementService,

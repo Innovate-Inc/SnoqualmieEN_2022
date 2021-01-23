@@ -112,6 +112,8 @@ export class ArcBaseService {
           // const polyJSON = JSON.parse(this.geometry);
           // filter.geometry = Polygon.fromJSON(JSON.parse(this.geometry));
           this.filter.geometry = this.geometry; // Polygon.fromJSON(polyJSON);
+        } else {
+          this.filter.geometry = null;
         }
 
 

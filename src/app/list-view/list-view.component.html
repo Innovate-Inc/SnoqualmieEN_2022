@@ -38,22 +38,23 @@
       <mat-icon>close</mat-icon>
     </button>
     <br />
+
   </div>
   <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
   <!--                      ></mat-progress-bar>-->
 
-  
-  <mat-table class="tbox" #table [dataSource]="projectService.datasource">
+
+  <mat-table class="tbox" #table [dataSource]="projectService.datasource" matTableExporter #exporter="matTableExporter" [hiddenColumns]="[0,6]">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+        <mat-checkbox (change)="$event ? masterToggle() : null; $event ? exporter.resetToggleRow() : null;" [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()">
         </mat-checkbox>
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-checkbox (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(element) : null; toggleCheckbox(element, selection)"
+          (change)="$event ? selection.toggle(element) : null; toggleCheckbox(element, selection);exporter.toggleRow(element.uid-1);"
           [checked]="selection.isSelected(element)">
         </mat-checkbox>
       </mat-cell>
@@ -99,8 +100,16 @@
       [routerLink]="disableRoute ? [] : ['/app/edit', row.attributes.globalid]"></mat-row>
   </mat-table>
   <div class="paginator-div">
+
     <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
       (page)="projectService.getPage($event)"></mat-paginator>
+
+    <span class="tb-mat-button download-btn ">
+      <button mat-mini-fab color="primary" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:'Assert_sites', sheet: 'Sites', Props: {Author: 'Assert'}});"
+        matTooltip="Export selected rows">
+        <mat-icon>download</mat-icon>
+      </button>
+    </span>
 
   </div>
 </mat-card>

@@ -40,6 +40,7 @@ export class ListViewComponent implements OnInit, OnChanges {
   });
   selection = new SelectionModel<Element>(true, []);
   numSelected = Number(0);
+  selectedRows = 5; // : Array<number> = [0];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -182,8 +183,8 @@ export class ListViewComponent implements OnInit, OnChanges {
     this.projectService.geometry = null;
     this.updateQueryParams(params);
     this.projectService.getItems().subscribe();
-
   }
+
   loadAll() {
     this.projectService.layerIsLoaded.subscribe(() => {
       // if (this.route.snapshot.queryParams.
@@ -254,5 +255,9 @@ export class ListViewComponent implements OnInit, OnChanges {
     }
 
     // console.log(this.selection.selected);
+  }
+
+  generateSpreadsheet() {
+
   }
 }
