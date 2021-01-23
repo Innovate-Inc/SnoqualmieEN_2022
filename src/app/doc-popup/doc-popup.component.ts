@@ -12,7 +12,7 @@ import { ArcBaseService } from '../services/arc-base.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 import { DialogService } from '../services/dialog.service';
-import Graphic from '@arcgis/core/Graphic';
+import Graphic from 'esri/Graphic';
 
 
 @Component({
@@ -71,7 +71,7 @@ export class DocPopupComponent implements OnInit {
 
   addFeature() {
     if (this.data.docTask.attributes.globalid == "new") {
-      
+
       this.data.docTask.attributes.Docu_Note = this.featureForm.controls['Docu_Note'].value;
       this.data.docTask.attributes.Docu_Type = this.featureForm.controls['Docu_Type'].value;
       let feature = new Graphic(this.data.docTask);
@@ -84,7 +84,7 @@ export class DocPopupComponent implements OnInit {
         this.featureForm.patchValue({"globalid": res[0].globalId, 'objectid': res[0].objectId});
         this.data.docTask.attributes = this.featureForm.value;
       });
-        
+
       this.saved = true;
     }
   }

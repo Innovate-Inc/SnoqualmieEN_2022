@@ -1,4 +1,3 @@
-import Polygon from '@arcgis/core/geometry/Polygon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from './../services/loading.service';
 import { environment, url } from './../../environments/environment.prod';
@@ -15,35 +14,32 @@ import {
 } from '@angular/core';
 
 // Load modules from the Esri ArcGIS API for JavaScript
-import Map from '@arcgis/core/Map'; // Map instance
-import MapView from '@arcgis/core/views/MapView'; // 2D view of a Map instance
-import WebMap from '@arcgis/core/WebMap';
-import Home from '@arcgis/core/widgets/Home'; // Home button
-import BasemapGallery from '@arcgis/core/widgets/BasemapGallery'; // Basemap Gallery
-import Search from '@arcgis/core/widgets/Search';
 
-import Expand from '@arcgis/core/widgets/Expand'; // clickable button for opening a widget
-import LayerList from '@arcgis/core/widgets/LayerList';
-import FeatureTable from '@arcgis/core/widgets/FeatureTable';
-import esriConfig from '@arcgis/core/config';
-import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
-import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
-import * as projection from '@arcgis/core/geometry/projection';
-import Graphic from '@arcgis/core/Graphic';
 // import {IdentityManagementService} from '../services/identity-management.service';
 import { ActivatedRoute, Router, NavigationEnd, ParamMap, Params } from '@angular/router';
 import LayerView = __esri.LayerView;
 import FeatureLayerView = __esri.FeatureLayerView;
 import Handle = __esri.Handle;
-import Geometry from '@arcgis/core/geometry/Geometry';
 import { ProjectService } from '../services/project.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { first, switchMap, tap } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { ArcBaseService } from '../services/arc-base.service';
-import Zoom from '@arcgis/core/widgets/Zoom';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
-
+import GraphicsLayer from 'esri/layers/GraphicsLayer';
+import SketchViewModel from 'esri/widgets/Sketch/SketchViewModel';
+import Graphic from 'esri/Graphic';
+import BasemapGallery from 'esri/widgets/BasemapGallery';
+import LayerList from 'esri/widgets/LayerList';
+import esriConfig from 'esri/config';
+import Search from 'esri/widgets/Search';
+import Expand from 'esri/widgets/Expand';
+import Zoom from 'esri/widgets/Zoom';
+import WebMap from 'esri/WebMap';
+import Home from 'esri/widgets/Home';
+import MapView from 'esri/views/MapView';
+import FeatureLayer from 'esri/layers/FeatureLayer';
+import * as projection from 'esri/geometry/projection';
+import Polygon from 'esri/geometry/Polygon';
 // import {ProjectService} from '../services/project.service';
 
 @Component({
@@ -68,6 +64,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private _center: Array<number> = [-121.841574, 47.518784]; //
   private _basemap = 'topo';
   private _loaded = false;
+
   private _view: MapView = null;
   private _highLightLayer: any; // FeatureLayerView;
   private _highlightHandler: Handle;
@@ -262,8 +259,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       console.log(event);
       // save
       projection.load().then(() => {
-        const geometry = projection.project(event.graphics[0].geometry, this.editLyr.spatialReference) as Geometry;
+        const geometry = projection.project(event.graphics[0].geometry, this.editLyr.spatialReference);
         const tempGraphic = new Graphic();
+
+        // @ts-ignore
         tempGraphic.geometry = geometry;
         tempGraphic.attributes = { ObjectId: this._selectedFeature.attributes.OBJECTID };
         this._selectedFeature.geometry = geometry;
@@ -549,9 +548,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.updateQueryParams({ mode: this.mode });
     this.editLyr.opacity = .2;
     projection.load().then(() => {
-      const geometry = projection.project(this._selectedFeature.geometry, this._view.spatialReference) as Geometry;
+      const geometry = projection.project(this._selectedFeature.geometry, this._view.spatialReference);
 
       const tempGraphic = new Graphic();
+      // @ts-ignore
       tempGraphic.geometry = geometry;
       this.graphicsLayer.add(tempGraphic);
       this.sketchViewModel.update([tempGraphic], { tool: 'reshape' });

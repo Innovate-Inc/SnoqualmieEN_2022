@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import Graphic from '@arcgis/core/Graphic';
+import Graphic from 'esri/Graphic';
 import { SaveChangesDialogComponent } from 'src/app/save-changes-dialog/save-changes-dialog.component';
 import { ArcBaseService } from 'src/app/services/arc-base.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -21,7 +21,7 @@ export class ChanceEncounterFormComponent implements OnInit {
   meta: any;
   objectID: number;
   isNew: boolean = true;
-  
+
   activityForm = new FormGroup({
     Activity_Type: new FormControl(),
     Activity_Department: new FormControl(),
@@ -38,14 +38,14 @@ export class ChanceEncounterFormComponent implements OnInit {
     globalid: new FormControl(),
     objectid: new FormControl()
   });
-  
-  constructor(public dialog: MatDialog, public snackBar: MatSnackBar, 
+
+  constructor(public dialog: MatDialog, public snackBar: MatSnackBar,
     public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ChanceEncounterFormComponent>) {
     this.dialogService = new DialogService(this.uploadService, this.dialog)
     this.activityService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);
     this.dialogService = new DialogService(this.activityService, this.dialog);
- 
+
   }
 
   ngOnInit(): void {
@@ -78,17 +78,17 @@ export class ChanceEncounterFormComponent implements OnInit {
           this.activityForm.patchValue({'globalid': res[0].globalId, 'objectid': res[0].objectId});
           this.isNew = false;
         });
-      }  
+      }
       else {
         this.data.activityTask.attributes = this.activityForm.value;
         this.activityService.updateFeature(this.data.activityTask).subscribe();
-      } 
+      }
       Object.keys(this.activityForm.controls).forEach((key) => {
         this.activityForm.get(key).markAsPristine();
-      });    
+      });
       await this.sleep(200) //allows the save to happen so that when this component is closed, the correct data loads
     }
-  }    
+  }
   showSaveChangesDialog(){
     if(!this.activityForm.pristine){
       this.dialog.open(SaveChangesDialogComponent, {
