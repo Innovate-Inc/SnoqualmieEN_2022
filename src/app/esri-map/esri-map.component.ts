@@ -40,6 +40,7 @@ import MapView from 'esri/views/MapView';
 import FeatureLayer from 'esri/layers/FeatureLayer';
 import * as projection from 'esri/geometry/projection';
 import Polygon from 'esri/geometry/Polygon';
+import Geometry from 'esri/geometry/Geometry';
 // import {ProjectService} from '../services/project.service';
 
 @Component({
@@ -400,7 +401,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       ).subscribe();
       this.projectService.dataChange.pipe(tap(() => {
         // this.updateQueryParams(this.projectService.filter);
-        
+
       })).subscribe();
     });
   }
