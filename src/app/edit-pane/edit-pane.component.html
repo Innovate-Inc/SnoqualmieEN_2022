@@ -7,8 +7,8 @@
   
       {{data.currentMessage | async}}
     </span>
-    <span style="flex: 40%; min-width: 40%;">
-
+    <span style="display: flex; min-width: 40%; justify-content: flex-end;">
+      <button mat-mini-fab color="primary" (click)='generateReport()' matTooltip="Download Report"><mat-icon>article</mat-icon></button>
     </span>
   </span>
 </mat-toolbar>

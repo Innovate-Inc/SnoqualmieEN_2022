@@ -1,11 +1,16 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, ParamMap, Params } from '@angular/router';
 import { LoadingService } from '../services/loading.service';
 import { DataService } from '../services/data.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { finalize, switchMap, tap } from 'rxjs/operators';
 import { ProjectService } from '../services/project.service';
 import { environment } from '../../environments/environment';
 import { zip } from 'rxjs';
+import { ArcGpService } from '../services/arc-gp.service';
+import IdentityManager from 'esri/identity/IdentityManager';
+import Portal from 'esri/portal/Portal';
+import moment from 'moment';
 
 @Component({
   selector: 'app-edit-pane',
@@ -17,8 +22,20 @@ export class EditPaneComponent implements OnInit {
   projectId: any;
   prefixName = environment.name;
   myFill = this.prefixName + '-0000';
+  reportService: any;
+  reportServiceLoading = false;
+  objectId: number;
+  portal = new Portal({url: environment.portalSetting.url});
+  fullName: string;
+  userName: string;
+  authenticated = false;
+  siteName: string;
+
+
   constructor(public router: Router, public projectService: ProjectService, public route: ActivatedRoute, public loadingService: LoadingService,
-              public data: DataService) {
+              public data: DataService, public snackBar: MatSnackBar) {
+                this.reportService = new ArcGpService(environment.reportService.url, snackBar);
+
   }
 
 
@@ -33,8 +50,10 @@ export class EditPaneComponent implements OnInit {
           if (this.route.snapshot.paramMap.get('id') !== 'new') {
             this.projectService.filter.where = `globalid = '${this.route.snapshot.paramMap.get('id')}'`;
             return this.projectService.query().pipe(tap(results => {
-              this.data.changeMessage(results[0].attributes.Project_Name); // results[0].attributes.objectid.toString().padStart(this.myFill.length, this.myFill) +
+              this.siteName = results[0].attributes.Notification_ID;
+              this.data.changeMessage(this.siteName); // results[0].attributes.objectid.toString().padStart(this.myFill.length, this.myFill) +
               //  ' ' + results[0].attributes.Project_Name);
+              this.objectId = results[0].attributes.OBJECTID;
             }));
           } else { this.data.changeMessage('Add New Project'); }
         }));
@@ -50,9 +69,9 @@ export class EditPaneComponent implements OnInit {
         );
       })
     ).subscribe();
-    this.projectService.dataChange.pipe(tap(() => {
-      this.updateQueryParams(this.projectService.filter);
-    })).subscribe();
+    // this.projectService.dataChange.pipe(tap(() => {
+    //   this.updateQueryParams(this.projectService.filter);
+    // })).subscribe();
   }
 
   updateQueryParams(queryParam: Params) {
@@ -67,5 +86,36 @@ export class EditPaneComponent implements OnInit {
   goHome() {
     this.updateQueryParams({ mode: 'none' });
     this.router.navigate(['/app/projects']);
+  }
+
+  generateReport() {
+    this.reportServiceLoading = true;
+
+    const utcOffset = Math.abs(moment().utcOffset() / 60);
+    const utcFormattedOffset = `-0${utcOffset.toString()}:00`;
+    const token = IdentityManager.findCredential(environment.layers.review).token;
+    const params = {
+      survey: environment.reportService.surveyItem,
+      survey_token: token,
+      template: environment.reportService.surveyTemplate,
+      where: `objectid=${this.objectId}`,
+      client_id: environment.portalSetting.appId,
+      portal_url: environment.portalSetting.url,
+      // utc_offset: offset_formatted,
+      utc_offset: utcFormattedOffset,
+      title: this.siteName
+    };
+    this.snackBar.open('Please wait.  The report takes ~2 minutes to generate...', '');
+
+    this.reportService.submit(params, 'docId').pipe(
+      finalize(() => {
+        this.reportServiceLoading = false;
+
+        this.snackBar.dismiss();
+        this.snackBar.open('The document will download automatically.  Please ensure that your browser has not blocked the download.', '', {
+          duration: 3000,
+        });
+      })
+    ).subscribe();
   }
 }

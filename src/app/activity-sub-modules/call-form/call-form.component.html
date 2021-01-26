@@ -33,6 +33,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{meta.Call_Note.alias}}</mat-label>
+      <input formControlName="Call_Note" required matInput>
+    </mat-form-field>
     <br>
     <h2 *ngIf="isNew">Save Activity to Upload Photos</h2>
     <mat-grid-list *ngIf="!isNew" class="activity-grid-list" cols="3" rowHeight="1:1" gutterSize="8px">

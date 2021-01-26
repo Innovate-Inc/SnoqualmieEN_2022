@@ -1,17 +1,16 @@
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
-import Query from '@arcgis/core/tasks/support/Query';
-import StatisticDefinition from '@arcgis/core/tasks/support/StatisticDefinition';
-import { load, project} from '@arcgis/core/geometry/projection';
 import { finalize, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataSource } from '@angular/cdk/collections';
-import AttachmentInfo from '@arcgis/core/layers/support/AttachmentInfo';
 import { LoadingService } from './loading.service';
-import Polygon from '@arcgis/core/geometry/Polygon';
-import Graphic from '@arcgis/core/Graphic';
-import Geometry from '@arcgis/core/geometry/Geometry';
+import FeatureLayer from 'esri/layers/FeatureLayer';
+import StatisticDefinition from 'esri/tasks/support/StatisticDefinition';
+import Polygon from 'esri/geometry/Polygon';
+import Point from 'esri/geometry/Point';
+import Query from 'esri/tasks/support/Query';
+import {load, project} from 'esri/geometry/projection';
+import Graphic from 'esri/Graphic';
 
 export class ArcBaseService {
   loading: boolean;
@@ -22,15 +21,19 @@ export class ArcBaseService {
   listener: any;
   meta: any;
   public filter: any;
+  public params: any;
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   currentPage = 0;
   dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   datasource: BaseDataSource;
   geometry: Polygon;
+  dateStart: string;
+  dateEnd: string;
 
   constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
     this.datasource = new BaseDataSource(this);
     this.filter = { num: 25, start: 0, outFields: ['*'], returnIdsOnly: false };
+    this.params = { num: 25, start: 0, searchText: '', dateStart: '', dateEnd: ''};
     this.layer = new FeatureLayer({
       url,
       outFields: ['*'],
@@ -104,16 +107,17 @@ export class ArcBaseService {
 
         this.loading = true;
 
-        let clonedFilter = { ...this.filter };
+        // let clonedFilter = { ...this.filter };
         if (this.geometry) {
           // const polyJSON = JSON.parse(this.geometry);
           // filter.geometry = Polygon.fromJSON(JSON.parse(this.geometry));
-          clonedFilter.geometry = this.geometry; // Polygon.fromJSON(polyJSON);
+          this.filter.geometry = this.geometry; // Polygon.fromJSON(polyJSON);
+        } else {
+          this.filter.geometry = null;
         }
 
 
-
-        this.layer.queryFeatures(clonedFilter).then(featureSet => {
+        this.layer.queryFeatures(this.filter).then(featureSet => {
           // featureSet.features.forEach(function (feature, i) {
           //   featureSet.features[i] =
           // })
@@ -122,7 +126,7 @@ export class ArcBaseService {
           // featureSet.features.fields = this.prep_fields_meta();
           featureSet.features = this.convertFromEpoch(featureSet.features);
           observer.next(featureSet.features);
-          this.layer.queryFeatureCount(clonedFilter).then(count => {
+          this.layer.queryFeatureCount(this.filter).then(count => {
             this.count.next(count);
           });
           observer.complete();
@@ -159,7 +163,7 @@ export class ArcBaseService {
     });
   }
 
-  projectPoint(point: Geometry, outSR = { wkid: 4326 }) {
+  projectPoint(point: Point, outSR = { wkid: 4326 }) {
     return new Observable<any>(observer => {
       load().then(() => {
         const projectedPoint = project(point, outSR);
@@ -184,7 +188,7 @@ export class ArcBaseService {
             const features = vm.convertFromEpoch(featureSet.features);
             obs.next(features[0]);
 
-            //this._view.goTo(featureSet.features);
+            // this._view.goTo(featureSet.features);
           }, (e => {
             vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
             obs.error(e);
@@ -310,18 +314,18 @@ export class ArcBaseService {
   }
   convertToDomainValue(val: any, field: string) {
     if (val && field) {
-      let domain = this.meta[field].domain.codedValues.find((x: any) => x.code === val);
+      const domain = this.meta[field].domain.codedValues.find((x: any) => x.code === val);
 
       if (domain) {
         return domain.name;
       }
       else {
-        return "";
+        return '';
       }
 
     }
     else {
-      return "";
+      return '';
     }
   }
 

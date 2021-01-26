@@ -4,7 +4,10 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { BehaviorSubject, iif, Subject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { LoadingService } from 'src/app/services/loading.service';
-import { ProjectService } from 'src/app/services/project.service';
+import { ArcBaseService } from 'src/app/services/arc-base.service';
+import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-violation-form',
@@ -26,16 +29,27 @@ export class ViolationFormComponent implements OnInit {
     Editor: new FormControl(),
     Violation_YN: new FormControl(),
     Violation_Doc_Note: new FormControl(),
-  });
-  
-  constructor(public projectService: ProjectService, private route: ActivatedRoute,
-    public  loadingService: LoadingService) { }
 
-  ngOnInit(): void { 
+
+    Violation_loc: new FormControl(),
+    Code_Violation: new FormControl(),
+    Violation_Action: new FormControl(),
+    Violation_Solution: new FormControl(),
+  });
+
+  activityService: ArcBaseService;
+  meta: any;
+
+  constructor(private route: ActivatedRoute, public snackBar: MatSnackBar, public loadingService: LoadingService) {
+    this.activityService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);
+
   }
 
-  violation(number: any){
-    if(number === 1 || number === 3){
+  ngOnInit(): void {
+  }
+
+  violation(number: any) {
+    if (number === 1 || number === 3) {
       this.violationsBool = "Yes";
     }
     else {

@@ -1,42 +1,69 @@
 <mat-card>
   <div>
-    <mat-form-field class="searchField">
-      <input #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText" placeholder="Search">
-      <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="loadAll(); searchInput.value=''">
-        <mat-icon>close</mat-icon>
-      </button>
+    <mat-form-field class="searchField" appearance="fill">
+      <mat-label>Search</mat-label>
+      <input type="text" #searchInput matInput (keyup.enter)="search()" [(ngModel)]="searchText">
+      <span matSuffix class="flex-container">
+        <button *ngIf="searchInput.value" mat-icon-button (click)="loadAll(); searchInput.value=''" matTooltip="Clear">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button mat-mini-fab mat-icon-button color="primary" (click)=search(); class='search' matTooltip="Search">
+          <mat-icon>search</mat-icon>
+        </button>
+      </span>
+
     </mat-form-field>
 
 
-
-    <button (click)=search(); class='search' mat-mini-fab color="primary" matTooltip="Search">
-      <mat-icon>search</mat-icon>
-    </button>
-    <button (click)="spatialSelectClick({mode:'select',spatialSelect:true});" class='search' mat-mini-fab color="primary" matTooltip="Spatial Select">
-      <!-- <button (click)="spatialSelect({mode:'select',spatialSelect:true});" class='search' mat-mini-fab [color]="paletteColor" [matTooltip]="selectTooltip"> -->
-        <mat-icon>crop_free</mat-icon>
-    </button>
-
-    <button *ngIf="this.spatialSelect==='true'" (click)="spatialSelectClick({mode:'none',spatialSelect:false});" class='search' mat-mini-fab color="accent" matTooltip="Clear Spatial Select">
-      <mat-icon>close</mat-icon>
-  </button>
-
-
-    
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date">
-        <input matEndDate placeholder="End date">
+    <mat-form-field appearance="fill">
+      <mat-label>Filter by date range</mat-label>
+      <mat-date-range-input [formGroup]="dateRangePicker" [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" formControlName="start" (dateInput)="dateChange('input', $event)"
+          (dateChange)="dateChange('change', $event)">
+        <input matEndDate placeholder="End date" formControlName="end" (dateInput)="dateChange('input', $event)"
+          (dateChange)="dateChange('change', $event)">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field> -->
+    </mat-form-field>
+
+    <!-- <br /> -->
+    <span >
+      <button (click)="spatialSelectClick({mode:'select',spatialSelect:true});" class='search' mat-mini-fab
+        color="primary" matTooltip="Spatial Select">
+        <!-- <button (click)="spatialSelect({mode:'select',spatialSelect:true});" class='search' mat-mini-fab [color]="paletteColor" [matTooltip]="selectTooltip"> -->
+        <mat-icon>crop_free</mat-icon>
+      </button>
+      <button *ngIf="this.spatialSelect==='true'" (click)="spatialSelectClick({mode:'none',spatialSelect:false});"
+        class='search' mat-mini-fab color="accent" matTooltip="Clear Spatial Select">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br />
+    </span>
+
 
   </div>
   <!--  <mat-progress-bar mode="indeterminate" *ngIf="loadingService.loading | async"-->
   <!--                      ></mat-progress-bar>-->
-  <mat-table class="tbox" #table [dataSource]="projectService.datasource">
+
+
+  <mat-table class="tbox" #table [dataSource]="projectService.datasource" matTableExporter #exporter="matTableExporter"
+    [hiddenColumns]="[0,6]">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null; $event ? exporter.resetToggleRow() : null;"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(element) : null; toggleCheckbox(element, selection);exporter.toggleRow(element.uid-1);"
+          [checked]="selection.isSelected(element)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.attributes.Notification_ID}}</mat-cell>
@@ -51,7 +78,9 @@
     </ng-container>
     <ng-container matColumnDef="jurisdiction">
       <mat-header-cell *matHeaderCellDef>Jurisdiction</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.attributes.Jurisdiction}}</mat-cell>
+      <mat-cell *matCellDef="let element">
+        {{projectService.convertToDomainValue(element.attributes.Jurisdiction, 'Jurisdiction')}}
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="user">
       <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
@@ -76,8 +105,17 @@
       [routerLink]="disableRoute ? [] : ['/app/edit', row.attributes.globalid]"></mat-row>
   </mat-table>
   <div class="paginator-div">
+
     <mat-paginator [length]="projectService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
       (page)="projectService.getPage($event)"></mat-paginator>
+
+    <span class="tb-mat-button download-btn ">
+      <button mat-mini-fab color="primary" mat-raised-button
+        (click)="exporter.exportTable('xlsx', {fileName:'Assert_sites', sheet: 'Sites', Props: {Author: 'Assert'}});"
+        matTooltip="Export selected rows">
+        <mat-icon>download</mat-icon>
+      </button>
+    </span>
 
   </div>
 </mat-card>

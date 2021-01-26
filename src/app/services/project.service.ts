@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ArcBaseService} from './arc-base.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
-// import {Graphic} from '@arcgis/core/Graphic';
+// import {Graphic} from 'esri/Graphic';
 
 // import {loadModules} from 'esri-loader';
 // import {ConfigService} from './config.service';

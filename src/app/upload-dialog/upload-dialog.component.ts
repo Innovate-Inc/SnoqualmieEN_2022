@@ -1,7 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import Graphic from '@arcgis/core/Graphic';
+import Graphic from 'esri/Graphic';
 import { ArcBaseService } from '../services/arc-base.service';
 import { DialogService } from '../services/dialog.service';
 import { LoadingService } from '../services/loading.service';
@@ -38,7 +38,7 @@ export class UploadDialogComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  
+
   cancel(): void {
     this.dialogRef.close();
   }
