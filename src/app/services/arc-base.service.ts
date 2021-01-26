@@ -107,7 +107,7 @@ export class ArcBaseService {
 
         this.loading = true;
 
-        let clonedFilter = { ...this.filter };
+        // let clonedFilter = { ...this.filter };
         if (this.geometry) {
           // const polyJSON = JSON.parse(this.geometry);
           // filter.geometry = Polygon.fromJSON(JSON.parse(this.geometry));
@@ -188,7 +188,7 @@ export class ArcBaseService {
             const features = vm.convertFromEpoch(featureSet.features);
             obs.next(features[0]);
 
-            //this._view.goTo(featureSet.features);
+            // this._view.goTo(featureSet.features);
           }, (e => {
             vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
             obs.error(e);
@@ -314,7 +314,7 @@ export class ArcBaseService {
   }
   convertToDomainValue(val: any, field: string) {
     if (val && field) {
-      let domain = this.meta[field].domain.codedValues.find((x: any) => x.code === val);
+      const domain = this.meta[field].domain.codedValues.find((x: any) => x.code === val);
 
       if (domain) {
         return domain.name;

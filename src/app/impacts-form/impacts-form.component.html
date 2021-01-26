@@ -95,13 +95,14 @@
                 <br><br>
                 <mat-label>{{this.projectService.meta.Watertype_Likert.alias}}</mat-label>
                 <br><br>
+                <mat-form-field appearance="standard">
+                    <input [readonly]="!projectService.editing" formControlName="Type_of_mitigation" matInput>
+                </mat-form-field><br><br>
 
             </div>
 
             <br><br>
-            <mat-form-field appearance="fill">
-                <input [readonly]="!projectService.editing" formControlName="Type_of_mitigation" matInput>
-            </mat-form-field><br><br>
+            
 
             <h2 for="">{{this.projectService.meta.Impact_Culture.alias}}</h2>
             <br><br>
