@@ -36,7 +36,7 @@ export class CallFormComponent implements OnInit {
     created_user: new FormControl({ value: '', disabled: true }),
     last_edited_date: new FormControl(),
     last_edited_user: new FormControl(),
-    Call_Note: new FormControl(),
+    Notes_about_the_call: new FormControl(),
     globalid: new FormControl(),
     objectid: new FormControl()
   });
@@ -47,42 +47,43 @@ export class CallFormComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public snackBar: MatSnackBar,
     public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<CallFormComponent>,) {
-    this.dialogService = new DialogService(this.uploadService, this.dialog)
+    public dialogRef: MatDialogRef<CommentFormComponent>) {
+
+    this.uploadService = new ArcBaseService(environment.layers.activities, this.snackBar, loadingService);
     this.activityService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);
-    this.dialogService = new DialogService(this.activityService, this.dialog);
+
+    this.dialogService = new DialogService(this.uploadService, this.dialog);
 
   }
 
   ngOnInit(): void {
     this.meta = this.data.meta;
     this.activityForm.patchValue(this.data.activityTask.attributes);
-    if(this.data.activityTask.attributes.globalid != "new"){
+    if (this.data.activityTask.attributes.globalid !== 'new') {
       this.isNew = false;
       this.dialogService.item = this.data.activityTask;
       this.loadingService.show();
       this.objectID = this.data.activityTask.attributes.objectid;
       this.dialogService.getAttachments();
-      this.loadingService.hide()
+      this.loadingService.hide();
     }
   }
 
   async save(): Promise<void> {
 
-    if(this.activityForm.valid){
+    if (this.activityForm.valid) {
 
       if (this.isNew) {
 
         this.data.activityTask.attributes = this.activityForm.value;
-        this.data.activityTask.attributes.Activity_Type = "call";
-        this.data.activityTask.attributes.Activity_Date = new Date();
+        this.data.activityTask.attributes.Activity_Type = 'comment';
 
         let feature = new Graphic(this.data.activityTask);
         this.data.activityTask = feature;
-        this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) =>{
+        this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) => {
           this.data.activityTask.attributes.objectid = res[0].objectId;
           this.data.activityTask.attributes.globalid = res[0].globalId;
-          this.activityForm.patchValue({'globalid': res[0].globalId, 'objectid': res[0].objectId});
+          this.activityForm.patchValue({ 'globalid': res[0].globalId, 'objectid': res[0].objectId });
           this.isNew = false;
         });
       }
@@ -90,36 +91,37 @@ export class CallFormComponent implements OnInit {
         this.data.activityTask.attributes = this.activityForm.value;
         this.activityService.updateFeature(this.data.activityTask).subscribe();
       }
+
       Object.keys(this.activityForm.controls).forEach((key) => {
         this.activityForm.get(key).markAsPristine();
       });
-      await this.sleep(200) //allows the save to happen so that when this component is closed, the correct data loads
+      await this.sleep(200); // allows the save to happen so that when this component is closed, the correct data loads
     }
   }
-  showSaveChangesDialog(){
-    if(!this.activityForm.pristine){
+  showSaveChangesDialog() {
+    if (!this.activityForm.pristine) {
       this.dialog.open(SaveChangesDialogComponent, {
         width: '550px',
         height: '175px'
-      }).afterClosed().subscribe(async (res)=>{
-        if(res === 0){ //Don't save
+      }).afterClosed().subscribe(async (res) => {
+        if (res === 0) { // Don't save
           this.dialogRef.close();
         }
-        else if(res === 2){ //Save
+        else if (res === 2) { // Save
           this.save();
-          await this.sleep(600); //allows the save to happen so that when this component is closed, the correct data loads
+          await this.sleep(600); // allows the save to happen so that when this component is closed, the correct data loads
           this.dialogRef.close();
         }
-        else { //Go back
+        else { // Go back
           return;
         }
-      })
+      });
     }
     else {
       this.dialogRef.close();
     }
   }
-  sleep(ms:any) {
+  sleep(ms: any) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 }

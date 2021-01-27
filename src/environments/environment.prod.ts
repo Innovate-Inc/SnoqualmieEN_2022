@@ -12,7 +12,8 @@ export const environment = {
   },
   layers: {
     review: `${url}/0`,
-    call: `${url}/1`,
+    activities: `${url}/1`,
+    call: `${url}/2`,
     ce: `${url}/3`,
     comm: `${url}/4`,
     docu: `${url}/5`,
@@ -20,8 +21,7 @@ export const environment = {
     hearing: `${url}/7`,
     meet: `${url}/8`,
     site: `${url}/9`,
-    violation: `${url}/10`,
-    activities: `${url}/11`
+    violation: `${url}/10`
   },
   reportService: {
     url: 'https://arcserver.innovateteam.com/arcgis/rest/services/Snoq_demo/GenerateReport/GPServer/generateReport',

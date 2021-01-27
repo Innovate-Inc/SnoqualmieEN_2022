@@ -12,16 +12,16 @@ export const environment = {
   },
   layers: {
     review: `${url}/0`,
-    call: `${url}/1`,
-    ce: `${url}/2`,
-    comm: `${url}/3`,
-    docu: `${url}/4`,
-    field: `${url}/5`,
-    hearing: `${url}/6`,
-    meet: `${url}/7`,
-    site: `${url}/8`,
-    violation: `${url}/9`,
-    activities: `${url}/11`
+    activities: `${url}/1`,
+    call: `${url}/2`,
+    ce: `${url}/3`,
+    comm: `${url}/4`,
+    docu: `${url}/5`,
+    field: `${url}/6`,
+    hearing: `${url}/7`,
+    meet: `${url}/8`,
+    site: `${url}/9`,
+    violation: `${url}/10`
   },
   reportService: {
     url: 'https://arcserver.innovateteam.com/arcgis/rest/services/Snoq_demo/GenerateReport/GPServer/generateReport',

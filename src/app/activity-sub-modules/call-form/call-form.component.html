@@ -1,19 +1,19 @@
 <h2 mat-dialog-title>Add or view a call activity</h2>
 <form class="activity-form" [formGroup]="activityForm"  *ngIf="activityService.meta && meta">
   <mat-dialog-content>
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>{{meta.Call_Who.alias}}</mat-label>
       <input  formControlName="Call_Who" required matInput>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>{{meta.Call_Number.alias}}</mat-label>
       <input formControlName="Call_Number" required matInput>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>{{meta.Call_Email.alias}}</mat-label>
       <input formControlName="Call_Email" required matInput>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-label>{{meta.Call_Address.alias}}</mat-label>
       <input formControlName="Call_Address" required matInput>
     </mat-form-field>
@@ -33,9 +33,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{meta.Call_Note.alias}}</mat-label>
-      <input formControlName="Call_Note" required matInput>
+    <mat-form-field appearance="fill">
+      <mat-label>{{meta.Notes_about_the_call.alias}}</mat-label>
+      <input formControlName="Notes_about_the_call" required matInput>
     </mat-form-field>
     <br>
     <h2 *ngIf="isNew">Save Activity to Upload Photos</h2>

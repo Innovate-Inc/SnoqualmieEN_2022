@@ -138,7 +138,7 @@ export class ListViewComponent implements OnInit, OnChanges {
 
   search() {
     this.updateQueryParams({ searchText: this.searchText, start: 0, num: 0 });
-    this.projectService.filter.where = `(Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}' or Jurisdiction like '%${this.searchText}' or created_user like '%${this.searchText}')`;
+    this.projectService.filter.where = `(Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}%' or Jurisdiction like '%${this.searchText}%' or created_user like '%${this.searchText}%')`;
     if (this.dateStart && moment(this.dateStart).isValid()) {
       this.projectService.filter.where += ` AND Date_Received >= '${this.dateStart}'`;
     }

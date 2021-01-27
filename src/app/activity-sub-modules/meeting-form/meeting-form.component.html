@@ -26,13 +26,13 @@
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field appearance="fill">
             <mat-label>{{meta.Meet_Who.alias}}</mat-label>
             <input formControlName="Meet_Who" matInput>
         </mat-form-field>
-        <mat-form-field>
-            <mat-label>{{meta.Meet_Notes.alias}}</mat-label>
-            <input formControlName="Meet_Notes" matInput>
+        <mat-form-field appearance="fill">
+            <mat-label>{{meta.Meeting_Notes.alias}}</mat-label>
+            <input formControlName="Meeting_Notes" matInput>
         </mat-form-field>
         <br>
         <h2 *ngIf="isNew">Save Activity to Upload Photos</h2>
