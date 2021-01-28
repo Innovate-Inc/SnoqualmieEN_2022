@@ -7,21 +7,21 @@ import { switchMap, finalize } from 'rxjs/operators';
 import { ArcBaseService } from 'src/app/services/arc-base.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { environment } from 'src/environments/environment';
-import { CallFormComponent } from '../call-form/call-form.component';
+import { ViolationFormComponent } from '../violation-form/violation-form.component';
 
 
 @Component({
-  selector: 'app-call-tab',
-  templateUrl: './call-tab.component.html',
-  styleUrls: ['./call-tab.component.css']
+  selector: 'app-violation-tab',
+  templateUrl: './violation-tab.component.html',
+  styleUrls: ['./violation-tab.component.css']
 })
 
-export class CallTabComponent implements OnInit {
-  displayedColumns: string[] = ['Call_Who', 'Call_Number', 'CreationDate', 'Creator'];
+export class ViolationTabComponent implements OnInit {
+  displayedColumns: string[] = ['Violation_Code', 'Violation_loc', 'CreationDate', 'Creator'];
   activityService: ArcBaseService;
   projectId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  searchItem: string = '';
+  searchItem = '';
 
 
   constructor(public loadingService: LoadingService, private route: ActivatedRoute, snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -35,7 +35,7 @@ export class CallTabComponent implements OnInit {
         this.projectId = params.get('id');
         return this.activityService.layerIsLoaded.pipe(
           switchMap(() => {
-            this.activityService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'call'`;
+            this.activityService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'violation'`;
             return this.activityService.getItems().pipe(finalize(() => {
               this.loadingService.hide();
             }));
@@ -44,7 +44,7 @@ export class CallTabComponent implements OnInit {
       })).subscribe(() => this.loadingService.hide());
   }
   openDialog(task: any): void {
-    this.dialog.open(CallFormComponent, {
+    this.dialog.open(ViolationFormComponent, {
       height: '700px',
       width: '600px',
       data: { activityTask: task, meta: this.activityService.meta },

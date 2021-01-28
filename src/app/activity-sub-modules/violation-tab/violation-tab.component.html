@@ -1,0 +1,47 @@
+<mat-card>
+  <form>
+      <mat-form-field style="padding: 30px; width: 40%;">
+        <input matInput [(ngModel)]="searchItem" name="search" placeholder="Search">
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="execute()">Execute</button>
+      <span style="padding: 60px; float: right;">
+          <button mat-mini-fab color="primary"
+           (click)="openDialog({attributes: {'globalid': 'new', 'parentglobalid': this.projectId }})" 
+           aria-label="Add a call activity button">
+              <mat-icon>add</mat-icon>
+          </button>
+      </span>
+  </form>
+  <mat-table class="tbox" #table [dataSource]="activityService.datasource">
+
+      
+      <ng-container matColumnDef="Violation_loc">
+        <mat-header-cell *matHeaderCellDef> Violation Location </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.attributes?.Violation_loc}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Violation_Code">
+        <mat-header-cell *matHeaderCellDef> Violation Code </mat-header-cell>
+       <mat-cell *matCellDef="let element"> {{element.attributes?.Violation_Code}} </mat-cell>
+     </ng-container>
+    
+      <ng-container matColumnDef="Creator">
+        <mat-header-cell *matHeaderCellDef> Submitted By </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.attributes?.Creator}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="CreationDate">
+        <mat-header-cell *matHeaderCellDef> Date Submitted </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.attributes?.CreationDate | date}} </mat-cell>
+      </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row  *matRowDef="let row; columns: displayedColumns;" (click)="openDialog(row)"></mat-row>
+      
+    </mat-table>
+      <div class = "paginator-div" >
+        <mat-paginator [length]="activityService.count | async" [pageSize]="25" [pageSizeOptions]="[25, 50, 100]"
+                       (page)="activityService.getPage($event)"></mat-paginator>
+    
+      </div>
+</mat-card>

@@ -8,6 +8,7 @@ import { ArcBaseService } from 'src/app/services/arc-base.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { environment } from 'src/environments/environment';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
 
 @Component({
   selector: 'app-call-form',
@@ -17,7 +18,7 @@ import { environment } from 'src/environments/environment';
 export class CallFormComponent implements OnInit {
   uploadService: ArcBaseService;
   dialogService: DialogService;
-  isNew: boolean = true;
+  isNew = true;
 
   activityForm = new FormGroup({
     Activity_Type: new FormControl(),
@@ -47,7 +48,7 @@ export class CallFormComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public snackBar: MatSnackBar,
     public loadingService: LoadingService, @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<CommentFormComponent>) {
+              public dialogRef: MatDialogRef<CommentFormComponent>) {
 
     this.uploadService = new ArcBaseService(environment.layers.activities, this.snackBar, loadingService);
     this.activityService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);

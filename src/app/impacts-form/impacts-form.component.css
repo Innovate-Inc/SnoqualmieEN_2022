@@ -25,4 +25,14 @@ mat-form-field {
     margin-right: 5px;
   }
   
+  mat-label {
+    font-weight: bold;
+  }
+  h2 {
+    font-weight: bold;
+  }
+
+  .text-small {
+    padding: 0 10px;;
+  }
   

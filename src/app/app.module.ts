@@ -70,6 +70,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { SaveChangesDialogComponent } from './save-changes-dialog/save-changes-dialog.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { ViolationTabComponent } from './activity-sub-modules/violation-tab/violation-tab.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     ConfirmDialogComponent,
     UploadDialogComponent,
     SaveChangesDialogComponent,
+    ViolationTabComponent,
 
   ],
   imports: [
@@ -139,7 +141,6 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatRippleModule,
     MatCheckboxModule,
     MatTableExporterModule
-
   ],
   providers: [IdentityManagementService,
     LoadingService,
