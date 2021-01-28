@@ -6,20 +6,17 @@
                 <button class="button-pad-right" mat-fab (click)="save(p)" color="accent">
                     <mat-icon>save</mat-icon>
                 </button>
-                <p *ngIf="!featureForm.pristine">There are unsaved changes</p>
+                <span *ngIf="!featureForm.pristine">There are unsaved changes</span>
             </div>
         </div>
         <br />
         <div class="fColumnn">
-            <br><br>
             <h2>{{this.projectService.meta.Enviro_Impact.alias}}</h2>
-            <br><br>
             <mat-radio-group [disabled]="!projectService.editing" formControlName="Enviro_Impact"
                 aria-label="Are there anticipated environmental resource impacts?">
                 <mat-radio-button (click)="enviroClick(1)" value="Yes">Yes</mat-radio-button>
                 <mat-radio-button (click)="enviroClick(2)" value="No">No</mat-radio-button>
             </mat-radio-group>
-            <br><br>
 
             <div *ngIf="Impact_Enviro_var === 'Yes'">
                 <!-- <br><br>
@@ -36,11 +33,9 @@
 
                 <br><br>
 
-                <br><br>
-
 
                 <mat-label>{{this.projectService.meta.Wetland_Likert.alias}}</mat-label>
-                <br><br>
+                <br>
                 <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Wetland_Likert" thumbLabel
                     tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
@@ -49,42 +44,38 @@
 
 
                 <mat-label>{{this.projectService.meta.Aquatic_Likert.alias}}</mat-label>
-                <br><br>
+                <br>
                 <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Aquatic_Likert" thumbLabel
                     tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
                 <span class="text-small">2 (Significant)</span>
                 <br><br>
 
-                <br><br>
                 <mat-label>{{this.projectService.meta.Storm_Likert.alias}}</mat-label>
-                <br><br>
+                <br>
                 <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Storm_Likert" thumbLabel
                     tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
                 <span class="text-small">2 (Significant)</span>
                 <br><br>
 
-                <br><br>
                 <mat-label>{{this.projectService.meta.Veg_Likert.alias}}</mat-label>
-                <br><br>
+                <br>
                 <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Veg_Likert" thumbLabel
                     tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
                 <span class="text-small">2 (Significant)</span>
                 <br><br>
 
-                <br><br>
                 <mat-label>{{this.projectService.meta.Watertype_Likert.alias}}</mat-label>
-                <br><br>
+                <br>
                 <span class="text-small">0 (None)</span>
                 <mat-slider [disabled]="!projectService.editing" formControlName="Watertype_Likert" thumbLabel
                     tickInterval="1" min="0" max="2" step="1" value="2"></mat-slider>
                 <span class="text-small">2 (Significant)</span>
-                <br><br>
 
                 <br><br>
-                <label>{{this.projectService.meta.Mitigation.alias}}</label>
+                <mat-label>{{this.projectService.meta.Mitigation.alias}}</mat-label>
                 <br><br>
                 <mat-radio-group [disabled]="!projectService.editing" formControlName="Mitigation"
                     aria-label="Is mitigation provided?">
@@ -92,27 +83,25 @@
                     <mat-radio-button value="Partially">Partially mitigated</mat-radio-button>
                     <mat-radio-button value="No">Not mitigated</mat-radio-button>
                 </mat-radio-group>
-                <br><br>
-                <mat-label>{{this.projectService.meta.Watertype_Likert.alias}}</mat-label>
-                <br><br>
-                <mat-form-field appearance="standard">
+                <br><br><br>
+                <mat-label>Type of Mtigation</mat-label>
+                <br>
+                <mat-form-field appearance="fill">
                     <input [readonly]="!projectService.editing" formControlName="Type_of_mitigation" matInput>
                 </mat-form-field><br><br>
 
             </div>
 
             <br><br>
-            
+            <mat-divider></mat-divider>
 
             <h2 for="">{{this.projectService.meta.Impact_Culture.alias}}</h2>
-            <br><br>
             <mat-radio-group [disabled]="!projectService.editing" formControlName="Impact_Culture"
                 aria-label="Are there anticipated culural impacts?">
                 <mat-radio-button (click)="impactCulture(1)" value="Yes">Yes</mat-radio-button>
                 <mat-radio-button (click)="impactCulture(2)" value="No">No</mat-radio-button>
             </mat-radio-group>
 
-            <br><br>
             <div *ngIf="Culture_Impact_var === 'Yes'">
 
                 <!-- <br><br>
@@ -130,13 +119,12 @@
 
                 <br><br>
                 <mat-label for="">{{this.projectService.meta.Culture_Note.alias}}</mat-label>
-                <br><br>
+                <br>
                 <mat-form-field appearance="fill">
                     <input [readonly]="!projectService.editing" matInput formControlName="Culture_Note">
                 </mat-form-field>
                 <br><br>
 
-                <br><br>
                 <mat-label for="">{{this.projectService.meta.Archeology.alias}}</mat-label>
                 <br><br>
                 <mat-radio-group [disabled]="!projectService.editing" formControlName="Archeology"
@@ -147,48 +135,41 @@
 
                 <div *ngIf="archeologySite == 'Yes'">
                     <br><br>
-
-                    <br><br>
                     <mat-label for="">{{this.projectService.meta.Mitigation_Desc.alias}}</mat-label>
-                    <br><br>
+                    <br>
                     <mat-form-field appearance="fill">
                         <input [readonly]="!projectService.editing" formControlName="Mitigation_Desc" matInput>
                     </mat-form-field>
                 </div>
                 <br><br>
-
-                <br><br>
-                <label for="">{{this.projectService.meta.Ethnographic.alias}}</label>
+                <mat-label for="">{{this.projectService.meta.Ethnographic.alias}}</mat-label>
                 <br><br>
                 <mat-radio-group [disabled]="!projectService.editing" formControlName="Ethnographic"
                     aria-label="Is this a known or named ethographic site?">
                     <mat-radio-button (click)="ethographicClick(1)" value="Yes">Yes</mat-radio-button>
                     <mat-radio-button (click)="ethographicClick(2)" value="No">No</mat-radio-button>
                 </mat-radio-group>
-                <br><br>
 
                 <div *ngIf="ethographicSite == 'Yes'">
                     <br><br>
 
-                    <br><br>
+
                     <mat-label for="">{{this.projectService.meta.Ethno_Name.alias}}</mat-label>
-                    <br><br>
+                    <br>
                     <mat-form-field appearance="fill">
                         <input [readonly]="!projectService.editing" formControlName="Ethno_Name" matInput>
                     </mat-form-field>
                     <br><br>
 
-                    <br><br>
                     <mat-label for="">{{this.projectService.meta.Arch_YN_study.alias}}</mat-label>
-                    <br><br>
+                    <br>
                     <mat-form-field appearance="fill">
                         <input [readonly]="!projectService.editing" formControlName="Arch_YN_study" matInput>
                     </mat-form-field>
                     <br><br>
 
-                    <br><br>
                     <mat-label for="">{{this.projectService.meta.Arch_Resources.alias}}</mat-label>
-                    <br><br>
+                    <br>
                     <mat-form-field appearance="fill">
                         <input [readonly]="!projectService.editing" formControlName="Arch_Resources" matInput>
                     </mat-form-field>

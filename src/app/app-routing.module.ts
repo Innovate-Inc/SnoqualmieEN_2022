@@ -17,6 +17,7 @@ import { FieldWorkFormComponent } from './activity-sub-modules/field-work-form/f
 import { HearingFormComponent } from './activity-sub-modules/hearing-form/hearing-form.component';
 import { MeetingFormComponent } from './activity-sub-modules/meeting-form/meeting-form.component';
 import { SiteVisitFormComponent } from './activity-sub-modules/site-visit-form/site-visit-form.component';
+import { ViolationTabComponent } from './activity-sub-modules/violation-tab/violation-tab.component';
 import { ViolationFormComponent } from './activity-sub-modules/violation-form/violation-form.component';
 import { CallTabComponent } from './activity-sub-modules/call-tab/call-tab.component';
 import { ChanceEncounterTabComponent } from './activity-sub-modules/chance-encounter-tab/chance-encounter-tab.component';
@@ -58,7 +59,9 @@ const routes: Routes = [
             {path: 'sitevisit', component: SiteVisitTabComponent, children: [
               {path: 'sitevisit-form', component: SiteVisitFormComponent}
             ]},
-            {path: 'violation', component: ViolationFormComponent},
+            {path: 'violation', component: ViolationTabComponent, children: [
+              {path: 'violation-form', component: ViolationFormComponent}
+            ]},
             {path: 'fieldwork', component: FieldWorkFormComponent},
           ]
         },
