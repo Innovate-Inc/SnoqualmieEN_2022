@@ -3,7 +3,7 @@
 <form class="activity-form" [formGroup]="activityForm" *ngIf="activityService.meta && meta">
     <mat-dialog-content>
 
-        <mat-label for="Violation_YN">Is there a violation?</mat-label>
+        <!-- <mat-label for="Violation_YN">Is there a violation?</mat-label>
         <br><br>
         <mat-radio-group formControlName="Violation_YN" aria-label="Is there a violation?">
             <mat-radio-button (click)="violation(1)" value="Yes">Yes</mat-radio-button>
@@ -14,37 +14,65 @@
         <br><br>
 
 
-        <div *ngIf="violationsBool === 'Yes'">
+        <div *ngIf="violationsBool === 'Yes'"> -->
 
-            <mat-label for="Violation_loc">Where is the violation?</mat-label>
-            <br><br>
-            <mat-radio-group formControlName="Violation_loc" aria-label="Is there a violation?">
-                <mat-radio-button (click)="location(1)" value="On Reservation">On Reservation</mat-radio-button>
-                <mat-radio-button (click)="location(2)" value="Off Reservation Tribal Land">Off Reservation Tribal
-                    Land</mat-radio-button>
-                <mat-radio-button (click)="location(3)" value="Non-Tribal Property">Non-Tribal Property
-                </mat-radio-button>
-            </mat-radio-group>
-            <br><br>
+        <mat-label for="Violation_Location">Where is the violation?</mat-label>
+        <br><br>
+        <mat-radio-group formControlName="Violation_Location" aria-label="Where is the violation?">
+            <mat-radio-button (click)="location(1)" value="On Reservation">On Reservation</mat-radio-button>
+            <mat-radio-button (click)="location(2)" value="Off Reservation Tribal Land">Off Reservation Tribal
+                Land</mat-radio-button>
+            <mat-radio-button (click)="location(3)" value="Non-Tribal Property">Non-Tribal Property
+            </mat-radio-button>
+        </mat-radio-group>
+        <br><br>
 
+        <div *ngIf="tribalBool === 'Yes'">
             <mat-label for="Violation_Code">Violation Code</mat-label>
             <br><br>
-            <mat-radio-group formControlName="Violation_Code" aria-label="this.projectService.meta.Mitigation.alias">
+            <mat-radio-group formControlName="Violation_Code" aria-label="this.projectService.meta.Violation_Code.alias">
                 <mat-radio-button value="Surface Water">Surface Water</mat-radio-button>
                 <mat-radio-button value="Solid Waste">Solid Waste</mat-radio-button>
             </mat-radio-group>
-
-
-            <mat-divider></mat-divider>
             <br><br>
-            <mat-form-field appearance="fill">
-                <mat-label for="Violation_Doc_Note">Add Survey123 link below</mat-label>
-                <br><br>
-                <input formControlName="Violation_Doc_Note" matInput>
-            </mat-form-field>
+
+            <mat-label for="Violation_Action">Action Taken</mat-label>
             <br><br>
-            <mat-divider></mat-divider>
+            <mat-radio-group formControlName="Violation_Action" aria-label="this.projectService.meta.Violation_Action.alias">
+                <mat-radio-button value="Conversation">Conversation</mat-radio-button>
+                <mat-radio-button value="Letter">Letter</mat-radio-button>
+                <mat-radio-button value="Citation">Citation</mat-radio-button>
+            </mat-radio-group>
+            <br><br>
+
+            <mat-label for="Violation_Solution">Solution</mat-label>
+            <br><br>
+            <mat-radio-group formControlName="Violation_Solution" aria-label="this.projectService.meta.Violation_Solution.alias">
+                <mat-radio-button value="Mitigation">Mitigation</mat-radio-button>
+                <mat-radio-button value="Correcting Issue">Correcting Issue</mat-radio-button>
+            </mat-radio-group>
+            <br><br>
+
+            <!-- <mat-label for="Fieldwork_Performed">Was fieldwork performed?</mat-label>
+            <br><br>
+            <mat-radio-group formControlName="Fieldwork_Performed" aria-label="this.projectService.meta.Fieldwork_Performed.alias">
+                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                <mat-radio-button value="No">No</mat-radio-button>
+            </mat-radio-group> -->
+
         </div>
+        <!-- </div> -->
+
+        <!-- <br><br>
+        <mat-divider></mat-divider>
+        <br><br>
+        <mat-form-field appearance="fill">
+            <mat-label for="Violation_Doc_Note">Add Survey123 link below</mat-label>
+            <br><br>
+            <input formControlName="Violation_Doc_Note" matInput>
+        </mat-form-field> -->
+        <br><br>
+        <mat-divider></mat-divider>
 
         <h2 *ngIf="isNew">Save Violation to Upload Photos</h2>
         <mat-grid-list *ngIf="!isNew" class="activity-grid-list" cols="3" rowHeight="1:1" gutterSize="8px">
@@ -75,7 +103,7 @@
             </mat-grid-tile>
         </mat-grid-list>
         <mat-form-field *ngIf="!isNew">
-            <mat-label>{{meta.Violation_Doc_Note.alias}}</mat-label>
+            <mat-label>Document Note</mat-label>
             <input formControlName="Violation_Doc_Note" matInput>
         </mat-form-field>
     </mat-dialog-content>

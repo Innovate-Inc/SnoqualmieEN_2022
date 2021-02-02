@@ -13,7 +13,7 @@ def main():
     try:
         survey = arcpy.GetParameter(0)  # '0d87ba0b72cf4c32b35c1db4d58c370d'
         token = arcpy.GetParameter(1)
-        token = "vuyLIVxjby30cXudDVLYxq1g0Ar17hvO5L5mP7mEjgPEngqC8wdUXkY3sVrjpnWJLFJhLgX8aHUx0g9pfli372xo9iBfGl5tQqOY77kNUpp8JTBXgwbQYv64uedXbP_n0OC9a6qAU_5jeyNgmPDMXIo2fThRxvb5CK9az3op1IFHIhIOygLg0mpmcQmvnBdk6paNq2mOtOX8DrsWJ9Yy6SoOx16KzHdjA6Px7GQEkxpxxQurvAKD-5NZf7eMaBqm"
+        # token = "vuyLIVxjby30cXudDVLYxq1g0Ar17hvO5L5mP7mEjgPEngqC8wdUXkY3sVrjpnWJLFJhLgX8aHUx0g9pfli372xo9iBfGl5tQqOY77kNUpp8JTBXgwbQYv64uedXbP_n0OC9a6qAU_5jeyNgmPDMXIo2fThRxvb5CK9az3op1IFHIhIOygLg0mpmcQmvnBdk6paNq2mOtOX8DrsWJ9Yy6SoOx16KzHdjA6Px7GQEkxpxxQurvAKD-5NZf7eMaBqm"
         print(token)
         template = int(arcpy.GetParameter(2))  # 3
         where = arcpy.GetParameter(3)  # '"objectIds":"3,4"'
@@ -21,7 +21,6 @@ def main():
         title = arcpy.GetParameter(5)  # 'Kamilo_Report'
         portal_url = arcpy.GetParameter(6)
         cliend_id = arcpy.GetParameter(7)
-        # gis = GIS(None, username, password)
         # gis = GIS(None, token='ZV37FOVq4X3Lxamjl9ORCrLj6rK5T2kcwh0WghB6AthYLZKqEpfhT0dTbwxioCsRYpY6oWCMq9bJktCzyn2aSaFMGXSQNgWWB_-Bm3ZleLfhYbfavk4DBMZeZt6-Rl-5FMnAgc5wpJlvpNfVEiwj2w..')
         gis = GIS(portal_url, token=token)
         sm = SurveyManager(gis)

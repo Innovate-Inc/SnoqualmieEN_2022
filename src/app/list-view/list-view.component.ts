@@ -1,3 +1,4 @@
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit, SimpleChanges, ViewChild, OnChanges, Inject } from '@angular/core';
 import { Project, ProjectService } from '../services/project.service';
@@ -38,11 +39,12 @@ export class ListViewComponent implements OnInit, OnChanges {
     start: new FormControl(),
     end: new FormControl()
   });
-  selection = new SelectionModel<Element>(true, []);
+  selection = new SelectionModel<Element>(false, []);
   numSelected = Number(0);
   selectedRows = 5; // : Array<number> = [0];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  // exporter: any;
 
   // prefixname = environment.name;
   constructor(public loadingService: LoadingService, private data: DataService, public dialog: MatDialog, snackBar: MatSnackBar, public projectService: ProjectService, public route: ActivatedRoute, public router: Router) {
@@ -228,33 +230,46 @@ export class ListViewComponent implements OnInit, OnChanges {
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ? this.deselectAll() : this.selectAll();
+  masterToggle(exporter: any) {
+    this.isAllSelected() ? this.deselectAll(exporter) : this.selectAll(exporter);
+    console.log('master toggle', exporter._selectedRows);
   }
 
-  selectAll() {
-    this.projectService.data.forEach((row: any) => this.selection.select(row));
-    this.numSelected = this.projectService.count.value;
-
+  selectAll(exporter: any) {
+    exporter._selectedRows = [];
+    this.projectService.data.forEach((row: any, index: number) => {
+      this.selection.select(row);
+      exporter._selectedRows.push(index);
+    });
+    this.numSelected = this.selection.selected.length;
+    console.log('select all', exporter._selectedRows);
   }
 
-  deselectAll() {
+  deselectAll(exporter: any) {
     this.selection.clear();
     this.numSelected = 0;
-
+    exporter._selectedRows = [];
+    console.log('deselect all', exporter._selectedRows);
   }
 
-  toggleCheckbox(element: any, selection: any) {
+  toggleCheckbox(element: any, selection: any, exporter: any) {
+    if (!exporter._selectedRows) { exporter._selectedRows = []; }
     if (selection.isSelected(element)) {
-      this.numSelected = this.numSelected + 1;
+      const index = exporter._selectedRows.indexOf(element.uid - 1);
+      if (index !== -1) {
+        exporter._selectedRows.splice(index, 1);
+      }
+      // this.numSelected = this.numSelected + 1;
     } else {
-      this.numSelected = this.numSelected - 1;
+      exporter.toggleRow(element.uid - 1);
+      // this.numSelected = this.numSelected - 1;
     }
-    if (this.numSelected < 0) {
-      this.numSelected = 0;
-    }
-
-    // console.log(this.selection.selected);
+    // if (this.numSelected < 0) {
+    //   this.numSelected = 0;
+    // }
+    selection.toggle(element);
+    this.numSelected = this.selection.selected.length;
+    console.log('toggle', exporter._selectedRows);
   }
 
   generateSpreadsheet() {

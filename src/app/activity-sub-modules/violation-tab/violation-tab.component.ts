@@ -17,7 +17,7 @@ import { ViolationFormComponent } from '../violation-form/violation-form.compone
 })
 
 export class ViolationTabComponent implements OnInit {
-  displayedColumns: string[] = ['Violation_Code', 'Violation_loc', 'CreationDate', 'Creator'];
+  displayedColumns: string[] = ['Violation_Code', 'Violation_Location', 'CreationDate', 'Creator'];
   activityService: ArcBaseService;
   projectId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,7 +35,7 @@ export class ViolationTabComponent implements OnInit {
         this.projectId = params.get('id');
         return this.activityService.layerIsLoaded.pipe(
           switchMap(() => {
-            this.activityService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'violation'`;
+            this.activityService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'violations'`;
             return this.activityService.getItems().pipe(finalize(() => {
               this.loadingService.hide();
             }));
@@ -43,6 +43,7 @@ export class ViolationTabComponent implements OnInit {
         );
       })).subscribe(() => this.loadingService.hide());
   }
+
   openDialog(task: any): void {
     this.dialog.open(ViolationFormComponent, {
       height: '700px',
@@ -52,8 +53,9 @@ export class ViolationTabComponent implements OnInit {
       this.ngOnInit();
     });
   }
+
   execute() {
-    this.activityService.filter.where = `(Creator like '%${this.searchItem}%' or Call_Who like '%${this.searchItem}%' or Call_Number like '%${this.searchItem}%' or Call_Address = '${this.searchItem}' or Call_Email = '${this.searchItem}') and parentglobalid = '${this.projectId}' and Activity_Type = 'call'`;
+    this.activityService.filter.where = `(Violation_Code like '%${this.searchItem}%' or Violation_Location like '%${this.searchItem}%' or CreationDate like '%${this.searchItem}%' or Creator like '%${this.searchItem}%') and parentglobalid = '${this.projectId}' and Activity_Type = 'violations'`;
     this.activityService.getItems().subscribe();
   }
 }

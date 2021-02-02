@@ -52,14 +52,14 @@
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null; $event ? exporter.resetToggleRow() : null;"
+        <mat-checkbox (change)="$event ? masterToggle(exporter) : null;"
           [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()">
         </mat-checkbox>
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-checkbox (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(element) : null; toggleCheckbox(element, selection);exporter.toggleRow(element.uid-1);"
+          (change)="toggleCheckbox(element, selection, exporter);"
           [checked]="selection.isSelected(element)">
         </mat-checkbox>
       </mat-cell>
@@ -112,7 +112,8 @@
     <span class="tb-mat-button download-btn ">
       <button mat-mini-fab color="primary" mat-raised-button
         (click)="exporter.exportTable('xlsx', {fileName:'Assert_sites', sheet: 'Sites', Props: {Author: 'Assert'}});"
-        matTooltip="Export selected rows">
+        matTooltip="Export selected rows"
+        [disabled]="numSelected === 0">
         <mat-icon>download</mat-icon>
       </button>
     </span>

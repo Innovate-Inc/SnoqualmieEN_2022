@@ -15,9 +15,9 @@
   <mat-table class="tbox" #table [dataSource]="activityService.datasource">
 
       
-      <ng-container matColumnDef="Violation_loc">
+      <ng-container matColumnDef="Violation_Location">
         <mat-header-cell *matHeaderCellDef> Violation Location </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.attributes?.Violation_loc}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.attributes?.Violation_Location}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Violation_Code">
