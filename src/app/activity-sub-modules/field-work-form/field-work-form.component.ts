@@ -31,20 +31,21 @@ export class FieldWorkFormComponent implements OnInit {
   ready: any;
   fieldWorkService: ArcBaseService;
   projectId: string;
+  isNew: true;
 
   constructor(public projectService: ProjectService, private route: ActivatedRoute,
-    public  loadingService: LoadingService, public snackBar: MatSnackBar) {
-      this.fieldWorkService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);
-     }
+    public loadingService: LoadingService, public snackBar: MatSnackBar) {
+    this.fieldWorkService = new ArcBaseService(environment.layers.activities, this.snackBar, this.loadingService);
+  }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.loadingService.show();
-    this.route.parent.paramMap.pipe(
+    this.route.parent.parent.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.projectId = params.get('id');
         return this.fieldWorkService.layerIsLoaded.pipe(
           switchMap(() => {
-            this.fieldWorkService.filter.where = `parentglobalid = '${this.projectId}'`;
+            this.fieldWorkService.filter.where = `parentglobalid = '${this.projectId}' and Activity_Type = 'fieldwork'`;
             return this.fieldWorkService.getItems().pipe(finalize(() => {
               this.loadingService.hide();
               this.ready = true;
@@ -54,6 +55,33 @@ export class FieldWorkFormComponent implements OnInit {
       })).subscribe();
   }
 
-  save() {
+  async save(): Promise<void> {
+    // if (this.isNew) {
+
+    //   this.data.activityTask.attributes = this.activityForm.value;
+    //   this.data.activityTask.attributes.Activity_Type = 'fieldwork';
+
+    //   const feature = new Graphic(this.data.activityTask);
+    //   this.data.activityTask = feature;
+    //   this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) => {
+    //     this.data.activityTask.attributes.objectid = res[0].objectId;
+    //     this.data.activityTask.attributes.globalid = res[0].globalId;
+    //     this.activityForm.patchValue({ 'globalid': res[0].globalId, 'objectid': res[0].objectId });
+    //     this.isNew = false;
+    //   });
+    // }
+    // else {
+    //   this.data.activityTask.attributes = this.activityForm.value;
+    //   this.activityService.updateFeature(this.data.activityTask).subscribe();
+    // }
+
+    // Object.keys(this.activityForm.controls).forEach((key) => {
+    //   this.activityForm.get(key).markAsPristine();
+    // });
+    // await this.sleep(200); // allows the save to happen so that when this component is closed, the correct data loads
+  }
+
+  sleep(ms: any) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }

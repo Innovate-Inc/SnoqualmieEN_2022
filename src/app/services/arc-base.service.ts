@@ -291,6 +291,8 @@ export class ArcBaseService {
   uploadAttachments(graphic: Graphic, data: any) {
     return new Observable(obs => {
       this.layer.addAttachment(graphic, data).then(result => {
+        let objectId: number;
+        if (result.objectId) { objectId = result.objectId};
         obs.next(result.objectId);
         this.openSnackBar('Attachment Added!', '');
       }).catch(e => {
@@ -299,7 +301,6 @@ export class ArcBaseService {
       });
     });
   }
-
 
   deleteAttachments(graphic: Graphic, attachmentId: number) {
     return new Observable(obs => {

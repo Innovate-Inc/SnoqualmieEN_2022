@@ -20,7 +20,6 @@ export class ViolationFormComponent implements OnInit {
   uploadService: ArcBaseService;
   dialogService: DialogService;
   isNew = true;
-  violationsBool = 'No';
   tribalBool = 'No';
 
   activityForm = new FormGroup({
@@ -34,7 +33,7 @@ export class ViolationFormComponent implements OnInit {
     Editor: new FormControl(),
 
     Violation_YN: new FormControl(),
-    Violation_loc: new FormControl(),
+    Violation_Location: new FormControl(),
     Violation_Code: new FormControl(),
 
     Violation_Doc_Note: new FormControl(),
@@ -68,15 +67,6 @@ export class ViolationFormComponent implements OnInit {
     }
   }
 
-  violation(num: number) {
-    if (num === 1 || num === 3) {
-      this.violationsBool = 'Yes';
-    }
-    else {
-      this.violationsBool = 'No';
-    }
-  }
-
   location(num: number) {
     if (num === 1 || num === 2) {
       this.tribalBool = 'Yes';
@@ -93,9 +83,9 @@ export class ViolationFormComponent implements OnInit {
       if (this.isNew) {
 
         this.data.activityTask.attributes = this.activityForm.value;
-        this.data.activityTask.attributes.Activity_Type = 'comment';
+        this.data.activityTask.attributes.Activity_Type = 'violations';
 
-        let feature = new Graphic(this.data.activityTask);
+        const feature = new Graphic(this.data.activityTask);
         this.data.activityTask = feature;
         this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) => {
           this.data.activityTask.attributes.objectid = res[0].objectId;
@@ -115,6 +105,7 @@ export class ViolationFormComponent implements OnInit {
       await this.sleep(200); // allows the save to happen so that when this component is closed, the correct data loads
     }
   }
+
   showSaveChangesDialog() {
     if (!this.activityForm.pristine) {
       this.dialog.open(SaveChangesDialogComponent, {

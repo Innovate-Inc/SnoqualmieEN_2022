@@ -77,9 +77,9 @@ export class CallFormComponent implements OnInit {
       if (this.isNew) {
 
         this.data.activityTask.attributes = this.activityForm.value;
-        this.data.activityTask.attributes.Activity_Type = 'comment';
+        this.data.activityTask.attributes.Activity_Type = 'call';
 
-        let feature = new Graphic(this.data.activityTask);
+        const feature = new Graphic(this.data.activityTask);
         this.data.activityTask = feature;
         this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) => {
           this.data.activityTask.attributes.objectid = res[0].objectId;
@@ -99,6 +99,7 @@ export class CallFormComponent implements OnInit {
       await this.sleep(200); // allows the save to happen so that when this component is closed, the correct data loads
     }
   }
+
   showSaveChangesDialog() {
     if (!this.activityForm.pristine) {
       this.dialog.open(SaveChangesDialogComponent, {
@@ -122,6 +123,7 @@ export class CallFormComponent implements OnInit {
       this.dialogRef.close();
     }
   }
+
   sleep(ms: any) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
