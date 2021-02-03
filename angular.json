@@ -36,7 +36,10 @@
               "src/theme.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "moment"
+           ]
           },
           "configurations": {
             "production": {
