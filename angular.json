@@ -38,7 +38,9 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "moment"
+              "moment",
+              "esri",
+              "tslib"
            ]
           },
           "configurations": {

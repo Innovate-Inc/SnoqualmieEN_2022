@@ -7,6 +7,11 @@ module.exports = {
     environment: {
       root: "./",
     }
+    ,
+    locales: ["en"],
+    features: {
+      '3d': false
+    }
   })],
   node: {
     process: false,
