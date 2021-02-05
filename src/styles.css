@@ -25,13 +25,13 @@ input, button, p {
 }
 */
 
- mat-raised-button.mat-red, mat-mini-fab.mat-red  {
+ /* mat-raised-button.mat-red, mat-mini-fab.mat-red  {
   color: rgb(196,18,48);
  }
 
  .mat-flat-button.mat-warn {
    color: rgb(0, 0, 138);
- }
+ } */
  
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   /*background-color: #00504f;*/

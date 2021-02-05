@@ -6,6 +6,10 @@ module.exports = {
   plugins: [new ArcGISPlugin({
     environment: {
       root: "./",
+    },
+    locales: ["en"],
+    features: {
+      '3d': false
     }
   })],
   node: {

@@ -1,6 +1,6 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from './../services/loading.service';
-import { environment, url } from './../../environments/environment.prod';
+import { environment, url } from './../../environments/environment';
 import {
   Component,
   OnInit,

@@ -28,6 +28,7 @@ export class ArcGpService {
       duration: 3000,
     });
   }
+
   public generate(params: any) {
     const vm = this;
     return new Observable(obs => {
@@ -41,13 +42,14 @@ export class ArcGpService {
             obs.complete();
             vm.genComplete = true;
           }
-        }, (err: any) => {
+        }
+        
+        , (err: any) => {
           vm.openSnackBar(err.toString() + ' ' + err.details[0], '');
           obs.error(err);
         }).catch(err => {
           vm.openSnackBar(err, '');
         });
-
       }
         , (err: any) => {
           vm.openSnackBar(err.toString() + ' ' + err.details[0], '');
@@ -65,6 +67,7 @@ export class ArcGpService {
       vm.gp.submitJob(params).then((e: any) => {
         vm.gp.waitForJobCompletion(e.jobId).then((a: any) => {
           if (a.jobStatus === 'esriJobFailed') {
+            this.snackBar.dismiss();
             vm.openSnackBar(`Error: ` + a.message, '');
             obs.complete();
           } else {
@@ -83,31 +86,38 @@ export class ArcGpService {
                 window.open(`${params.portal_url}/sharing/rest/content/items/${response.data.value}/data?token=${params.survey_token}`);
                 obs.complete();
               });
-
-
             });
-
-            // const request = esriRequest({
-            //     url: resultUrl,
-            //     content: { f: 'json' }
-            //   });
-            // request.then(
-            //     function(response) {
-            //       console.log('Success: ', response);
-            //       self.getReport(response.value);
-            //     }, function(error) {
-            //       console.log('Error: ', error.message);
-            //     });
           } // );
+        }, (err: any) => {
+          vm.openSnackBar(err.toString() + ' ' + err.details[0], '');
+          obs.error(err);
+        }).catch(err => {
+          vm.openSnackBar(err, '');
         });
-
-      }, (err: any) => {
-        vm.openSnackBar(err.toString() + ' ' + err.details[0], '');
-        obs.error(err);
       }
-      );
+        , (err: any) => {
+          vm.openSnackBar(err.toString() + ' ' + err.details[0], '');
+          obs.error(err);
+        }
+      ).catch(error => {
+        vm.openSnackBar(error, '');
+      });
     });
   }
+
+
+
+
+
+  //       ;
+
+  //     }, (err: any) => {
+  //       vm.openSnackBar(err.toString() + ' ' + err.details[0], '');
+  //       obs.error(err);
+  //     }
+  //     );
+  //   });
+  // }
 }
 
 

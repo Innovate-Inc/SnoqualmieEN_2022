@@ -39,3 +39,9 @@ app-impacts-form {
   router-outlet {
     z-index: 1000;
   }
+
+  /* .mat-toolbar {
+    border-bottom-color: #658daa;
+    border-bottom-width: thin;
+    border-bottom-style: outset;
+  } */
