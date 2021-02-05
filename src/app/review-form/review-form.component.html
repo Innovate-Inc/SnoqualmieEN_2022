@@ -1,4 +1,4 @@
-<mat-card *ngIf="review | async as p" >
+<mat-card *ngIf="review | async as p">
 
   <form novalidate [formGroup]="featureForm">
     <div class="button-row">
@@ -9,106 +9,106 @@
         <p *ngIf="!featureForm.pristine">There are unsaved changes</p>
       </div>
     </div>
-    <br/><br/>
+    <br /><br />
     <div class="fColumnn">
-      <mat-form-field >
-        <mat-placeholder>Reviewer's Name</mat-placeholder>
-        <input matInput [readonly]="!projectService.editing" type="text" name={{projectService.meta.Reviewer_Name.alias}}
-               formControlName="Reviewer_Name">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Reviewer_Department.alias}}</mat-placeholder>
-        <mat-select [disabled]="!projectService.editing" formControlName="Reviewer_Department">
-          <mat-option *ngFor="let option of projectService.meta.Reviewer_Department.domain.codedValues"
+      <!-- <div class="addPadding"> -->
+        <mat-form-field>
+          <mat-placeholder>Reviewer's Name</mat-placeholder>
+          <input matInput [readonly]="!projectService.editing" type="text"
+            name={{projectService.meta.Reviewer_Name.alias}} formControlName="Reviewer_Name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Reviewer_Department.alias}}</mat-placeholder>
+          <mat-select [disabled]="!projectService.editing" formControlName="Reviewer_Department">
+            <mat-option *ngFor="let option of projectService.meta.Reviewer_Department.domain.codedValues"
               [value]="option.code">{{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Date_Received.alias}}</mat-placeholder>
-        <input matInput [readonly]="!projectService.editing" [matDatepicker]="DateReceivedPicker" name="Date_Received"
-               formControlName="Date_Received">
-        <mat-datepicker-toggle matSuffix [for]="DateReceivedPicker"></mat-datepicker-toggle>
-        <mat-datepicker #DateReceivedPicker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field>
-        <!-- <mat-placeholder>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Date_Received.alias}}</mat-placeholder>
+          <input matInput [readonly]="!projectService.editing" [matDatepicker]="DateReceivedPicker" name="Date_Received"
+            formControlName="Date_Received">
+          <mat-datepicker-toggle matSuffix [for]="DateReceivedPicker"></mat-datepicker-toggle>
+          <mat-datepicker #DateReceivedPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <!-- <mat-placeholder>
           {{projectService.meta.Project_Phase.alias}}
         </mat-placeholder> -->
-        <mat-placeholder>
-          Project Type
-        </mat-placeholder>
-        <mat-select [disabled]="!projectService.editing" formControlName="Project_Phase">
-          <mat-option *ngFor="let option of projectService.meta.Project_Phase.domain.codedValues"
-                      [value]="option.code">{{
+          <mat-placeholder>
+            Project Type
+          </mat-placeholder>
+          <mat-select [disabled]="!projectService.editing" formControlName="Project_Phase">
+            <mat-option *ngFor="let option of projectService.meta.Project_Phase.domain.codedValues"
+              [value]="option.code">{{
             option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Project_Name.alias}}</mat-placeholder>
-        <input [readonly]="!projectService.editing" matInput type="text" name={{projectService.meta.Project_Name.alias}}
-               formControlName="Project_Name">
-      </mat-form-field>
-      <mat-form-field>
-        <!-- <mat-placeholder>{{projectService.meta.Jurisdiction.alias}}</mat-placeholder> -->
-        <mat-placeholder>Primary Jurisdiction</mat-placeholder>
-        <mat-select [disabled]="!projectService.editing" formControlName="Jurisdiction">
-          <mat-option *ngFor="let option of projectService.meta.Jurisdiction.domain.codedValues"
-                      [value]="option.code">{{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Notification_Type.alias}}</mat-placeholder>
-        <mat-select [disabled]="!projectService.editing" formControlName="Notification_Type">
-          <mat-option *ngFor="let option of projectService.meta.Notification_Type.domain.codedValues"
-                      [value]="option.code">{{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Notification_ID.alias}}</mat-placeholder>
-        <input [readonly]="!projectService.editing" matInput type="text" name={{projectService.meta.Notification_ID.alias}}
-               formControlName="Notification_ID">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Note_Concern.alias}}</mat-placeholder>
-        <input [readonly]="!projectService.editing" matInput type="text" name={{projectService.meta.Note_Concern.alias}}
-               formControlName="Note_Concern">
-      </mat-form-field>
-<!--      <mat-form-field>-->
-<!--        <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>-->
-<!--        <input matInput type="text" name={{projectService.meta.Noti_Dept_Select.alias}}-->
-<!--               formControlName="Noti_Dept_Select">-->
-<!--      </mat-form-field>-->
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>
-        <mat-select [disabled]="!projectService.editing" formControlName="Noti_Dept_Select" multiple>
-          <mat-option *ngFor="let option of projectService.meta.Noti_Dept_Select.domain.codedValues"
-                      [value]="option.code">{{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{projectService.meta.Noti_Tribe.alias}}</mat-placeholder>
-        <mat-select [disabled]="!projectService.editing" formControlName="Noti_Tribe">
-          <mat-option *ngFor="let option of projectService.meta.Noti_Tribe.domain.codedValues"
-                      [value]="option.code">{{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Project_Name.alias}}</mat-placeholder>
+          <input [readonly]="!projectService.editing" matInput type="text"
+            name={{projectService.meta.Project_Name.alias}} formControlName="Project_Name">
+        </mat-form-field>
+        <mat-form-field>
+          <!-- <mat-placeholder>{{projectService.meta.Jurisdiction.alias}}</mat-placeholder> -->
+          <mat-placeholder>Primary Jurisdiction</mat-placeholder>
+          <mat-select [disabled]="!projectService.editing" formControlName="Jurisdiction">
+            <mat-option *ngFor="let option of projectService.meta.Jurisdiction.domain.codedValues"
+              [value]="option.code">{{ option.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Notification_Type.alias}}</mat-placeholder>
+          <mat-select [disabled]="!projectService.editing" formControlName="Notification_Type">
+            <mat-option *ngFor="let option of projectService.meta.Notification_Type.domain.codedValues"
+              [value]="option.code">{{ option.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Notification_ID.alias}}</mat-placeholder>
+          <input [readonly]="!projectService.editing" matInput type="text"
+            name={{projectService.meta.Notification_ID.alias}} formControlName="Notification_ID">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Note_Concern.alias}}</mat-placeholder>
+          <input [readonly]="!projectService.editing" matInput type="text"
+            name={{projectService.meta.Note_Concern.alias}} formControlName="Note_Concern">
+        </mat-form-field>
+        <!--      <mat-form-field>-->
+        <!--        <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>-->
+        <!--        <input matInput type="text" name={{projectService.meta.Noti_Dept_Select.alias}}-->
+        <!--               formControlName="Noti_Dept_Select">-->
+        <!--      </mat-form-field>-->
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Noti_Dept_Select.alias}}</mat-placeholder>
+          <mat-select [disabled]="!projectService.editing" formControlName="Noti_Dept_Select" multiple>
+            <mat-option *ngFor="let option of projectService.meta.Noti_Dept_Select.domain.codedValues"
+              [value]="option.code">{{ option.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{projectService.meta.Noti_Tribe.alias}}</mat-placeholder>
+          <mat-select [disabled]="!projectService.editing" formControlName="Noti_Tribe">
+            <mat-option *ngFor="let option of projectService.meta.Noti_Tribe.domain.codedValues" [value]="option.code">
+              {{ option.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-       <mat-form-field  [hidden]="featureForm.controls.Noti_Tribe.value !='yes'">
-        <mat-placeholder >{{projectService.meta.Noti_Tribe_Text.alias}}</mat-placeholder>
-        <mat-select [disabled]="!projectService.editing" formControlName="Noti_Tribe_Text">
-          <mat-option *ngFor="let option of projectService.meta.Noti_Tribe_Text.domain.codedValues"
-                      [value]="option.code">{{ option.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <!-- <mat-form-field >
+        <mat-form-field [hidden]="featureForm.controls.Noti_Tribe.value !='yes'">
+          <mat-placeholder>{{projectService.meta.Noti_Tribe_Text.alias}}</mat-placeholder>
+          <mat-select [disabled]="!projectService.editing" formControlName="Noti_Tribe_Text">
+            <mat-option *ngFor="let option of projectService.meta.Noti_Tribe_Text.domain.codedValues"
+              [value]="option.code">{{ option.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- <mat-form-field >
         <mat-placeholder>{{projectService.meta.Location_Type.alias}}</mat-placeholder>
         <mat-select [disabled]="!projectService.editing" formControlName="Location_Type">
           <mat-option *ngFor="let option of projectService.meta.Location_Type.domain.codedValues"
@@ -116,9 +116,8 @@
           </mat-option>
         </mat-select>
       </mat-form-field> -->
+      <!-- </div> -->
     </div>
+
   </form>
 </mat-card>
-
-
-

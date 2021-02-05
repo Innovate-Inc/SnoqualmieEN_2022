@@ -1,4 +1,4 @@
-export const url = 'https://arcserver.innovateteam.com/arcgis/rest/services/Snoq_demo/Snoq_Survey/FeatureServer';
+export const url = 'https://arcserver.innovateteam.com/arcgis/rest/services/Snoq_demo/Snoq_survey/FeatureServer';
 
 export const environment = {
   production: true,
@@ -26,8 +26,9 @@ export const environment = {
   reportService: {
     url: 'https://arcserver.innovateteam.com/arcgis/rest/services/Snoq_demo/GenerateReport/GPServer/generateReport',
     surveyItem: '42ce8a3fd58741e680f5a62bb8f5cc82',
-    surveyTemplate: 0
+    surveyTemplate: 2
   },
-  mapLayerName: 'Snoq_Survey - Review Tracking'
+  mapLayerName: 'Snoq_Survey - Review Tracking',
+  helpUrl: ''
 };
 

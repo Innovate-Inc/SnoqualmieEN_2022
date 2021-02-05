@@ -5,6 +5,7 @@ import { ProjectService } from './services/project.service';
 import { DataService } from './services/data.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -32,6 +33,9 @@ export class AppComponent {
     this.router.navigate(['welcome']);
   }
 
+  goToDoc() {
+    window.open(environment.helpUrl, '_blank');
+  }
   // generateReport() {
 
   // }
