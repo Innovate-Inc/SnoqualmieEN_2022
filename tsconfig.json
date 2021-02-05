@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "module": "es2020",
+    "module": "amd",
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
@@ -22,9 +22,9 @@
     ]
   },
   // [NOTE: these options simply haven't been tested yet with the angular-cli-esri-map components]
-  "angularCompilerOptions": {
-    "enableIvy": true
+  // "angularCompilerOptions": {
+  //   "enableIvy": true
     // "fullTemplateTypeCheck": true,
     // "strictInjectionParameters": true
-  }
+  // }
 }

@@ -29,6 +29,6 @@ export const environment = {
     surveyTemplate: 2
   },
   mapLayerName: 'Snoq_Survey - Review Tracking',
-  helpUrl: ''
+  helpUrl: '//tempUrl'
 };
 

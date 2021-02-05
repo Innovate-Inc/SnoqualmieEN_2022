@@ -42,9 +42,7 @@ export class ArcGpService {
             obs.complete();
             vm.genComplete = true;
           }
-        }
-        
-        , (err: any) => {
+        }, (err: any) => {
           vm.openSnackBar(err.toString() + ' ' + err.details[0], '');
           obs.error(err);
         }).catch(err => {
