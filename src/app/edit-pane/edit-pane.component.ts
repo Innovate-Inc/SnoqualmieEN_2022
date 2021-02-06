@@ -107,7 +107,7 @@ export class EditPaneComponent implements OnInit {
     };
     this.snackBar.open('Please wait.  The report takes ~2 minutes to generate...', '');
 
-    this.reportService.generate(params, 'docId').pipe(
+    this.reportService.submit(params, 'docId').pipe(
       finalize(() => {
         this.reportServiceLoading = false;
 

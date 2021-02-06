@@ -36,9 +36,6 @@ export class AppComponent {
   goToDoc() {
     window.open(environment.helpUrl, '_blank');
   }
-  // generateReport() {
-
-  // }
 
   generateSpreadsheet() {
 
