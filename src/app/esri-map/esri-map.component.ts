@@ -420,7 +420,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   applyQueryParams(params: ParamMap) {
     if (params.has('mode')) {
       this.mode = params.get('mode');
-    } else {
+      }
+    else {
       this.mode = 'none';
       this.updateQueryParams({ mode: this.mode });
     }

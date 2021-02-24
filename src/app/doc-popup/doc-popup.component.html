@@ -46,7 +46,7 @@
         </mat-grid-tile>
         <mat-grid-tile *ngIf="dialogService.maxAttachments > dialogService.attachments.length "
           style="background: #f5f5f5; overflow: hidden; cursor:pointer;">
-          <a (click)="dialogService.showUploadDialog($event);" class="thumbnail" title="Add attachment">
+          <a (click)="dialogService.showDocuUploadDialog($event);" class="thumbnail" title="Add attachment">
             <mat-icon class="material-icons" style="font-size:100px; position: absolute; top:15%; left:24%;">add
             </mat-icon>
             <mat-grid-tile-footer style="background:rgba(176,190,197,0.7);">
