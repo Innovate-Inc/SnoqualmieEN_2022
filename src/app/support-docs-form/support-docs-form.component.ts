@@ -8,6 +8,8 @@ import {DocPopupComponent} from '../doc-popup/doc-popup.component';
 import {MatDialog} from '@angular/material/dialog';
 import { ArcBaseService } from '../services/arc-base.service';
 import { environment } from 'src/environments/environment';
+import { DeleteAttachComponent } from '../esri-map/esri-map.component';
+
 
 @Component({
   selector: 'app-support-docs-form',
@@ -16,6 +18,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SupportDocsFormComponent implements OnInit {
   displayColumns = ['type', 'date', 'Creator'];
+  // displayColumns = ['type', 'date', 'Creator', 'delete'];
   projectId: string;
   docService: ArcBaseService;
   ready: any;
@@ -63,6 +66,23 @@ export class SupportDocsFormComponent implements OnInit {
   execute(){
     this.docService.filter.where = `(Creator like '%${this.searchItem}%' or Docu_Type like '%${this.searchItem}%' or Docu_Note like '%${this.searchItem}%') and parentglobalid = '${this.projectId}'`;
     this.docService.getItems().subscribe();
+  }
+
+  delete(feature: any, i: number) {
+    const dialogRef = this.dialog.open(DeleteAttachComponent, {
+      width: '400px',
+      height: '330px' // ,
+      // data: {date: element.attributes?.INV_InvoiceDate, invoiceID: element.attributes?.OBJECTID,
+      //       encroachmentID: element.attributes?.INV_EncID, permitID: element.attributes?.INV_PermitID}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'true') {
+        this.docService.delete(feature).subscribe(() => {
+          // this.updateQueryParams({ mode: 'none' });
+        });
+      }
+    });
   }
 }
 

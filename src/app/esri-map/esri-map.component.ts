@@ -618,3 +618,16 @@ export class DeleteSiteComponent {
     // routerLink="/app/projects"
   }
 }
+
+@Component({
+  selector: 'app-delete-attach',
+  templateUrl: 'delete-attach.html',
+})
+export class DeleteAttachComponent {
+
+  constructor(public dialogRef: MatDialogRef<DeleteAttachComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  close(ret: string) {
+    this.dialogRef.close(ret);
+  }
+}
