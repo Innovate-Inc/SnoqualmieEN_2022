@@ -210,7 +210,7 @@ export class ListViewComponent implements OnInit, OnChanges {
       this.disableRoute = false;
       if (result === 'true') {
         this.projectService.delete(feature).subscribe(() => {
-          this.updateQueryParams({ mode: 'none' });
+          // this.updateQueryParams({ mode: 'none' });
           this.router.navigate(['/app/projects']);
         });
       }

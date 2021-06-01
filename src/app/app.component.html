@@ -1,4 +1,4 @@
-<mat-toolbar><img height="80%" src="assets/images/assert_logo.png"><span class="top_item" routerLink="/app">ASSERT <span class="sub_text"> MANAGEMENT INFORMATION SYSTEM</span></span>
+<mat-toolbar><img height="80%" src="assets/images/assert_logo.png"><span class="top_item" routerLink="/app" [queryParams]="{mode:'none'}">ASSERT <span class="sub_text"> MANAGEMENT INFORMATION SYSTEM</span></span>
   <span class="fill-remaining-space">
     <span *ngIf="!(router.url == '/welcome' )" class="tb-mat-button" style="padding-left: 40%;">
       <mat-slide-toggle color="accent" [(ngModel)]="projectService.editing"><span *ngIf="projectService.editing">Editing

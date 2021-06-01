@@ -102,7 +102,7 @@
     </mat-header-row>
 
     <mat-row *matRowDef="let row; columns: displayColumns" (click)="data.showToggle = false;"
-      [routerLink]="disableRoute ? [] : ['/app/edit', row.attributes.globalid]"></mat-row>
+      [routerLink]="disableRoute ? [] : ['/app/edit', row.attributes.globalid]" [queryParams]="{mode:'featureSelected'}"></mat-row>
   </mat-table>
   <div class="paginator-div">
 
