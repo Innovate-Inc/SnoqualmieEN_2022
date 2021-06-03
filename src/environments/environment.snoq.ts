@@ -1,4 +1,4 @@
-export const url = 'https://maps.snoqualmietribe.us/server/rest/services/Assert/Assert_Review_Tracking/FeatureServer';
+export const url = 'https://maps.snoqualmietribe.us/server/rest/services/Assert/ASSERT/FeatureServer';
 
 export const environment = {
   production: true,
@@ -7,8 +7,8 @@ export const environment = {
   name: 'Assert',
   portalSetting : {
     url: 'https://maps.snoqualmietribe.us/portal',
-    appId: 'diCIRzmGi5yW8nVJ',
-    mapId: 'b24d6d7642a24c2c821e1e78eaf0719a'
+    appId: 'kdUmjgmiOPWq3Mpe',
+    mapId: '7340bca6d42446fda17a1510d1c13f30'
   },
   layers: {
     review: `${url}/0`,
@@ -24,11 +24,11 @@ export const environment = {
     violation: `${url}/10`
   },
   reportService: {
-    url: 'https://arcserver.innovateteam.com/arcgis/rest/services/Snoq_demo/GenerateReport/GPServer/generateReport',
-    surveyItem: '42ce8a3fd58741e680f5a62bb8f5cc82',
+    url: '',
+    surveyItem: '',
     surveyTemplate: 2
   },
-  mapLayerName: 'Assert_Review_Tracking',
+  mapLayerName: 'ASSERT',
   helpUrl: ''
 };
 
