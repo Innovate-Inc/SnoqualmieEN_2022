@@ -202,8 +202,14 @@ mat-row.active {
 }
 
 .top_item{
+  font: 500 24px/36px Roboto;
   cursor: pointer !important;
   padding-left: 10px !important;
+}
+
+.sub_text{
+  font: 500 16px/22px Roboto;
+  padding-left: 15px !important;
 }
 
 .up25{

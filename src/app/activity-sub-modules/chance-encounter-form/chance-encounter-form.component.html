@@ -10,7 +10,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-       
+
         <mat-form-field appearance="fill">
             <mat-label>{{meta.Activity_Department.alias}}</mat-label>
             <mat-select formControlName="Activity_Department">
@@ -38,6 +38,11 @@
         <mat-grid-list *ngIf="!isNew" class="activity-grid-list" cols="3" rowHeight="1:1" gutterSize="8px">
             <mat-grid-tile *ngFor="let attachment of dialogService.attachments "
                 style="background: #f5f5f5; overflow: hidden;">
+                <button mat-button class="mat-fab mat-mini mat-accent" aria-label="Download" [download]="attachment.url"
+                    (click)="dlAttach(attachment)" style="position: absolute; top: 0px; left: 0px; opacity: 0.7;"
+                    matTooltip="Download File">
+                    <mat-icon class="material-icons">download</mat-icon>
+                </button>
                 <button mat-button class="mat-fab mat-mini mat-accent" aria-label="Delete"
                     (click)="dialogService.showDeleteDialog(attachment, $event)"
                     style="position: absolute; top: 0px; right: 0px; opacity: 0.7;" matTooltip="Delete File">
@@ -53,7 +58,7 @@
             </mat-grid-tile>
             <mat-grid-tile *ngIf="dialogService.maxAttachments > dialogService.attachments.length "
                 style="background: #f5f5f5; overflow: hidden; cursor:pointer;">
-                <a (click)="dialogService.showUploadDialog($event)" class="thumbnail" title="Add attachment">
+                <a (click)="dialogService.showActivityUploadDialog($event)" class="thumbnail" title="Add attachment">
                     <mat-icon class="material-icons activity-upload-icon">add
                     </mat-icon>
                     <mat-grid-tile-footer style="background:rgba(176,190,197,0.7);">
@@ -62,7 +67,7 @@
                 </a>
             </mat-grid-tile>
         </mat-grid-list>
-        <mat-form-field  *ngIf="!isNew">
+        <mat-form-field *ngIf="!isNew">
             <mat-label>{{meta.CE_Doc_Note.alias}}</mat-label>
             <input formControlName="CE_Doc_Note" matInput>
         </mat-form-field>
