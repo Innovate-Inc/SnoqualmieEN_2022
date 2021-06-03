@@ -278,6 +278,11 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           console.log(results);
           this.projectService.mode = 'featureSelected';
           this.updateQueryParams({ mode: this.projectService.mode });
+
+          this._view.goTo(tempGraphic.geometry.extent.expand(2)).catch((error: any) => {
+            console.log(error);
+          });
+
         });
       });
       // this.projectService.mode = 'featureSelected';

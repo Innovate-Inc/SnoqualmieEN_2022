@@ -70,15 +70,21 @@ export class SiteVisitFormComponent implements OnInit {
       if (this.isNew) {
 
         this.data.activityTask.attributes = this.activityForm.value;
-        this.data.activityTask.attributes.Activity_Type = 'comment';
+        this.data.activityTask.attributes.Activity_Type = 'sitevisit';
 
         let feature = new Graphic(this.data.activityTask);
         this.data.activityTask = feature;
-        this.activityService.addFeature(this.data.activityTask).subscribe((res: Array<any>) => {
+        this.activityService.addFeature(this.data.activityTask).subscribe(async (res: Array<any>) => {
           this.data.activityTask.attributes.objectid = res[0].objectId;
           this.data.activityTask.attributes.globalid = res[0].globalId;
           this.activityForm.patchValue({ 'globalid': res[0].globalId, 'objectid': res[0].objectId });
           this.isNew = false;
+
+          this.activityService.filter.where = `objectid = '${res[0].objectId}'`;
+
+          await this.activityService.query().subscribe(results => {
+            this.dialogService.item = results[0];
+          });
         });
       }
       else {
@@ -117,5 +123,17 @@ export class SiteVisitFormComponent implements OnInit {
   }
   sleep(ms: any) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async dlAttach(attachment: any) {
+    const image = await fetch(attachment.url);
+    const imageBlob = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlob);
+    const link = document.createElement('a');
+    link.href = imageURL;
+    link.download = attachment.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

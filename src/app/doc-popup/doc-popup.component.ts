@@ -76,12 +76,12 @@ export class DocPopupComponent implements OnInit {
       this.data.docTask.attributes.Docu_Type = this.featureForm.controls['Docu_Type'].value;
       let feature = new Graphic(this.data.docTask);
       this.data.docTask = feature;
-      this.uploadService.addFeature(feature).subscribe((res: Array<any>) =>{
+      this.uploadService.addFeature(feature).subscribe((res: Array<any>) => {
         this.dialogService.item = new Graphic(res[0]);
         this.dialogService.item.attributes = {};
         this.dialogService.item.attributes.objectid = res[0].objectId;
         this.dialogService.item.attributes.globalid = res[0].globalId;
-        this.featureForm.patchValue({"globalid": res[0].globalId, 'objectid': res[0].objectId});
+        this.featureForm.patchValue({ "globalid": res[0].globalId, 'objectid': res[0].objectId });
         this.data.docTask.attributes = this.featureForm.value;
       });
 
@@ -101,5 +101,16 @@ export class DocPopupComponent implements OnInit {
     }
   }
 
+  async dlAttach(attachment: any) {
+    const image = await fetch(attachment.url);
+    const imageBlob = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlob);
+    const link = document.createElement('a');
+    link.href = imageURL;
+    link.download = attachment.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 }
 
