@@ -46,8 +46,8 @@ export class DialogService {
     });
   }
 
-  //opens a dialog for uploading a photo
-  showUploadDialog($event: any) {
+  // opens a dialog for uploading a photo
+  showDocuUploadDialog($event: any) {
     const dialogRef = this.dialog.open(UploadDialogComponent, {
       width: '550px',
       height: '300px',
@@ -60,5 +60,20 @@ export class DialogService {
       this.getAttachments();
     });
   }
+
+    // opens a dialog for uploading a photo
+    showActivityUploadDialog($event: any) {
+      const dialogRef = this.dialog.open(UploadDialogComponent, {
+        width: '550px',
+        height: '300px',
+        data: {
+          object: this.item, maxAttach: this.maxAttachments,
+          attached: this.attachments.length, uploadLayer: environment.layers.activities
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        this.getAttachments();
+      });
+    }
 
 }

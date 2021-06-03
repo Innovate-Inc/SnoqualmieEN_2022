@@ -79,17 +79,18 @@
                 <br><br>
                 <mat-radio-group [disabled]="!projectService.editing" formControlName="Mitigation"
                     aria-label="Is mitigation provided?">
-                    <mat-radio-button value="Yes">Fully mitigated</mat-radio-button>
-                    <mat-radio-button value="Partially">Partially mitigated</mat-radio-button>
-                    <mat-radio-button value="No">Not mitigated</mat-radio-button>
+                    <mat-radio-button (click)="mitigationClick(1)"  value="Yes">Fully mitigated</mat-radio-button>
+                    <mat-radio-button (click)="mitigationClick(2)"  value="Partially">Partially mitigated</mat-radio-button>
+                    <mat-radio-button (click)="mitigationClick(3)"  value="No">Not mitigated</mat-radio-button>
                 </mat-radio-group>
                 <br><br><br>
-                <mat-label>Type of Mtigation</mat-label>
-                <br>
-                <mat-form-field appearance="fill">
-                    <input [readonly]="!projectService.editing" formControlName="Type_of_mitigation" matInput>
-                </mat-form-field><br><br>
-
+                <div *ngIf="Mitigation_var === 'Yes' || Mitigation_var === 'Partially'">
+                    <mat-label>Type of Mtigation</mat-label>
+                    <br>
+                    <mat-form-field appearance="fill">
+                        <input [readonly]="!projectService.editing" formControlName="Type_of_mitigation" matInput>
+                    </mat-form-field><br><br>
+                </div>
             </div>
 
             <br><br>

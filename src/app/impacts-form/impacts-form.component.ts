@@ -18,6 +18,7 @@ export class ImpactsFormComponent implements OnInit {
   ethographicSite: any;
   Impact_Enviro_var: any = "No";
   Culture_Impact_var: any = "No";
+  Mitigation_var: any = "No";
 
   featureForm = new FormGroup({
     // ProjectNumber: new FormControl(),
@@ -107,6 +108,20 @@ export class ImpactsFormComponent implements OnInit {
       }
     }
   }
+  mitigationClick(option: any) {
+    if (this.projectService.editing) {
+      if (option === 1) {
+        this.Mitigation_var = "Yes";
+      }
+      else if (option === 2) {
+        this.Mitigation_var = "Partially";
+      }
+      else{
+        this.Mitigation_var = "No";
+      }
+    }
+  }
+
   impactCulture(option: any) {
     if (this.projectService.editing) {
       if (option == 1) {
@@ -117,6 +132,7 @@ export class ImpactsFormComponent implements OnInit {
       }
     }
   }
+
   archeologyClick(option: any) {
     if (this.projectService.editing) {
       if (option == 1) {

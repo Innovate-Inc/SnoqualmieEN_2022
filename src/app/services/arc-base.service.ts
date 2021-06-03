@@ -73,6 +73,7 @@ export class ArcBaseService {
           } else if (type === 'update') {
             this.layer.applyEdits({ updateFeatures: features }).then(results => {
               obs.next(results.updateFeatureResults);
+              this.layer.refresh();
               if (!quiet) {
                 this.openSnackBar('Updated!', '');
               }
@@ -218,7 +219,7 @@ export class ArcBaseService {
     const keys = Object.keys(this.meta);
     features.map(feature => {
       for (const key of keys) {
-        if (this.meta[key].type === 'date' && feature.attributes[key] instanceof Date) {
+        if (this.meta[key].type === 'date' && feature.attributes && feature.attributes[key] instanceof Date) {
           feature.attributes[key] = feature.attributes[key].getTime();
         }
       }
@@ -292,7 +293,7 @@ export class ArcBaseService {
     return new Observable(obs => {
       this.layer.addAttachment(graphic, data).then(result => {
         let objectId: number;
-        if (result.objectId) { objectId = result.objectId};
+        if (result.objectId) { objectId = result.objectId;}
         obs.next(result.objectId);
         this.openSnackBar('Attachment Added!', '');
       }).catch(e => {

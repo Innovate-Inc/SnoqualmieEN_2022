@@ -75,17 +75,18 @@ export class EditPaneComponent implements OnInit {
   }
 
   updateQueryParams(queryParam: Params) {
-    // if (queryParam.hasOwnProperty('mode')) { this.mode = queryParam.mode; }
+    // if (queryParam.hasOwnProperty('mode')) { this.projectService.mode = queryParam.mode; }
     this.router.navigate([], { queryParams: queryParam, queryParamsHandling: 'merge' });
   }
 
   applyQueryParams(params: ParamMap) {
-    // if (params.has('mode')) { this.mode = params.get('mode'); }
+    // if (params.has('mode')) { this.projectService.mode = params.get('mode'); }
   }
 
   goHome() {
-    this.updateQueryParams({ mode: 'none' });
-    this.router.navigate(['/app/projects']);
+    // this.updateQueryParams({ mode: 'none' });
+    // this.router.navigate(['/app/projects']);
+    // this.projectService.mode = 'none';
   }
 
   generateReport() {

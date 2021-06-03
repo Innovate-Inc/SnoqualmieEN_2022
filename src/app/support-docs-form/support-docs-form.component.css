@@ -8,3 +8,10 @@
     overflow-y: scroll;
   }
   
+  .download-btn {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
