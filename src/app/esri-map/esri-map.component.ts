@@ -139,7 +139,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
       // defaultParams = { mode: 'none' };
       // this.updateQueryParams(defaultParams);
       // this.cancelFeature();
-      this.projectService.mode = 'none';
+      // this.projectService.mode = 'none';
       this._view.goTo({ zoom: this._zoom, center: this._center });
 
     }
@@ -232,7 +232,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
           defaultUpdateOptions: {
             // set the default options for the update operations
             toggleToolOnClick: false // only reshape operation will be enabled
-          }
+          },
+          polygonSymbol: { type: "simple-fill", color: [46, 214, 255, 0.54] }
           // ,
           // defaultCreateOptions: {
           //   mode: 'hybrid'
@@ -349,8 +350,9 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
               this._highlightHandler.remove();
             }
             // this._view.goTo(graphic);
+            this.highlightFeature(graphic.attributes.globalid);
             this.projectService.mode = 'featureSelected';
-            this.router.navigate(['/app/edit', graphic.attributes.globalid]);
+            this.router.navigate(['/app/edit', graphic.attributes.globalid], { queryParams: {mode: this.projectService.mode}});
             // this.updateQueryParams({ mode: this.projectService.mode });
           }
         }))
@@ -411,7 +413,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         })
       ).subscribe();
       this.projectService.dataChange.pipe(tap(() => {
-        // this.updateQueryParams(this.projectService.filter);
+        // this.updateQueryParams(mode: this.projectService.filter);
 
       })).subscribe();
     });
@@ -523,13 +525,13 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     console.log('sketch mode');
     this.graphicsLayer.removeAll();
     this.updateQueryParams(params);
-    this.editLyr.opacity = .2;
+    this.editLyr.opacity = .5;
     this.sketchViewModel.create('polygon');
   }
 
   saveNewFeature() {
     console.log('save new feature');
-    this.editLyr.opacity = .5;
+    this.editLyr.opacity = 1;
     this.graphicsLayer.removeAll();
 
     if (this.projectService.mode === 'complete') {
@@ -569,7 +571,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     console.log('cancel feature');
     // this._view.ui.remove('instructions');
     this.sketchViewModel.cancel();
-    this.editLyr.opacity = .5;
+    this.editLyr.opacity = 1;
     this.graphicsLayer.removeAll();
     if (this.projectService.mode === 'edit') {
       this.projectService.mode = 'featureSelected';
@@ -600,8 +602,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'true') {
         this.projectService.delete(this._selectedFeature).subscribe(() => {
-          this.router.navigate(['/app/projects']);
-          this.updateQueryParams({ mode: 'none' });
+          // this.router.navigate(['/app/projects']);
+          this.router.navigate(['/app/projects'], { queryParams: {mode:'none'}, queryParamsHandling: 'merge' });
+
+          // this.updateQueryParams({ mode: 'none' });
           this.projectService.mode = 'none';
         });
       }
