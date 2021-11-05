@@ -128,7 +128,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
 
   refreshMap() {
     // Set default values and re-fetch any data you need.
-    if ((this.router.url.indexOf('/app/projects') > -1) && (this._loaded)) {
+    if ((this.router.url.indexOf('/app/projects') > -1) && (this._loaded) && this.projectService.mode !== 'add') {
       console.log('init map');
       // this.projectService.mode = 'none';
       if (this._highlightHandler) {
@@ -575,10 +575,10 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
     this.graphicsLayer.removeAll();
     if (this.projectService.mode === 'edit') {
       this.projectService.mode = 'featureSelected';
-      // this.updateQueryParams({ mode: this.projectService.mode });
+      this.updateQueryParams({ mode: this.projectService.mode });
     } else {
       this.projectService.mode = 'none';
-      // this.updateQueryParams({ mode: this.projectService.mode });
+      this.updateQueryParams({ mode: this.projectService.mode });
     }
   }
 

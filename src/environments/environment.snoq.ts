@@ -28,7 +28,7 @@ export const environment = {
     surveyItem: '',
     surveyTemplate: 2
   },
-  mapLayerName: 'ASSERT',
+  mapLayerName: 'Review Tracking',
   helpUrl: ''
 };
 
