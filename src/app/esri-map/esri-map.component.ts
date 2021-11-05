@@ -75,7 +75,7 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
   private sketchViewModel: any;
   private graphicsLayer: any;
   private editLyr: any;
-  mode = 'none'; // options: none, add, complete, edit, featureSelected, select
+  // mode = 'none'; // options: none, add, complete, edit, featureSelected, select
   spatialSelect = false;
   private params: Params;
   createGraphic: any;
@@ -167,9 +167,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
         });
         this.projectService.mode = 'featureSelected';
         this.zone.run(() => this.updateQueryParams({ mode: this.projectService.mode }));
-        // this.zone.run(() =>
-        //   this.updateQueryParams({ mode: this.projectService.mode }));
-
       });
     });
   }
@@ -233,10 +230,6 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
             // set the default options for the update operations
             toggleToolOnClick: false // only reshape operation will be enabled
           }
-          // ,
-          // defaultCreateOptions: {
-          //   mode: 'hybrid'
-          // }
         });
 
         this.sketchViewModel.on('update', (evt: any) => {
@@ -349,8 +342,8 @@ export class EsriMapComponent implements OnInit, OnDestroy, OnChanges {
               this._highlightHandler.remove();
             }
             // this._view.goTo(graphic);
-            this.projectService.mode = 'featureSelected';
             this.router.navigate(['/app/edit', graphic.attributes.globalid]);
+            this.projectService.mode = 'featureSelected';
             // this.updateQueryParams({ mode: this.projectService.mode });
           }
         }))

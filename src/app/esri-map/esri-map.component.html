@@ -1,16 +1,10 @@
 <!-- Here's the DIV that we inject the map into -->
 <div #mapViewNode class="sassy-theme"></div>
 <div id='sketchPanel' class='sketchPanel' class='esri-widget'>
-  <button *ngIf="projectService.mode==='none'" (click)="enterAddMode({mode:'add'});" class='create' mat-mini-fab color="primary"
+  <button *ngIf="projectService.mode==='none' || !projectService.mode" (click)="enterAddMode({mode:'add'});" class='create' mat-mini-fab color="primary"
     matTooltip="Add Site">
     <mat-icon>add</mat-icon>
   </button>
-
-
-
-  <!-- <button class='edit' mat-mini-fab color="primary" [routerLink]="['/edit', 'new']">
-    <mat-icon>create</mat-icon>
-  </button> -->
   <button *ngIf="projectService.mode==='complete' || projectService.mode==='edit'" (click)=saveNewFeature(); class='save' mat-mini-fab
     color="primary" matTooltip="Save">
     <mat-icon>save</mat-icon>
