@@ -72,8 +72,8 @@ export class DocPopupComponent implements OnInit {
   addFeature() {
     if (this.data.docTask.attributes.globalid == "new") {
 
-      this.data.docTask.attributes.Docu_Note = this.featureForm.controls['Docu_Note'].value;
-      this.data.docTask.attributes.Docu_Type = this.featureForm.controls['Docu_Type'].value;
+      // this.data.docTask.attributes.Docu_Note = this.featureForm.controls['Docu_Note'].value;
+      // this.data.docTask.attributes.Docu_Type = this.featureForm.controls['Docu_Type'].value;
       let feature = new Graphic(this.data.docTask);
       this.data.docTask = feature;
       this.uploadService.addFeature(feature).subscribe((res: Array<any>) => {
