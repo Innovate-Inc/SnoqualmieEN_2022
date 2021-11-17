@@ -1,9 +1,6 @@
 # Stage 0, based on Node.js, to build and compile Angular
 FROM node:14 as node
 
-# needed for npm dependancies
-RUN apk --no-cache add git
-
 WORKDIR /code
 COPY /package.json /code/
 
