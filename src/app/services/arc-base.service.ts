@@ -85,7 +85,11 @@ export class ArcBaseService {
               })
               .catch((e) => {
                 const details = e.details !== undefined ? e.details[0] : "";
-                this.openSnackBar(`${e.toString()} ${details}`, "");
+                this.openSnackBar(
+                  `${e.toString()} ${details}`,
+                  "Dismiss",
+                  true
+                );
                 obs.error(e);
               });
           } else if (type === "update") {
@@ -99,7 +103,11 @@ export class ArcBaseService {
                 }
               })
               .catch((e) => {
-                this.openSnackBar(e.toString() + " " + e.details[0], "");
+                this.openSnackBar(
+                  e.toString() + " " + e.details[0],
+                  "Dismiss",
+                  true
+                );
                 obs.error(e);
               });
           }
@@ -109,9 +117,10 @@ export class ArcBaseService {
     });
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, error = false) {
     this.snackBar.open(message, action, {
-      duration: 5000,
+      duration: error ? null : 5000,
+      panelClass: error ? ["error-snackbar"] : "",
     });
   }
 
@@ -154,7 +163,11 @@ export class ArcBaseService {
             observer.complete();
           })
           .catch((e) => {
-            this.openSnackBar(e.toString() + " " + e.details[0], "");
+            this.openSnackBar(
+              e.toString() + " " + e.details[0],
+              "Dismiss",
+              true
+            );
             observer.error(e);
           });
       });
@@ -182,7 +195,7 @@ export class ArcBaseService {
             observer.complete();
           })
           .catch((e) => {
-            vm.openSnackBar(e.toString() + " " + e.details[0], "");
+            vm.openSnackBar(e.toString() + " " + e.details[0], "Dismiss", true);
             observer.error(e);
           });
       });
@@ -218,7 +231,11 @@ export class ArcBaseService {
               // this._view.goTo(featureSet.features);
             },
             (e) => {
-              vm.openSnackBar(e.toString() + " " + e.details[0], "");
+              vm.openSnackBar(
+                e.toString() + " " + e.details[0],
+                "Dismiss",
+                true
+              );
               obs.error(e);
             }
           );
@@ -281,7 +298,7 @@ export class ArcBaseService {
         })
         .catch((e) => {
           const details = e.details !== undefined ? e.details[0] : "";
-          this.openSnackBar(`${e.toString()} ${details}`, "");
+          this.openSnackBar(`${e.toString()} ${details}`, "Dismiss", true);
           obs.error(e);
         });
     });
@@ -342,7 +359,7 @@ export class ArcBaseService {
           this.openSnackBar("Attachment Added!", "");
         })
         .catch((e) => {
-          this.openSnackBar(e.error.message, "");
+          this.openSnackBar(e.error.message, "Dismiss", true);
           obs.error(e);
         });
     });
@@ -357,7 +374,7 @@ export class ArcBaseService {
           this.openSnackBar("Attachment Deleted!", "");
         })
         .catch((e) => {
-          this.openSnackBar(e.toString() + " " + e.details[0], "");
+          this.openSnackBar(e.toString() + " " + e.details[0], "Dismiss", true);
           obs.error(e);
         });
     });
