@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Are you sure you want to delete this entry?</h1>  
+<h1 mat-dialog-title>Are you sure you want to delete this entry?</h1>
 <div mat-dialog-content>
   <!-- Invoice information:
       <br>
@@ -8,9 +8,25 @@
       Encroachment ID: <b>{{data.encroachmentID}}</b>  <br>
       Permit ID: <b>{{data.permitID}}</b>
    -->
-
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="close('true')" cdkFocusInitial>Yes</button>
-  <button mat-button color="accent" (click)="close('false')" cdkFocusInitial>No</button>
+  <button
+    mat-button
+    class="mat-raised-button"
+    color="primary"
+    (click)="close('true')"
+    cdkFocusInitial
+    style="margin-right: 10px"
+  >
+    Yes
+  </button>
+  <button
+    mat-button
+    class="mat-raised-button"
+    color="accent"
+    (click)="close('false')"
+    cdkFocusInitial
+  >
+    No
+  </button>
 </div>

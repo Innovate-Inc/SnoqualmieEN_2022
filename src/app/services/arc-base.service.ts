@@ -1,16 +1,16 @@
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { finalize, map } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { DataSource } from '@angular/cdk/collections';
-import { LoadingService } from './loading.service';
-import FeatureLayer from 'esri/layers/FeatureLayer';
-import StatisticDefinition from 'esri/tasks/support/StatisticDefinition';
-import Polygon from 'esri/geometry/Polygon';
-import Point from 'esri/geometry/Point';
-import Query from 'esri/tasks/support/Query';
-import {load, project} from 'esri/geometry/projection';
-import Graphic from 'esri/Graphic';
+import { BehaviorSubject, Observable, ReplaySubject } from "rxjs";
+import { environment } from "../../environments/environment";
+import { finalize, map } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { DataSource } from "@angular/cdk/collections";
+import { LoadingService } from "./loading.service";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import StatisticDefinition from "esri/tasks/support/StatisticDefinition";
+import Polygon from "esri/geometry/Polygon";
+import Point from "esri/geometry/Point";
+import Query from "esri/tasks/support/Query";
+import { load, project } from "esri/geometry/projection";
+import Graphic from "esri/Graphic";
 
 export class ArcBaseService {
   loading: boolean;
@@ -30,13 +30,23 @@ export class ArcBaseService {
   dateStart: string;
   dateEnd: string;
 
-  constructor(url: string, public snackBar: MatSnackBar, public loadingService: LoadingService) {
+  constructor(
+    url: string,
+    public snackBar: MatSnackBar,
+    public loadingService: LoadingService
+  ) {
     this.datasource = new BaseDataSource(this);
-    this.filter = { num: 25, start: 0, outFields: ['*'], returnIdsOnly: false };
-    this.params = { num: 25, start: 0, searchText: '', dateStart: '', dateEnd: ''};
+    this.filter = { num: 25, start: 0, outFields: ["*"], returnIdsOnly: false };
+    this.params = {
+      num: 25,
+      start: 0,
+      searchText: "",
+      dateStart: "",
+      dateEnd: "",
+    };
     this.layer = new FeatureLayer({
       url,
-      outFields: ['*'],
+      outFields: ["*"],
     });
     this.layer.load();
     this.layer.when(() => {
@@ -47,10 +57,15 @@ export class ArcBaseService {
   }
 
   private save(feature: Graphic, type: string, quiet = false) {
-    return new Observable(obs => {
+    return new Observable((obs) => {
       // @ts-ignore
-      if (feature.geometry !== null && feature.geometry !== undefined && feature.geometry.type === 'polygon' && feature.geometry.isSelfIntersecting) {
-        obs.error('Polygons cannot be self intersecting.');
+      if (
+        feature.geometry !== null &&
+        feature.geometry !== undefined &&
+        feature.geometry.type === "polygon" &&
+        (feature.geometry as any).isSelfIntersecting
+      ) {
+        obs.error("Polygons cannot be self intersecting.");
       } else {
         this.layerIsLoaded.subscribe(() => {
           // const tempFeature = new graphic({attributes: feature.attributes});
@@ -59,28 +74,34 @@ export class ArcBaseService {
           //   else tempFeature.geometry = feature.geometry;
           // get geometry to null if its empty so the server does not reject it
           const features = this.prepForServer([feature.clone()]);
-          if (type === 'add') {
-            this.layer.applyEdits({ addFeatures: features }).then(results => {
-              obs.next(results.addFeatureResults);
-              if (!quiet) {
-                this.openSnackBar('Added!', '');
-              }
-            }).catch(e => {
-              const details = e.details !== undefined ? e.details[0] : '';
-              this.openSnackBar(`${e.toString()} ${details}`, '');
-              obs.error(e);
-            });
-          } else if (type === 'update') {
-            this.layer.applyEdits({ updateFeatures: features }).then(results => {
-              obs.next(results.updateFeatureResults);
-              this.layer.refresh();
-              if (!quiet) {
-                this.openSnackBar('Updated!', '');
-              }
-            }).catch(e => {
-              this.openSnackBar(e.toString() + ' ' + e.details[0], '');
-              obs.error(e);
-            });
+          if (type === "add") {
+            this.layer
+              .applyEdits({ addFeatures: features })
+              .then((results) => {
+                obs.next(results.addFeatureResults);
+                if (!quiet) {
+                  this.openSnackBar("Added!", "");
+                }
+              })
+              .catch((e) => {
+                const details = e.details !== undefined ? e.details[0] : "";
+                this.openSnackBar(`${e.toString()} ${details}`, "");
+                obs.error(e);
+              });
+          } else if (type === "update") {
+            this.layer
+              .applyEdits({ updateFeatures: features })
+              .then((results) => {
+                obs.next(results.updateFeatureResults);
+                this.layer.refresh();
+                if (!quiet) {
+                  this.openSnackBar("Updated!", "");
+                }
+              })
+              .catch((e) => {
+                this.openSnackBar(e.toString() + " " + e.details[0], "");
+                obs.error(e);
+              });
           }
           // });
         });
@@ -90,22 +111,21 @@ export class ArcBaseService {
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 3000,
+      duration: 5000,
     });
   }
 
   private prep_fields_meta(fields: any) {
     const fieldsMeta: { [index: string]: any } = {};
-    this.layer.fields.forEach(field => {
+    this.layer.fields.forEach((field) => {
       fieldsMeta[field.name] = field;
     });
     return fieldsMeta;
   }
 
   query() {
-    return new Observable<any>(observer => {
+    return new Observable<any>((observer) => {
       this.layerIsLoaded.subscribe(() => {
-
         this.loading = true;
 
         // let clonedFilter = { ...this.filter };
@@ -117,55 +137,60 @@ export class ArcBaseService {
           this.filter.geometry = null;
         }
 
+        this.layer
+          .queryFeatures(this.filter)
+          .then((featureSet) => {
+            // featureSet.features.forEach(function (feature, i) {
+            //   featureSet.features[i] =
+            // })
+            console.log("featureset: ", featureSet);
 
-        this.layer.queryFeatures(this.filter).then(featureSet => {
-          // featureSet.features.forEach(function (feature, i) {
-          //   featureSet.features[i] =
-          // })
-          console.log('featureset: ', featureSet);
-
-          // featureSet.features.fields = this.prep_fields_meta();
-          featureSet.features = this.convertFromEpoch(featureSet.features);
-          observer.next(featureSet.features);
-          this.layer.queryFeatureCount(this.filter).then(count => {
-            this.count.next(count);
+            // featureSet.features.fields = this.prep_fields_meta();
+            featureSet.features = this.convertFromEpoch(featureSet.features);
+            observer.next(featureSet.features);
+            this.layer.queryFeatureCount(this.filter).then((count) => {
+              this.count.next(count);
+            });
+            observer.complete();
+          })
+          .catch((e) => {
+            this.openSnackBar(e.toString() + " " + e.details[0], "");
+            observer.error(e);
           });
-          observer.complete();
-        }).catch(e => {
-          this.openSnackBar(e.toString() + ' ' + e.details[0], '');
-          observer.error(e);
-        });
       });
     });
   }
 
   queryMax() {
     const vm = this;
-    return new Observable<any>(observer => {
+    return new Observable<any>((observer) => {
       this.layerIsLoaded.subscribe(() => {
         const q = {} as Query;
         const statDef = new StatisticDefinition();
         this.loading = true;
-        statDef.statisticType = 'max';
-        statDef.onStatisticField = 'ProjectNumber';
-        statDef.outStatisticFieldName = 'ProjectNumMAX';
+        statDef.statisticType = "max";
+        statDef.onStatisticField = "ProjectNumber";
+        statDef.outStatisticFieldName = "ProjectNumMAX";
         q.returnGeometry = false;
-        q.where = '1=1';
-        q.outFields = ['*'];
+        q.where = "1=1";
+        q.outFields = ["*"];
         q.outStatistics = [statDef];
-        this.layer.queryFeatures(q).then(featureSet => {
-          observer.next(featureSet.features);
-          observer.complete();
-        }).catch(e => {
-          vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
-          observer.error(e);
-        });
+        this.layer
+          .queryFeatures(q)
+          .then((featureSet) => {
+            observer.next(featureSet.features);
+            observer.complete();
+          })
+          .catch((e) => {
+            vm.openSnackBar(e.toString() + " " + e.details[0], "");
+            observer.error(e);
+          });
       });
     });
   }
 
   projectPoint(point: Point, outSR = { wkid: 4326 }) {
-    return new Observable<any>(observer => {
+    return new Observable<any>((observer) => {
       load().then(() => {
         const projectedPoint = project(point, outSR);
         observer.next(projectedPoint);
@@ -174,9 +199,9 @@ export class ArcBaseService {
   }
 
   // todo: move to wherever the mapview is maintained
-  selectFeature(globalId: string, objectId: number, outFields = ['*']) {
+  selectFeature(globalId: string, objectId: number, outFields = ["*"]) {
     const vm = this;
-    return new Observable<any>(obs => {
+    return new Observable<any>((obs) => {
       this.layerIsLoaded.subscribe(() => {
         let q;
         if (globalId) {
@@ -185,15 +210,18 @@ export class ArcBaseService {
           q = { objectIds: [objectId], outFields };
         }
         if (globalId || objectId) {
-          this.layer.queryFeatures(q).then(featureSet => {
-            const features = vm.convertFromEpoch(featureSet.features);
-            obs.next(features[0]);
+          this.layer.queryFeatures(q).then(
+            (featureSet) => {
+              const features = vm.convertFromEpoch(featureSet.features);
+              obs.next(features[0]);
 
-            // this._view.goTo(featureSet.features);
-          }, (e => {
-            vm.openSnackBar(e.toString() + ' ' + e.details[0], '');
-            obs.error(e);
-          }));
+              // this._view.goTo(featureSet.features);
+            },
+            (e) => {
+              vm.openSnackBar(e.toString() + " " + e.details[0], "");
+              obs.error(e);
+            }
+          );
         }
       });
     });
@@ -201,9 +229,12 @@ export class ArcBaseService {
 
   convertFromEpoch(features: Graphic[]) {
     const keys = Object.keys(this.meta);
-    features.map(feature => {
+    features.map((feature) => {
       for (const key of keys) {
-        if (this.meta[key].type === 'date' && feature.attributes[key] !== null) {
+        if (
+          this.meta[key].type === "date" &&
+          feature.attributes[key] !== null
+        ) {
           if (feature.attributes[key] === -2209132800000) {
             feature.attributes[key] = null;
           } else {
@@ -217,9 +248,13 @@ export class ArcBaseService {
 
   prepForServer(features: Graphic[]) {
     const keys = Object.keys(this.meta);
-    features.map(feature => {
+    features.map((feature) => {
       for (const key of keys) {
-        if (this.meta[key].type === 'date' && feature.attributes && feature.attributes[key] instanceof Date) {
+        if (
+          this.meta[key].type === "date" &&
+          feature.attributes &&
+          feature.attributes[key] instanceof Date
+        ) {
           feature.attributes[key] = feature.attributes[key].getTime();
         }
       }
@@ -229,23 +264,26 @@ export class ArcBaseService {
   }
 
   addFeature(feature: Graphic, quiet = false) {
-    return this.save(feature, 'add', quiet);
+    return this.save(feature, "add", quiet);
   }
 
   updateFeature(feature: Graphic) {
-    return this.save(feature, 'update');
+    return this.save(feature, "update");
   }
 
   delete(feature: Graphic) {
-    return new Observable(obs => {
-      this.layer.applyEdits({ deleteFeatures: [feature] }).then(results => {
-        obs.next(results.deleteFeaturesResult);
-        this.openSnackBar('Item deleted', '');
-      }).catch(e => {
-        const details = e.details !== undefined ? e.details[0] : '';
-        this.openSnackBar(`${e.toString()} ${details}`, '');
-        obs.error(e);
-      });
+    return new Observable((obs) => {
+      this.layer
+        .applyEdits({ deleteFeatures: [feature] })
+        .then((results) => {
+          obs.next(results.deleteFeaturesResult);
+          this.openSnackBar("Item deleted", "");
+        })
+        .catch((e) => {
+          const details = e.details !== undefined ? e.details[0] : "";
+          this.openSnackBar(`${e.toString()} ${details}`, "");
+          obs.error(e);
+        });
     });
   }
 
@@ -256,7 +294,7 @@ export class ArcBaseService {
   getItems() {
     this.loadingService.show();
     return this.query().pipe(
-      map(features => {
+      map((features) => {
         this.dataChange.next(features);
       }),
       finalize(() => this.loadingService.hide())
@@ -267,72 +305,79 @@ export class ArcBaseService {
     // this.loadingService.setLoading(true);
     this.filter.start = event.pageIndex * event.pageSize;
     this.filter.num = event.pageSize;
-    this.getItems()
-      .subscribe();
+    this.getItems().subscribe();
   }
 
   getAttachments(objectId: number) {
-    return new Observable(obs => {
-      this.layer.queryAttachments({ objectIds: [objectId] }).then(attachments => {
-        if (attachments[objectId]) {
-          attachments[objectId].forEach((attachment: any) => {
-            if (attachment.contentType.substring(0, 5) === 'image') {
-              attachment.previewUrl = attachment.url;
-            } else {
-              attachment.previewUrl = 'assets/images/Very-Basic-File-icon.png';
-              attachment.extension = attachment.name.split('.').pop();
-            }
-          });
-          obs.next(attachments);
-        }
-      });
+    return new Observable((obs) => {
+      this.layer
+        .queryAttachments({ objectIds: [objectId] })
+        .then((attachments) => {
+          if (attachments[objectId]) {
+            attachments[objectId].forEach((attachment: any) => {
+              if (attachment.contentType.substring(0, 5) === "image") {
+                attachment.previewUrl = attachment.url;
+              } else {
+                attachment.previewUrl =
+                  "assets/images/Very-Basic-File-icon.png";
+                attachment.extension = attachment.name.split(".").pop();
+              }
+            });
+            obs.next(attachments);
+          }
+        });
     });
   }
 
   uploadAttachments(graphic: Graphic, data: any) {
-    return new Observable(obs => {
-      this.layer.addAttachment(graphic, data).then(result => {
-        let objectId: number;
-        if (result.objectId) { objectId = result.objectId;}
-        obs.next(result.objectId);
-        this.openSnackBar('Attachment Added!', '');
-      }).catch(e => {
-        this.openSnackBar(e.toString() + ' ' + e.details[0], '');
-        obs.error(e);
-      });
+    return new Observable((obs) => {
+      this.layer
+        .addAttachment(graphic, data)
+        .then((result) => {
+          let objectId: number;
+          if (result.objectId) {
+            objectId = result.objectId;
+          }
+          obs.next(result.objectId);
+          this.openSnackBar("Attachment Added!", "");
+        })
+        .catch((e) => {
+          this.openSnackBar(e.error.message, "");
+          obs.error(e);
+        });
     });
   }
 
   deleteAttachments(graphic: Graphic, attachmentId: number) {
-    return new Observable(obs => {
-      this.layer.deleteAttachments(graphic, [attachmentId]).then(response => {
-        obs.next(response);
-        this.openSnackBar('Attachment Deleted!', '');
-      }).catch(e => {
-        this.openSnackBar(e.toString() + ' ' + e.details[0], '');
-        obs.error(e);
-      });
+    return new Observable((obs) => {
+      this.layer
+        .deleteAttachments(graphic, [attachmentId])
+        .then((response) => {
+          obs.next(response);
+          this.openSnackBar("Attachment Deleted!", "");
+        })
+        .catch((e) => {
+          this.openSnackBar(e.toString() + " " + e.details[0], "");
+          obs.error(e);
+        });
     });
   }
   convertToDomainValue(val: any, field: string) {
     if (val && field) {
-      const domain = this.meta[field].domain.codedValues.find((x: any) => x.code === val);
+      const domain = this.meta[field].domain.codedValues.find(
+        (x: any) => x.code === val
+      );
 
       if (domain) {
         return domain.name;
+      } else {
+        return "";
       }
-      else {
-        return '';
-      }
-
-    }
-    else {
-      return '';
+    } else {
+      return "";
     }
   }
-
 }
-
 
 export class BaseDataSource extends DataSource<any> {
   constructor(private projectDatabase: ArcBaseService) {
@@ -343,6 +388,5 @@ export class BaseDataSource extends DataSource<any> {
     return this.projectDatabase.dataChange;
   }
 
-  disconnect() {
-  }
+  disconnect() {}
 }
