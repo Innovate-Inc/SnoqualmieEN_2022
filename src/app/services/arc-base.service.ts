@@ -362,6 +362,7 @@ export class ArcBaseService {
         });
     });
   }
+
   convertToDomainValue(val: any, field: string) {
     if (val && field) {
       const domain = this.meta[field].domain.codedValues.find(

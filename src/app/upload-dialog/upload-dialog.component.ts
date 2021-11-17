@@ -5,6 +5,8 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { BrowserModule } from "@angular/platform-browser";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import Graphic from "esri/Graphic";
