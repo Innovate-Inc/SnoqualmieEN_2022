@@ -8,8 +8,8 @@ import { ProjectService } from '../services/project.service';
 import { environment } from '../../environments/environment';
 import { zip } from 'rxjs';
 import { ArcGpService } from '../services/arc-gp.service';
-import IdentityManager from 'esri/identity/IdentityManager';
-import Portal from 'esri/portal/Portal';
+import IdentityManager from '@arcgis/core/identity/IdentityManager';
+import Portal from '@arcgis/core/portal/Portal';
 import moment from 'moment';
 
 @Component({

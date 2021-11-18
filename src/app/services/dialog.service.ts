@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import Graphic from 'esri/Graphic';
+import Graphic from '@arcgis/core/Graphic';
 import { environment } from 'src/environments/environment';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';

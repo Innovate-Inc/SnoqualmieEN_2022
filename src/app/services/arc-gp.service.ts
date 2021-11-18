@@ -1,8 +1,8 @@
 // import {loadModules} from 'esri-loader';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import Geoprocessor from 'esri/tasks/Geoprocessor';
-import esriRequest from 'esri/request';
+import Geoprocessor from '@arcgis/core/tasks/Geoprocessor';
+import esriRequest from '@arcgis/core/request';
 
 import symbolsObjectSymbol3DLayer = __esri.symbolsObjectSymbol3DLayer;
 

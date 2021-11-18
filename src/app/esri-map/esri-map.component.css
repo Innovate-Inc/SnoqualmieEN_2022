@@ -42,8 +42,8 @@
   color: #ccc;
 } */
 
-@import url('https://js.arcgis.com/4.18/esri/css/main.css');
-/* @import url('https://js.arcgis.com/4.18/esri/themes/light-blue/main.css'); */
+@import "https://js.arcgis.com/4.21/@arcgis/core/assets/esri/themes/light/main.css";
+/* @import url('https://js.arcgis.com/4.18/@arcgis/core/themes/light-blue/main.css'); */
 
 .esri-view {
   height: calc(100vh - 64px);

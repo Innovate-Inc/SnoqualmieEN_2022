@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ArcBaseService} from './arc-base.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
-// import {Graphic} from 'esri/Graphic';
+// import {Graphic} from '@arcgis/core/Graphic';
 
 // import {loadModules} from 'esri-loader';
 // import {ConfigService} from './config.service';
@@ -77,7 +77,7 @@ export class ProjectService extends ArcBaseService {
     // const config = new ConfigService();
     return new Observable<Project>(obs => {
       this.layerIsLoaded.subscribe(() => {
-        // loadModules(['esri/graphic', 'esri/geometry/Polygon', 'esri/SpatialReference'], environment.jsapiConfig).then(([Graphic, Polygon, SpatialReference]) => {
+        // loadModules(['@arcgis/core/graphic', '@arcgis/core/geometry/Polygon', '@arcgis/core/SpatialReference'], environment.jsapiConfig).then(([Graphic, Polygon, SpatialReference]) => {
         // const project = new Graphic(this.layer.templates[0].toJSON());
         // project.setSymbol(this.layer.renderer.getSymbol());
         // project.setGeometry(new Polygon(new SpatialReference(3857)));

@@ -25,22 +25,22 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { first, switchMap, tap } from 'rxjs/operators';
 import { zip } from 'rxjs';
 import { ArcBaseService } from '../services/arc-base.service';
-import GraphicsLayer from 'esri/layers/GraphicsLayer';
-import SketchViewModel from 'esri/widgets/Sketch/SketchViewModel';
-import Graphic from 'esri/Graphic';
-import BasemapGallery from 'esri/widgets/BasemapGallery';
-import LayerList from 'esri/widgets/LayerList';
-import esriConfig from 'esri/config';
-import Search from 'esri/widgets/Search';
-import Expand from 'esri/widgets/Expand';
-import Zoom from 'esri/widgets/Zoom';
-import WebMap from 'esri/WebMap';
-import Home from 'esri/widgets/Home';
-import MapView from 'esri/views/MapView';
-import FeatureLayer from 'esri/layers/FeatureLayer';
-import * as projection from 'esri/geometry/projection';
-import Polygon from 'esri/geometry/Polygon';
-import Geometry from 'esri/geometry/Geometry';
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
+import SketchViewModel from '@arcgis/core/widgets/Sketch/SketchViewModel';
+import Graphic from '@arcgis/core/Graphic';
+import BasemapGallery from '@arcgis/core/widgets/BasemapGallery';
+import LayerList from '@arcgis/core/widgets/LayerList';
+import esriConfig from '@arcgis/core/config';
+import Search from '@arcgis/core/widgets/Search';
+import Expand from '@arcgis/core/widgets/Expand';
+import Zoom from '@arcgis/core/widgets/Zoom';
+import WebMap from '@arcgis/core/WebMap';
+import Home from '@arcgis/core/widgets/Home';
+import MapView from '@arcgis/core/views/MapView';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import * as projection from '@arcgis/core/geometry/projection';
+import Polygon from '@arcgis/core/geometry/Polygon';
+import Geometry from '@arcgis/core/geometry/Geometry';
 // import {ProjectService} from '../services/project.service';
 
 @Component({

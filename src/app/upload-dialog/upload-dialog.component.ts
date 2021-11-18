@@ -9,7 +9,7 @@ import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import Graphic from "esri/Graphic";
+import Graphic from "@arcgis/core/Graphic";
 import { ArcBaseService } from "../services/arc-base.service";
 import { DialogService } from "../services/dialog.service";
 import { LoadingService } from "../services/loading.service";

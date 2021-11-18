@@ -4,13 +4,13 @@ import { finalize, map } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DataSource } from "@angular/cdk/collections";
 import { LoadingService } from "./loading.service";
-import FeatureLayer from "esri/layers/FeatureLayer";
-import StatisticDefinition from "esri/tasks/support/StatisticDefinition";
-import Polygon from "esri/geometry/Polygon";
-import Point from "esri/geometry/Point";
-import Query from "esri/tasks/support/Query";
-import { load, project } from "esri/geometry/projection";
-import Graphic from "esri/Graphic";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import StatisticDefinition from "@arcgis/core/tasks/support/StatisticDefinition";
+import Polygon from "@arcgis/core/geometry/Polygon";
+import Point from "@arcgis/core/geometry/Point";
+import Query from "@arcgis/core/tasks/support/Query";
+import { load, project } from "@arcgis/core/geometry/projection";
+import Graphic from "@arcgis/core/Graphic";
 
 export class ArcBaseService {
   loading: boolean;
