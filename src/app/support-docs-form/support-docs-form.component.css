@@ -1,17 +1,19 @@
-
-
 .supportDocsTable {
-    height: calc(100vh - 450px);
-    flex: 1 1; 
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-  }
-  
-  .download-btn {
-    padding-top: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
+  height: calc(100vh - 450px);
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+.download-btn {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.mat-column-delete {
+  max-width: 20px;
+}
