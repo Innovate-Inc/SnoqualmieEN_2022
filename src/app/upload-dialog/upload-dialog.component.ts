@@ -13,6 +13,7 @@ import Graphic from "@arcgis/core/Graphic";
 import { ArcBaseService } from "../services/arc-base.service";
 import { DialogService } from "../services/dialog.service";
 import { LoadingService } from "../services/loading.service";
+import { environment } from "src/environments/environment";
 
 export interface UploadDialogData {
   object: Graphic;
@@ -28,10 +29,14 @@ export interface UploadDialogData {
 })
 export class UploadDialogComponent implements OnInit {
   uploadService: ArcBaseService;
+  linkService: ArcBaseService;
+
   uploading = false;
   message = "Please pick a file to upload";
   @ViewChild("fileNameInput")
   myInputVariable: ElementRef;
+  links: string[];
+
   constructor(
     public dialogRef: MatDialogRef<UploadDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UploadDialogData,
@@ -42,6 +47,11 @@ export class UploadDialogComponent implements OnInit {
       this.data.uploadLayer,
       this.snackBar,
       this.loadingService
+    );
+    this.linkService = new ArcBaseService(
+      environment.layers.links,
+      snackBar,
+      loadingService
     );
   }
 
@@ -73,6 +83,22 @@ export class UploadDialogComponent implements OnInit {
             this.uploading = false;
           }
         );
+    }
+  }
+
+  saveLink(value: string) {
+    if (value) {
+      const feature = new Graphic({
+        attributes: {
+          URL: value,
+          RELGUID: this.data.object.attributes.globalid,
+        },
+      });
+      this.linkService
+        .addFeature(feature)
+        .subscribe(async (res: Array<any>) => {
+          console.log(res);
+        });
     }
   }
 }

@@ -4,7 +4,7 @@ export const url =
 export const environment = {
   production: false,
   jsapiConfig: { url: "https://js.arcgis.com/4.17/" },
-  maxAttachments: 4,
+  maxAttachments: Infinity,
   name: "Innovate!",
   portalSetting: {
     url: "https://portal.innovateteam.com/arcgis",
@@ -23,6 +23,7 @@ export const environment = {
     meet: `${url}/8`,
     site: `${url}/9`,
     violation: `${url}/10`,
+    links: `${url}/11`,
   },
   reportService: {
     url: "https://arcserver.innovateteam.com/arcgis/rest/services/Snoq_demo/GenerateReport/GPServer/generateReport",

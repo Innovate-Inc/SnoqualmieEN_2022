@@ -26,7 +26,7 @@
       </form>
       <button
         mat-button
-        class="mat-raised-button"
+        class="mat-raised-button mat-accent"
         [disabled]="uploading || data.attached >= data.maxAttach"
         onclick="document.getElementById('attachmentInput').click();"
         color="accent"
@@ -40,7 +40,7 @@
         </div>
         <button
           mat-button
-          class="mat-raised-button"
+          class="mat-raised-button mat-accent"
           (click)="uploadFile()"
           [disabled]="
             uploading ||
@@ -53,6 +53,34 @@
         </button>
       </div>
     </mat-dialog-actions>
+    <div
+      [hidden]="
+        fileNameInput?.files[0]?.name || data.attached >= data.maxAttach
+      "
+      style="margin-top: 20px"
+    >
+      <div>Or insert a link</div>
+      <form class="link-form">
+        <mat-form-field style="width: 100%" appearance="fill">
+          <mat-label>URL to file</mat-label>
+          <input
+            matInput
+            placeholder="Ex. example.com/link/to/my/file.zip"
+            #linkInput
+          />
+        </mat-form-field>
+      </form>
+      <button
+        mat-button
+        class="mat-raised-button mat-accent"
+        [disabled]="!linkInput.value"
+        (click)="saveLink(linkInput.value)"
+        color="accent"
+        style="margin-right: 8px"
+      >
+        Save
+      </button>
+    </div>
   </mat-card>
   <br /><br />
   <button

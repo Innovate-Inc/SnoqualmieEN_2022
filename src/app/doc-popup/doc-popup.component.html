@@ -1,16 +1,35 @@
-<h1 mat-dialog-title>Supporting Document
-</h1>
+<h1 mat-dialog-title>Supporting Document</h1>
 <div mat-dialog-content>
   <form novalidate [formGroup]="featureForm">
-    <div style="display: flex; flex-direction: column; justify-content: space-between;">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      "
+    >
       <mat-form-field *ngIf="!newRow">
-        <mat-placeholder>{{meta.Creator.alias}}</mat-placeholder>
-        <input matInput type="text" name="Creator Number" formControlName="Creator">
+        <mat-placeholder>{{ meta.Creator.alias }}</mat-placeholder>
+        <input
+          matInput
+          type="text"
+          name="Creator Number"
+          formControlName="Creator"
+        />
       </mat-form-field>
       <mat-form-field *ngIf="!newRow">
-        <mat-placeholder>{{meta.CreationDate.alias}}</mat-placeholder>
-        <input matInput [matDatepicker]="StartDatePicker" disabled="true" name="Start Date" formControlName="CreationDate">
-        <mat-datepicker-toggle matSuffix [for]="StartDatePicker"></mat-datepicker-toggle>
+        <mat-placeholder>{{ meta.CreationDate.alias }}</mat-placeholder>
+        <input
+          matInput
+          [matDatepicker]="StartDatePicker"
+          disabled="true"
+          name="Start Date"
+          formControlName="CreationDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="StartDatePicker"
+        ></mat-datepicker-toggle>
         <mat-datepicker #StartDatePicker></mat-datepicker>
       </mat-form-field>
 
@@ -29,47 +48,127 @@
       </mat-form-field> -->
 
       <mat-grid-list cols="3" rowHeight="1:1" gutterSize="8px" *ngIf="saved">
-        <mat-grid-tile *ngFor="let attachment of dialogService.attachments " style="background: #f5f5f5; overflow: hidden;">
-          <button mat-button class="mat-fab mat-mini mat-accent" aria-label="Download"
-            [download]="attachment.url" (click)="dlAttach(attachment)"
-            style="position: absolute; top: 0px; left: 0px; opacity: 0.7;" matTooltip="Download File">
+        <mat-grid-tile
+          *ngFor="let attachment of dialogService.attachments"
+          style="background: #f5f5f5; overflow: hidden"
+        >
+          <button
+            mat-button
+            class="mat-fab mat-mini mat-accent"
+            aria-label="Download"
+            [download]="attachment.url"
+            (click)="dlAttach(attachment)"
+            style="position: absolute; top: 0px; left: 0px; opacity: 0.7"
+            matTooltip="Download File"
+          >
             <mat-icon class="material-icons">download</mat-icon>
           </button>
-          <button mat-button class="mat-fab mat-mini mat-accent" aria-label="Delete"
+          <button
+            mat-button
+            class="mat-fab mat-mini mat-accent"
+            aria-label="Delete"
             (click)="dialogService.showDeleteDialog(attachment, $event)"
-            style="position: absolute; top: 0px; right: 0px; opacity: 0.7;" matTooltip="Delete File">
+            style="position: absolute; top: 0px; right: 0px; opacity: 0.7"
+            matTooltip="Delete File"
+          >
             <mat-icon class="material-icons">delete</mat-icon>
           </button>
-          <a [href]="attachment.url" class="thumbnail" title="Download: {{attachment.name}}" target="_blank">
-            <img class="mat-card-image" [src]="attachment.previewUrl" style="max-width: 500px;" />
+          <a
+            [href]="attachment.url"
+            class="thumbnail"
+            title="Download: {{ attachment.name }}"
+            target="_blank"
+          >
+            <img
+              class="mat-card-image"
+              [src]="attachment.previewUrl"
+              style="max-width: 500px"
+            />
 
-            <mat-grid-tile-footer style="background:rgba(176,190,197,0.7);">
-              <h3>{{attachment.name}}</h3>
+            <mat-grid-tile-footer style="background: rgba(176, 190, 197, 0.7)">
+              <h3>{{ attachment.name }}</h3>
             </mat-grid-tile-footer>
           </a>
         </mat-grid-tile>
-        <mat-grid-tile *ngIf="dialogService.maxAttachments > dialogService.attachments.length "
-          style="background: #f5f5f5; overflow: hidden; cursor:pointer;">
-          <a (click)="dialogService.showDocuUploadDialog($event);" class="thumbnail" title="Add attachment">
-            <mat-icon class="material-icons" style="font-size:100px; position: absolute; top:15%; left:24%;">add
+        <mat-grid-tile
+          *ngFor="let link of links | async"
+          style="background: #f5f5f5; overflow: hidden"
+          ><span>{{ link }}</span>
+          <!-- <button
+            mat-button
+            class="mat-fab mat-mini mat-accent"
+            aria-label="Download"
+            [download]="link"
+            (click)="dlAttach(attachment)"
+            style="position: absolute; top: 0px; left: 0px; opacity: 0.7"
+            matTooltip="Download File"
+          >
+            <mat-icon class="material-icons">download</mat-icon>
+          </button>
+          <button
+            mat-button
+            class="mat-fab mat-mini mat-accent"
+            aria-label="Delete"
+            (click)="dialogService.showDeleteDialog(attachment, $event)"
+            style="position: absolute; top: 0px; right: 0px; opacity: 0.7"
+            matTooltip="Delete File"
+          >
+            <mat-icon class="material-icons">delete</mat-icon>
+          </button>
+          <a
+            [href]="attachment.url"
+            class="thumbnail"
+            title="Download: {{ attachment.name }}"
+            target="_blank"
+          >
+            <img
+              class="mat-card-image"
+              [src]="attachment.previewUrl"
+              style="max-width: 500px"
+            />
+
+            <mat-grid-tile-footer style="background: rgba(176, 190, 197, 0.7)">
+              <h3>{{ attachment.name }}</h3>
+            </mat-grid-tile-footer>
+          </a> -->
+        </mat-grid-tile>
+        <mat-grid-tile
+          *ngIf="
+            dialogService.maxAttachments > dialogService.attachments.length
+          "
+          style="background: #f5f5f5; overflow: hidden; cursor: pointer"
+        >
+          <a
+            (click)="shopenAddAttachmentDialog($event)"
+            class="thumbnail"
+            title="Add attachment"
+          >
+            <mat-icon
+              class="material-icons"
+              style="font-size: 100px; position: absolute; top: 15%; left: 24%"
+              >add
             </mat-icon>
-            <mat-grid-tile-footer style="background:rgba(176,190,197,0.7);">
+            <mat-grid-tile-footer style="background: rgba(176, 190, 197, 0.7)">
               <h3>Add attachment</h3>
             </mat-grid-tile-footer>
           </a>
         </mat-grid-tile>
       </mat-grid-list>
       <div *ngIf="!saved">
-          <br><br>
-          <h3>Click Create before uploading attachment</h3>
-          <br>
-          <br>
-        </div>
+        <br /><br />
+        <h3>Click Create before uploading attachment</h3>
+        <br />
+        <br />
+      </div>
     </div>
   </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Done</button>
-  <button mat-button *ngIf="saved" (click)="save()" cdkFocusInitial>Save</button>
-  <button mat-button *ngIf="!saved" (click)="save()" cdkFocusInitial>Create</button>
+  <button mat-button *ngIf="saved" (click)="save()" cdkFocusInitial>
+    Save
+  </button>
+  <button mat-button *ngIf="!saved" (click)="save()" cdkFocusInitial>
+    Create
+  </button>
 </div>
