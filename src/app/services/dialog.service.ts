@@ -59,7 +59,7 @@ export class DialogService {
   showDocuUploadDialog($event: any) {
     const dialogRef = this.dialog.open(UploadDialogComponent, {
       width: "550px",
-      height: "420px",
+      height: "520px",
       data: {
         object: this.item,
         maxAttach: this.maxAttachments,

@@ -53,6 +53,7 @@
         </button>
       </div>
     </mat-dialog-actions>
+    <hr style="margin-top: 20px" />
     <div
       [hidden]="
         fileNameInput?.files[0]?.name || data.attached >= data.maxAttach
@@ -67,25 +68,32 @@
             matInput
             placeholder="Ex. example.com/link/to/my/file.zip"
             #linkInput
-          />
+          /> </mat-form-field
+        ><mat-form-field style="width: 50%" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Blueprints" #nameInput />
         </mat-form-field>
       </form>
-      <button
-        mat-button
-        class="mat-raised-button mat-accent"
-        [disabled]="!linkInput.value"
-        (click)="saveLink(linkInput.value)"
-        color="accent"
-        style="margin-right: 8px"
+      <mat-dialog-actions
+        style="display: flex; flex-direction: row; justify-content: flex-end"
       >
-        Save
-      </button>
+        <button
+          mat-button
+          class="mat-raised-button mat-accent"
+          [disabled]="!linkInput.value"
+          (click)="saveLink(linkInput.value, nameInput.value)"
+          color="accent"
+          style="margin-right: 8px"
+        >
+          Save
+        </button>
+      </mat-dialog-actions>
     </div>
   </mat-card>
   <br /><br />
   <button
     mat-button
-    class="mat-raised-button"
+    class="mat-raised-button mat-accent"
     style="color: white"
     mat-dialog-close
     color="primary"

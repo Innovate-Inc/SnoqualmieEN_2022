@@ -90,16 +90,17 @@
             </mat-grid-tile-footer>
           </a>
         </mat-grid-tile>
+        <!-- Link files -->
         <mat-grid-tile
           *ngFor="let link of links | async"
           style="background: #f5f5f5; overflow: hidden"
-          ><span>{{ link }}</span>
-          <!-- <button
+        >
+          <button
             mat-button
             class="mat-fab mat-mini mat-accent"
             aria-label="Download"
-            [download]="link"
-            (click)="dlAttach(attachment)"
+            [download]="link.attributes.URL"
+            (click)="downloadLink(link.attributes.URL)"
             style="position: absolute; top: 0px; left: 0px; opacity: 0.7"
             matTooltip="Download File"
           >
@@ -109,28 +110,33 @@
             mat-button
             class="mat-fab mat-mini mat-accent"
             aria-label="Delete"
-            (click)="dialogService.showDeleteDialog(attachment, $event)"
+            (click)="showDeleteLinkDialog(link)"
             style="position: absolute; top: 0px; right: 0px; opacity: 0.7"
             matTooltip="Delete File"
           >
             <mat-icon class="material-icons">delete</mat-icon>
           </button>
           <a
-            [href]="attachment.url"
+            [href]="link.attributes.URL"
             class="thumbnail"
-            title="Download: {{ attachment.name }}"
+            title="Open: {{ link.attributes.NAME }}"
             target="_blank"
           >
-            <img
+            <!-- <img
               class="mat-card-image"
               [src]="attachment.previewUrl"
               style="max-width: 500px"
-            />
+            /> -->
+            <mat-icon
+              class="material-icons mat-accent"
+              style="transform: scale(3)"
+              >link</mat-icon
+            >
 
             <mat-grid-tile-footer style="background: rgba(176, 190, 197, 0.7)">
-              <h3>{{ attachment.name }}</h3>
+              <h3>{{ link.attributes.NAME }}</h3>
             </mat-grid-tile-footer>
-          </a> -->
+          </a>
         </mat-grid-tile>
         <mat-grid-tile
           *ngIf="

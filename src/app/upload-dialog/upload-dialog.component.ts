@@ -9,6 +9,8 @@ import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatCardModule } from "@angular/material/card";
+
 import Graphic from "@arcgis/core/Graphic";
 import { ArcBaseService } from "../services/arc-base.service";
 import { DialogService } from "../services/dialog.service";
@@ -86,11 +88,12 @@ export class UploadDialogComponent implements OnInit {
     }
   }
 
-  saveLink(value: string) {
-    if (value) {
+  saveLink(URL: string, NAME: string) {
+    if (URL) {
       const feature = new Graphic({
         attributes: {
-          URL: value,
+          URL,
+          NAME,
           RELGUID: this.data.object.attributes.globalid,
         },
       });

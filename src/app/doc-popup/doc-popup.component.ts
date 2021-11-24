@@ -24,6 +24,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { UploadDialogComponent } from "../upload-dialog/upload-dialog.component";
 import { DialogService } from "../services/dialog.service";
 import Graphic from "@arcgis/core/Graphic";
+import { link } from "fs";
 
 @Component({
   selector: "app-doc-popup",
@@ -155,10 +156,41 @@ export class DocPopupComponent implements OnInit {
     document.body.removeChild(link);
   }
 
+  async downloadLink(url: string) {
+    console.log(url);
+    const fileName = url.replace(/^.*[\\\/]/, "");
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.dispatchEvent(new MouseEvent("click"));
+  }
+
   shopenAddAttachmentDialog(e: Event) {
     this.dialogService
       .showDocuUploadDialog(e)
       .pipe(switchMap(() => this.getLinks()))
       .subscribe();
+  }
+
+  //opens a dialog for deleting a photo
+  showDeleteLinkDialog(linkFeature: any, $event: any) {
+    const dialog = this.dialog.open(ConfirmDialogComponent, {
+      width: "500px",
+      data: {
+        msg:
+          "Are you sure you want to delete " +
+          linkFeature.attributes.NAME +
+          " ?",
+        positiveText: "Yes",
+        negativeText: "No",
+      },
+    });
+    dialog.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.linkService.delete(linkFeature).subscribe(() => {
+          this.getLinks().subscribe();
+        });
+      }
+    });
   }
 }
