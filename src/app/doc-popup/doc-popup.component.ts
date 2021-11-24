@@ -157,7 +157,6 @@ export class DocPopupComponent implements OnInit {
   }
 
   async downloadLink(url: string) {
-    console.log(url);
     const fileName = url.replace(/^.*[\\\/]/, "");
     const link = document.createElement("a");
     link.href = url;
