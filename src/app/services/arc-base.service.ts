@@ -395,6 +395,15 @@ export class ArcBaseService {
       return "";
     }
   }
+  searchDomainValues(searchText: string, field: string) {
+    if (searchText && field) {
+      const domains = this.meta[field].domain.codedValues.filter(
+        (x: __esri.CodedValue) =>
+          x.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      return domains.map((x: __esri.CodedValue) => x.code);
+    }
+  }
 }
 
 export class BaseDataSource extends DataSource<any> {
