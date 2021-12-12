@@ -118,7 +118,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     });
     review.attributes = this.featureForm.value;
     if (this.featureForm.controls.Noti_Tribe.value != "yes") {
-      review.attributes.Noti_Tribe_Text == "";
+      review.attributes.Noti_Tribe_Text = "";
     }
     const reviewDept = review.attributes.Noti_Dept_Select;
     delete review.attributes.Noti_Dept_Select;
