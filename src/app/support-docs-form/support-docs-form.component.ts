@@ -90,7 +90,25 @@ export class SupportDocsFormComponent implements OnInit {
       });
   }
   execute() {
-    this.docService.filter.where = `(Creator like '%${this.searchItem}%' or Docu_Type like '%${this.searchItem}%' or Docu_Note like '%${this.searchItem}%') and parentglobalid = '${this.projectId}'`;
+    if (this.searchItem.trim() == "") {
+      this.docService.filter.where = `parentglobalid = '${this.projectId}'`;
+      this.docService.getItems().subscribe();
+      return;
+    }
+    const docuTypeCodes = this.docService.searchDomainValues(
+      this.searchItem,
+      "Docu_Type"
+    );
+    this.docService.filter.where = `parentglobalid = '${this.projectId}' and (Creator like '%${this.searchItem}%' or Docu_Note like '%${this.searchItem}%'`;
+
+    //this.projectService.filter.where = `(Project_Name like '%${this.searchText}%' or ID_DAHP_full like '%${this.searchText}%' or created_user like '%${this.searchText}%' or Jurisdiction_other like '%${this.searchText}%'`;
+    if (docuTypeCodes.length > 0) {
+      this.docService.filter.where += ` or Docu_Type IN (${docuTypeCodes
+        .map((j: string) => `'${j}'`)
+        .join(",")})`;
+    }
+    this.docService.filter.where += ")";
+
     this.docService.getItems().subscribe();
   }
 

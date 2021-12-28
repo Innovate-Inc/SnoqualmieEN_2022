@@ -40,7 +40,12 @@
           <!-- <mat-header-cell *matHeaderCellDef>{{docService.meta.Docu_Type.alias}}</mat-header-cell> -->
           <mat-header-cell *matHeaderCellDef>Document Type</mat-header-cell>
           <mat-cell *matCellDef="let element"
-            >{{ element.attributes.Docu_Type }}
+            >{{
+              docService.convertToDomainValue(
+                element.attributes.Docu_Type,
+                "Docu_Type"
+              )
+            }}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="date">
