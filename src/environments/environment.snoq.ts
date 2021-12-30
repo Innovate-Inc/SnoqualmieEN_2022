@@ -27,8 +27,8 @@ export const environment = {
   },
   reportService: {
     url: "https://maps.snoqualmietribe.us/server/rest/services/Assert/generateReport/GPServer/generateReport",
-    surveyItem: "",
-    surveyTemplate: 2,
+    surveyItem: "b5a7172f7fef479a8596bbad17a0025c",
+    surveyTemplate: 0,
   },
   mapLayerName: "Review Tracking",
   helpUrl: "",
