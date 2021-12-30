@@ -26,7 +26,7 @@ export const environment = {
     links: `${url}/11`,
   },
   reportService: {
-    url: "",
+    url: "https://maps.snoqualmietribe.us/server/rest/services/Assert/generateReport/GPServer/generateReport",
     surveyItem: "",
     surveyTemplate: 2,
   },
