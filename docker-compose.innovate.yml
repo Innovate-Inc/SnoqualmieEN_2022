@@ -10,6 +10,7 @@ services:
       VIRTUAL_PROTO: http
       LETSENCRYPT_HOST: snoqualmie.itgis.innovateteam.com
       LETSENCRYPT_EMAIL: tbock@innovateteam.com
+      NGINX_ROOT: /usr/share/nginx/html/innovate/SnoqualmieEN
     expose:
       - "80"
 

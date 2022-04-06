@@ -3,5 +3,7 @@ services:
   web:
     environment:
       VIRTUAL_HOST: 0.0.0.0
+      NGINX_ROOT: /usr/share/nginx/html/snoqualmie/SnoqualmieEN
+
     ports:
       - "8081:80"

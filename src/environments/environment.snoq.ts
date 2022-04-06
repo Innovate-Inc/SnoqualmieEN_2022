@@ -1,5 +1,5 @@
 export const url =
-  "https://maps.snoqualmietribe.us/server/rest/services/Assert/ASSERT/FeatureServer";
+  "https://gis.snoqualmietribe.us/server/rest/services/Assert/ASSERT/FeatureServer";
 
 export const environment = {
   production: true,
@@ -7,9 +7,9 @@ export const environment = {
   maxAttachments: 4,
   name: "Assert",
   portalSetting: {
-    url: "https://maps.snoqualmietribe.us/portal",
-    appId: "kdUmjgmiOPWq3Mpe",
-    mapId: "7340bca6d42446fda17a1510d1c13f30",
+    url: "https://gis.snoqualmietribe.us/portal",
+    appId: "rwXYqeN2jlFNp109",
+    mapId: "ecca45c5ba3f4fc092e1196d34bb9dea",
   },
   layers: {
     review: `${url}/0`,
@@ -26,7 +26,7 @@ export const environment = {
     links: `${url}/11`,
   },
   reportService: {
-    url: "https://maps.snoqualmietribe.us/server/rest/services/Assert/generateReport/GPServer/generateReport",
+    url: "https://gis.snoqualmietribe.us/server/rest/services/Assert/generateReport/GPServer/generateReport",
     surveyItem: "b5a7172f7fef479a8596bbad17a0025c",
     surveyTemplate: 0,
   },

@@ -18,7 +18,7 @@ server {
     server_name ${VIRTUAL_HOST};
     charset     utf-8;
 
-    root /usr/share/nginx/html/SnoqualmieEN;
+    root ${NGINX_ROOT};
     index index.html;
     try_files $uri $uri/ /index.html =404;
 
