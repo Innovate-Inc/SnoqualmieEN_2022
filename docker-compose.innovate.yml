@@ -4,6 +4,14 @@ services:
     networks:
       - proxy
       - default
+    environment:
+      VIRTUAL_HOST: snoqualmie.itgis.innovateteam.com
+      VIRTUAL_PORT: 80
+      VIRTUAL_PROTO: http
+      LETSENCRYPT_HOST: snoqualmie.itgis.innovateteam.com
+      LETSENCRYPT_EMAIL: tbock@innovateteam.com
+    expose:
+      - "80"
 
 networks:
   proxy:
