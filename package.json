@@ -6,7 +6,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "build:prod": "npm run build && cp -R dist/* /var/www/assert.snoqualmietribe.us",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
