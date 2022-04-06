@@ -1,5 +1,5 @@
 # Stage 0, based on Node.js, to build and compile Angular
-FROM node:14 as node
+FROM node:16 as node
 
 WORKDIR /code
 COPY /package.json /code/
