@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   web:
-    image: docker.itgis.innovateteam.com/snoqualmie
+    image: docker.itgis.innovateteam.com/snoqualmie_assert
     build:
       context: .
       dockerfile: Dockerfile
