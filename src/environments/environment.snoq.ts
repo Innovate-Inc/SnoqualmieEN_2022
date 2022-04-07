@@ -1,5 +1,5 @@
 export const url =
-  "https://gis.snoqualmietribe.us/server/rest/services/Assert/ASSERT/FeatureServer";
+  "https://gis.snoqualmietribe.us/arcgis/rest/services/Assert/ASSERT/FeatureServer";
 
 export const environment = {
   production: true,
@@ -26,7 +26,7 @@ export const environment = {
     links: `${url}/11`,
   },
   reportService: {
-    url: "https://gis.snoqualmietribe.us/server/rest/services/Assert/generateReport/GPServer/generateReport",
+    url: "https://gis.snoqualmietribe.us/arcgis/rest/services/Assert/generateReport/GPServer/generateReport",
     surveyItem: "b5a7172f7fef479a8596bbad17a0025c",
     surveyTemplate: 0,
   },
